@@ -1,9 +1,35 @@
 const client = require('../config/db');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-const checkPass = async(pass1,pass2)=>{
-    return await bcrypt.compare(pass1,pass2)
-}
+const checkPass = async (pass1, pass2) => {
+  return await bcrypt.compare(pass1, pass2);
+};
+
+const getSignedJwtToken = id => {
+  return jwt.sign({ id: id }, 'dasdfc', {
+    expiresIn: 3110400000
+  });
+};
+
+const sendTokenResponse = (statusCode, id, res,user) => {
+  const token = getSignedJwtToken(id);
+  const options = {
+    expires: new Date(Date.now() + 3110400000),
+    httpOnly: true
+  };
+
+  options.secure = true;
+  res
+    .status(statusCode)
+    .cookie('token', token, options)
+    .json({
+      success: true,
+      user:user,
+      token,
+      
+    });
+};
 
 exports.register = async (req, res) => {
   const salt = 10;
@@ -66,23 +92,19 @@ exports.getSingleUser = (req, res) => {
   console.log(username);
 
   try {
-    client.query(queryStrin, values, async(err, user) => {
+    client.query(queryStrin, values, async (err, user) => {
       if (err) {
         throw err;
       } else {
         let data = user.rows;
-        data.forEach(async data=>{
-            let pass = await checkPass(password,data.password)
-            if(pass){
-            res.status(200).send({ message: 'success', user: data });
-        }
-        else{
-            res.status(400).send({message:"Invalid Credentials"})
-        }
-        })
-        
-        
-        
+        data.forEach(async data => {
+          let pass = await checkPass(password, data.password);
+          if (pass) {
+            sendTokenResponse(200, data.userid, res,data);
+          } else {
+            res.status(400).send({ message: 'Invalid Credentials' });
+          }
+        });
       }
     });
   } catch (err) {
