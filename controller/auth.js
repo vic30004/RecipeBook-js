@@ -2,16 +2,19 @@ const client = require('../config/db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+// check entered password vs hashed password
 const checkPass = async (pass1, pass2) => {
   return await bcrypt.compare(pass1, pass2);
 };
 
+// Create JWT
 const getSignedJwtToken = id => {
   return jwt.sign({ id: id }, 'dasdfc', {
     expiresIn: 3110400000
   });
 };
 
+// Retrieve JWT using user ID
 const sendTokenResponse = (statusCode, id, res,user) => {
   const token = getSignedJwtToken(id);
   const options = {
@@ -30,6 +33,10 @@ const sendTokenResponse = (statusCode, id, res,user) => {
       
     });
 };
+
+// @route POST api/register
+// @des   Register a user
+// @acess Public  
 
 exports.register = async (req, res) => {
   const salt = 10;
@@ -70,6 +77,10 @@ exports.register = async (req, res) => {
   );
 };
 
+// @Route   GET api/register
+// @Des     Get all users
+// @acess   public
+
 exports.getUsers = (req, res) => {
   try {
     client.query('SELECT * FROM users').then(users => {
@@ -83,6 +94,11 @@ exports.getUsers = (req, res) => {
     console.error(error);
   }
 };
+
+
+// @Route   GET api/register/user
+// @Des     This will log in a user
+// @acess   Private
 
 exports.getSingleUser = (req, res) => {
   let username = req.body.username.toLowerCase();
