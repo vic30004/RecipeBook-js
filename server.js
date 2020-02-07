@@ -27,6 +27,9 @@ app.use(morgan('dev'));
 
 
 
+//Routes
+app.use("/api/register",require("./routes/auth"))
+
 
 
 app.listen(PORT, (req, res) => {
