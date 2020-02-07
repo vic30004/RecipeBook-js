@@ -3,7 +3,7 @@ const client = require('../config/db');
 exports.register = (req, res) => {
   let username = req.body.username;
   let password = req.body.password;
-  let date = Date.now();  
+
   client.query(
     'SELECT username FROM users WHERE username=$1',
     [username],
@@ -11,18 +11,19 @@ exports.register = (req, res) => {
       if (err) {
         throw err;
       }
-      if (res) {
-        res.send({user: user.rows });
+      if (!user.rows.length<=0) {
+          console.log(user)
+        res.send({user: user.rows,message:"user exists" });
         console.log(user.rows)
       } else {
         client.query(
-          'INSERT into users(username,passowrd,date_jpoined) VALUES($1,$2,$3)',
-          [username, password,date],
+          'INSERT into users(username,password) VALUES($1,$2)',
+          [username,password],
           (err, user) => {
             if (err) {
               throw err;
             } else {
-              res.send({ message: 'Success', user: user });
+              res.send({ message: 'Success', user: user.rows });
             }
           }
         );
