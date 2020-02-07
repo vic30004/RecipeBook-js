@@ -1,6 +1,10 @@
 const client = require('../config/db');
 const bcrypt = require('bcrypt');
 
+const checkPass = async(pass1,pass2)=>{
+    return await bcrypt.compare(pass1,pass2)
+}
+
 exports.register = async (req, res) => {
   const salt = 10;
   let username = req.body.username.toLowerCase();
@@ -57,17 +61,28 @@ exports.getUsers = (req, res) => {
 exports.getSingleUser = (req, res) => {
   let username = req.body.username.toLowerCase();
   let password = req.body.password;
-  let queryStrin = 'SELECT * FROM users WHERE username=$1 AND password=$2';
-  let values = [username, password];
+  let queryStrin = 'SELECT * FROM users WHERE username=$1 ';
+  let values = [username];
   console.log(username);
 
   try {
-    client.query(queryStrin, [username, password], (err, user) => {
+    client.query(queryStrin, values, async(err, user) => {
       if (err) {
         throw err;
       } else {
         let data = user.rows;
-        res.status(200).send({ message: 'success', user: data });
+        data.forEach(async data=>{
+            let pass = await checkPass(password,data.password)
+            if(pass){
+            res.status(200).send({ message: 'success', user: data });
+        }
+        else{
+            res.status(400).send({message:"Invalid Credentials"})
+        }
+        })
+        
+        
+        
       }
     });
   } catch (err) {
