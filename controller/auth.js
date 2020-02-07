@@ -3,8 +3,10 @@ const bcrypt = require('bcrypt');
 
 exports.register = async (req, res) => {
   const salt = 10;
-  let username = req.body.username;
-  let password = await bcrypt.hash(req.body.password, salt);
+  let username = req.body.username.toLowerCase();
+  let password = req.body.password;
+
+  let hashed = await bcrypt.hash(password, salt);
 
   // TODO HASH PASSWORD
 
@@ -16,18 +18,20 @@ exports.register = async (req, res) => {
         throw err;
       }
       if (!user.rows.length <= 0) {
-        console.log(user);
         res.send({ user: user.rows, message: 'user exists' });
-        console.log(user.rows);
+      } else if (password.length < 6) {
+        res
+          .status(400)
+          .send({ message: 'Password must contain more than 6 characters.' });
       } else {
         client.query(
           'INSERT into users(username,password) VALUES($1,$2)',
-          [username, password],
+          [username, hashed],
           (err, user) => {
             if (err) {
               throw err;
             } else {
-              res.send({ message: 'Success', user: user.rows });
+              res.status(200).send({ message: 'Success,user registered' });
             }
           }
         );
@@ -51,7 +55,7 @@ exports.getUsers = (req, res) => {
 };
 
 exports.getSingleUser = (req, res) => {
-  let username = req.body.username;
+  let username = req.body.username.toLowerCase();
   let password = req.body.password;
   let queryStrin = 'SELECT * FROM users WHERE username=$1 AND password=$2';
   let values = [username, password];
@@ -63,7 +67,7 @@ exports.getSingleUser = (req, res) => {
         throw err;
       } else {
         let data = user.rows;
-        res.status(200).send({ message: "success", user: data });
+        res.status(200).send({ message: 'success', user: data });
       }
     });
   } catch (err) {
