@@ -1,8 +1,12 @@
 const client = require('../config/db');
+const bcrypt = require("bcrypt")
 
-exports.register = (req, res) => {
+exports.register = async(req, res) => {
+    const salt =10;
   let username = req.body.username;
-  let password = req.body.password;
+  let password =await bcrypt.hash(req.body.password,salt);
+
+// TODO HASH PASSWORD
 
   client.query(
     'SELECT username FROM users WHERE username=$1',
