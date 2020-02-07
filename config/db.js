@@ -6,7 +6,6 @@ const password = config.get('pgpassword');
 const port = config.get('pgport');
 const db = config.get('pgdb');
 
-console.log(db);
 const client = new Client({
   host: host,
   user: user,
