@@ -10,12 +10,12 @@ const checkPass = async (pass1, pass2) => {
 // Create JWT
 const getSignedJwtToken = id => {
   return jwt.sign({ id: id }, 'dasdfc', {
-    expiresIn: 3110400000
+    expiresIn: '1h'
   });
 };
 
 // Retrieve JWT using user ID
-const sendTokenResponse = (statusCode, id, res,user) => {
+const sendTokenResponse = (statusCode, id, res) => {
   const token = getSignedJwtToken(id);
   const options = {
     expires: new Date(Date.now() + 3110400000),
@@ -28,15 +28,13 @@ const sendTokenResponse = (statusCode, id, res,user) => {
     .cookie('token', token, options)
     .json({
       success: true,
-      user:user,
-      token,
-      
+      token
     });
 };
 
 // @route POST api/register
 // @des   Register a user
-// @acess Public  
+// @acess Public
 
 exports.register = async (req, res) => {
   const salt = 10;
@@ -65,10 +63,11 @@ exports.register = async (req, res) => {
           'INSERT into users(username,password) VALUES($1,$2)',
           [username, hashed],
           (err, user) => {
+            console.log(user.rows);
             if (err) {
               throw err;
             } else {
-              res.status(200).send({ message: 'Success,user registered' });
+              sendTokenResponse(200, user.rows.id, res);
             }
           }
         );
@@ -95,7 +94,6 @@ exports.getUsers = (req, res) => {
   }
 };
 
-
 // @Route   GET api/register/user
 // @Des     This will log in a user
 // @acess   Private
@@ -116,7 +114,7 @@ exports.getSingleUser = (req, res) => {
         data.forEach(async data => {
           let pass = await checkPass(password, data.password);
           if (pass) {
-            sendTokenResponse(200, data.userid, res,data);
+            sendTokenResponse(200, data.userid, res);
           } else {
             res.status(400).send({ message: 'Invalid Credentials' });
           }
