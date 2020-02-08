@@ -1,17 +1,24 @@
 const client = require('../config/db');
 const asyncHandler = require('../middleware/async');
+const jwt = require('jsonwebtoken');
 
 exports.addRecipe = asyncHandler(async (req, res, next) => {
-  const { title, cookTime, descriptions, directions, pictureId } = req.body;
+  const { title, cookTime, description, directions, pictureId } = req.body;
   const recipeTitle = title;
   const cTime = cookTime;
-  const desc = descriptions;
+  const desc = description;
   const direc = directions;
   const image = pictureId;
-
+  const id = jwt.verify(req.token, 'dasdfc', (err, authData) => {
+    if (err) {
+      res.sendStatus(403);
+    } else {
+      return authData.id;
+    }
+  });
   const queryString =
-    'INSERT INTO recipe(title,cook_time,decription,directions)';
-  const values = [recipeTitle, cTime, desc, direc];
+    'INSERT INTO Recipe(user_id,title,cook_time,description,directions) VALUES($1,$2,$3,$4,$5)';
+  const values = [id, recipeTitle, cTime, desc, direc];
 
   client.query(queryString, values, (err, data) => {
     if (err) {

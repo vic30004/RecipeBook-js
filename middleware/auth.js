@@ -2,30 +2,20 @@ const jwt = require('jsonwebtoken');
 const asyncHandler = require('./async');
 
 exports.protect = asyncHandler(async (req, res, next) => {
-  let token;
-
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
-  } else if (req.cookies.token) {
-    token = req.cookies.token;
+  // Get auth header value
+  const bearerHeader = req.headers['authorization'];
+  // Check if bearer is undefined
+  if (typeof bearerHeader !== 'undefined') {
+    // Split at the space
+    const bearer = bearerHeader.split(' ');
+    // Get token from array
+    const bearerToken = bearer[1];
+    // Set the token
+    req.token = bearerToken;
+    // Next middleware
+    next();
+  } else {
+    // Forbidden
+    res.sendStatus(403);
   }
-
-//  Check if token exists
-if (!token){
-    res.status(401).send({message:"Not authroized to access this route"})
-}
-
-try{
-    //verify token
-    const decoded = jwt.verify(token,'dasdfc');
-    console.log(decoded)
-    
-    next()
-}catch(err){
-    return res.status(401).send({message:'Not authorized to access this route'})
-}
-
 });
