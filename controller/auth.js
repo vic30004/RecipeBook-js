@@ -103,7 +103,6 @@ exports.getSingleUser = (req, res) => {
   let password = req.body.password;
   let queryStrin = 'SELECT * FROM users WHERE username=$1 ';
   let values = [username];
-  console.log(username);
 
   try {
     client.query(queryStrin, values, async (err, user) => {
