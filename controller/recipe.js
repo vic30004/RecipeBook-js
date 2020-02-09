@@ -69,20 +69,29 @@ exports.addRecipe = asyncHandler(async (req, res, next) => {
   }
 });
 
-
 // TODO Add function to get all recipies
+exports.getAllRecipes = asyncHandler(async (req, res, next) => {
+  const query =
+    'SELECT user_id,Recipe.recipe_id,title,cook_time,description,directions,picture_name,date_added,Ingredients.ingredient FROM Recipe INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id';
+  try {
+    const table = await client.query(query);
+    res
+      .status(200)
+      .send({ sucess: true, count: table.rows.length, message: table.rows });
+  } catch (error) {
+    res.status(500).send({ erorr: error.message });
+  }
+});
 
-
-
-// TODO ADD function to get a single recipe 
-
+// TODO ADD function to get a single recipe
 
 // TODO add function to get a single users recipies
 
+// TODO add function to update recipe
 
+// TODO add function to DELETE recipe
 
-
-// Function to add the ingredients to the ingredients table 
+// Function to add the ingredients to the ingredients table
 function addIngredients(id, ingredients) {
   let stringIngredient = ingredients.split(',').join(',');
   let queryString =
@@ -97,7 +106,6 @@ function addIngredients(id, ingredients) {
     }
   });
 }
-
 
 // Function to change the name of the photo, update the name in the db, and save it to the public folder.
 function uploadPicture(id, picture, res) {
