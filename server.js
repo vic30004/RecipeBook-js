@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const colors = require('colors');
 const morgan = require('morgan');
+const fileupload = require('express-fileupload');
 const path = require('path');
 const dotenv = require('dotenv');
 const client = require('./config/db');
@@ -17,6 +18,11 @@ const startServer = async () => {
 };
 startServer();
 const PORT = 5000;
+
+// File upload
+app.use(fileupload());
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
