@@ -69,6 +69,20 @@ exports.addRecipe = asyncHandler(async (req, res, next) => {
   }
 });
 
+
+// TODO Add function to get all recipies
+
+
+
+// TODO ADD function to get a single recipe 
+
+
+// TODO add function to get a single users recipies
+
+
+
+
+// Function to add the ingredients to the ingredients table 
 function addIngredients(id, ingredients) {
   let stringIngredient = ingredients.split(',').join(',');
   let queryString =
@@ -84,6 +98,8 @@ function addIngredients(id, ingredients) {
   });
 }
 
+
+// Function to change the name of the photo, update the name in the db, and save it to the public folder.
 function uploadPicture(id, picture, res) {
   const queryString = 'SELECT recipe_id FROM Recipe WHERE recipe_id= $1';
   const value = [id];
