@@ -69,7 +69,7 @@ exports.addRecipe = asyncHandler(async (req, res, next) => {
   }
 });
 
-// TODO Add function to get all recipies
+//Function to get all recipies
 exports.getAllRecipes = asyncHandler(async (req, res, next) => {
   const query =
     'SELECT user_id,Recipe.recipe_id,title,cook_time,description,directions,picture_name,date_added,Ingredients.ingredient FROM Recipe INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id';
@@ -78,14 +78,44 @@ exports.getAllRecipes = asyncHandler(async (req, res, next) => {
     res
       .status(200)
       .send({ sucess: true, count: table.rows.length, message: table.rows });
+    client.end();
   } catch (error) {
     res.status(500).send({ erorr: error.message });
+    client.end();
   }
 });
 
-// TODO ADD function to get a single recipe
-
 // TODO add function to get a single users recipies
+exports.getUsersRecipe = asyncHandler(async (req, res, next) => {
+  const id =  jwt.verify(req.token, 'dasdfc', (err, authData) => {
+    if (err) {
+      res.sendStatus(403);
+      console.log(err)
+      return
+    } else {
+      return authData.id;
+    }
+    
+  });
+  console.log(id)
+  const joinQuery = `SELECT Recipe.recipe_id,title,cook_time,description,directions,picture_name,date_added,Ingredients.ingredient FROM Recipe INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id WHERE Recipe.user_id = $1`;
+  const value = [id];
+
+  try {
+    const table = await client.query(joinQuery,value);
+    if (table.rows.length>0){
+          res
+      .status(200)
+      .send({ success: true, count: table.rows.length, data: table.rows });
+    }
+    else{
+      res.status(401).send({success:false, message:"No recipes found."})
+    }
+
+  } catch (error) {
+    console.error(error)
+  }
+});
 
 // TODO add function to update recipe
 
@@ -100,7 +130,8 @@ function addIngredients(id, ingredients) {
 
   client.query(queryString, values, (err, data) => {
     if (err) {
-      throw err;
+      res.status(400).send({ error: err.message });
+      client.end();
     } else {
       return data.rows[0].ingredient;
     }
