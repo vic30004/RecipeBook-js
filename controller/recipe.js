@@ -8,7 +8,7 @@ const filePath = config.get('filePath');
 
 exports.addRecipe = asyncHandler(async (req, res, next) => {
   const { title, cookTime, description, ingredients, directions } = req.body;
-  console.log(ingredients)
+  console.log(ingredients);
   const file = req.files;
   let pictureName = file.pictureId;
   if (
@@ -82,6 +82,26 @@ exports.getAllRecipes = asyncHandler(async (req, res, next) => {
   }
 });
 
+// Function to find recipes with specific ingredients
+exports.findIngredients = asyncHandler(async (req, res, next) => {
+  const { ingredients } = req.body;
+  const query = createParam(ingredients);
+  const values = createIlikeQuery(ingredients);
+  try {
+    const table = await client.query(query, [values]);
+    if (table.rows.length > 0) {
+      res.status(200).send({ success: true, data: table.rows });
+    } else {
+      res.status(200).send({
+        success: true,
+        message: 'No recipes found with these ingredients!'
+      });
+    }
+  } catch (error) {
+    res.status(400).send({ success: false, message: error.message });
+  }
+});
+
 // TODO add function to get a single users recipies
 exports.getUsersRecipe = asyncHandler(async (req, res, next) => {
   const id = jwt.verify(req.token, 'dasdfc', (err, authData) => {
@@ -137,18 +157,14 @@ exports.updateRecipe = asyncHandler(async (req, res, next) => {
       try {
         const finalQuery = `SELECT Recipe.recipe_id,title,cook_time,description,directions,picture_name,date_added,Ingredients.ingredient FROM Recipe INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id WHERE Recipe.recipe_id = $1`;
         const showUpdate = await client.query(finalQuery, [id]);
-        console.log(showUpdate.rows);
         res.status(200).send({
           success: true,
           message: 'Recipe Updates',
           data: showUpdate.rows
         });
-      } catch (error) {
-      }
-    } catch (error) {
-    }
-  } catch (error) {
-  }
+      } catch (error) {}
+    } catch (error) {}
+  } catch (error) {}
 });
 // TODO add function to DELETE recipe
 exports.deleteRecipe = asyncHandler(async (req, res, next) => {
@@ -234,19 +250,36 @@ function createUpdateQuery(tblName, id, cols) {
   return query.join(' ');
 }
 
+function createParam(ingredients) {
+  let newArr = [];
+  let query = `SELECT Recipe.recipe_id,title,cook_time,description,directions,picture_name,date_added,Ingredients.ingredient 
+FROM Recipe 
+INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id
+WHERE ingredient ILIKE `;
+  for (let i = 0; i < arguments.length; i++) {
+    newArr.push(`$${i + 1}`);
+  }
+  return `${query}(${newArr.join(', ')})`;
+}
+
 // Function to create ILIKE query
-function createQuery(str){
-  let splitRecipe= str.split(',')
-  let newArr= []
+function createIlikeQuery(str) {
+  let splitRecipe = str.split(',');
+  let newArr = [];
   let finalStr = '';
-  let query= `SELECT Recipe.recipe_id,title,cook_time,description,directions,picture_name,date_added,Ingredients.ingredient 
-  FROM Recipe 
-  INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id
-  WHERE ingredient ILIKE `
-  
-  for (let i=0; i<splitRecipe.length;i++){
-    newArr.push(`%${splitRecipe[i]}%`) 
-    finalStr=newArr.join(',')
+  if (
+    str.toLowerCase().includes('select') ||
+    str.toLowerCase().includes('insert') ||
+    str.toLowerCase().includes('delete') ||
+    str.toLowerCase().includes('update') ||
+    str.toLowerCase().includes('drop')
+  ) {
+    return;
+  } else {
+    for (let i = 0; i < splitRecipe.length; i++) {
+      newArr.push(`%${splitRecipe[i]}%`);
+      finalStr = newArr.join(',');
+    }
+    return `${finalStr}`;
   }
-  return query + finalStr
-  }
+}
