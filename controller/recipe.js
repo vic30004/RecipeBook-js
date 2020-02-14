@@ -8,6 +8,7 @@ const filePath = config.get('filePath');
 
 exports.addRecipe = asyncHandler(async (req, res, next) => {
   const { title, cookTime, description, ingredients, directions } = req.body;
+  console.log(ingredients)
   const file = req.files;
   let pictureName = file.pictureId;
   if (
@@ -232,3 +233,20 @@ function createUpdateQuery(tblName, id, cols) {
   // Return a complete query string
   return query.join(' ');
 }
+
+// Function to create ILIKE query
+function createQuery(str){
+  let splitRecipe= str.split(',')
+  let newArr= []
+  let finalStr = '';
+  let query= `SELECT Recipe.recipe_id,title,cook_time,description,directions,picture_name,date_added,Ingredients.ingredient 
+  FROM Recipe 
+  INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id
+  WHERE ingredient ILIKE `
+  
+  for (let i=0; i<splitRecipe.length;i++){
+    newArr.push(`%${splitRecipe[i]}%`) 
+    finalStr=newArr.join(',')
+  }
+  return query + finalStr
+  }
