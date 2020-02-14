@@ -10,10 +10,6 @@ exports.addRecipe = asyncHandler(async (req, res, next) => {
   const { title, cookTime, description, ingredients, directions } = req.body;
   const file = req.files;
   let pictureName = file.pictureId;
-  console.log(ingredients);
-  console.log(req.files);
-  console.log(pictureName);
-
   if (
     !file.pictureId.mimetype.startsWith('image') ||
     file.pictureId.size > fileSize
@@ -96,7 +92,6 @@ exports.getUsersRecipe = asyncHandler(async (req, res, next) => {
       return authData.id;
     }
   });
-  client.connect();
   const joinQuery = `SELECT Recipe.recipe_id,title,cook_time,description,directions,picture_name,date_added,Ingredients.ingredient FROM Recipe INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id WHERE Recipe.user_id = $1`;
   const value = [id];
 
@@ -106,10 +101,8 @@ exports.getUsersRecipe = asyncHandler(async (req, res, next) => {
       res
         .status(200)
         .send({ success: true, count: table.rows.length, data: table.rows });
-      client.end();
     } else {
       res.status(401).send({ success: false, message: 'No recipes found.' });
-      client.end();
     }
   } catch (error) {
     console.error(error);
@@ -117,12 +110,48 @@ exports.getUsersRecipe = asyncHandler(async (req, res, next) => {
 });
 
 // TODO add function to update recipe
+exports.updateRecipe = asyncHandler(async (req, res, next) => {
+  const { title, cook_time, description, directions, ingredient } = req.body;
+  const { id } = req.params;
+  const data = {};
+  const ingr = {};
+  title ? (data.title = title) : false;
+  cook_time ? (data.cook_time = cook_time) : false;
+  description ? (data.description = description) : false;
+  directions ? (data.directions = directions) : false;
+  ingredient ? (ingr.ingredient = ingredient) : false;
 
+  const colValues = Object.keys(data).map(function(key) {
+    return req.body[key];
+  });
+  const ingValues = Object.keys(ingr).map(function(key) {
+    return req.body[key];
+  });
+  const query = createUpdateQuery('Recipe', id, data);
+  try {
+    const table = await client.query(query, colValues);
+    try {
+      const query2 = createUpdateQuery('Ingredients', id, ingr);
+      const updateIngredients = await client.query(query2, ingValues);
+      try {
+        const finalQuery = `SELECT Recipe.recipe_id,title,cook_time,description,directions,picture_name,date_added,Ingredients.ingredient FROM Recipe INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id WHERE Recipe.recipe_id = $1`;
+        const showUpdate = await client.query(finalQuery, [id]);
+        console.log(showUpdate.rows);
+        res.status(200).send({
+          success: true,
+          message: 'Recipe Updates',
+          data: showUpdate.rows
+        });
+      } catch (error) {
+      }
+    } catch (error) {
+    }
+  } catch (error) {
+  }
+});
 // TODO add function to DELETE recipe
 exports.deleteRecipe = asyncHandler(async (req, res, next) => {
   const recipeId = req.params.id;
-  client.connect();
-  console.log(recipeId);
   deleteRec(recipeId, res);
 });
 
@@ -136,7 +165,6 @@ function addIngredients(id, ingredients) {
   client.query(queryString, values, (err, data) => {
     if (err) {
       console.log(err);
-      client.end();
     } else {
       return data.rows[0].ingredient;
     }
@@ -178,7 +206,29 @@ function deleteRec(id, res) {
     .query(query, value)
     .then(() => {
       res.status(200).send({ success: true, message: 'Recipe Deleted' });
-      client.end();
     })
     .catch(e => console.log(e));
+}
+
+function createUpdateQuery(tblName, id, cols) {
+  var query = [`UPDATE ${tblName}`];
+  query.push('SET');
+
+  // Create another array storing each set command
+  // and assigning a number value for parameterized query
+  var set = [];
+  Object.keys(cols).forEach(function(key, i) {
+    set.push(key + ' = ($' + (i + 1) + ')');
+  });
+  query.push(set.join(', '));
+
+  // Add the WHERE statement to look up by id
+  if (tblName.toLowerCase() === 'recipe') {
+    query.push(`WHERE recipe_id = ${id} RETURNING *`);
+  } else {
+    query.push(`WHERE recipe_id = ${id}`);
+  }
+
+  // Return a complete query string
+  return query.join(' ');
 }
