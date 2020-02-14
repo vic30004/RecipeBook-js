@@ -87,39 +87,44 @@ exports.getAllRecipes = asyncHandler(async (req, res, next) => {
 
 // TODO add function to get a single users recipies
 exports.getUsersRecipe = asyncHandler(async (req, res, next) => {
-  const id =  jwt.verify(req.token, 'dasdfc', (err, authData) => {
+  const id = jwt.verify(req.token, 'dasdfc', (err, authData) => {
     if (err) {
       res.sendStatus(403);
-      console.log(err)
-      return
+      console.log(err);
+      return;
     } else {
       return authData.id;
     }
-    
   });
-  console.log(id)
+  client.connect();
   const joinQuery = `SELECT Recipe.recipe_id,title,cook_time,description,directions,picture_name,date_added,Ingredients.ingredient FROM Recipe INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id WHERE Recipe.user_id = $1`;
   const value = [id];
 
   try {
-    const table = await client.query(joinQuery,value);
-    if (table.rows.length>0){
-          res
-      .status(200)
-      .send({ success: true, count: table.rows.length, data: table.rows });
+    const table = await client.query(joinQuery, value);
+    if (table.rows.length > 0) {
+      res
+        .status(200)
+        .send({ success: true, count: table.rows.length, data: table.rows });
+      client.end();
+    } else {
+      res.status(401).send({ success: false, message: 'No recipes found.' });
+      client.end();
     }
-    else{
-      res.status(401).send({success:false, message:"No recipes found."})
-    }
-
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 });
 
 // TODO add function to update recipe
 
 // TODO add function to DELETE recipe
+exports.deleteRecipe = asyncHandler(async (req, res, next) => {
+  const recipeId = req.params.id;
+  client.connect();
+  console.log(recipeId);
+  deleteRec(recipeId, res);
+});
 
 // Function to add the ingredients to the ingredients table
 function addIngredients(id, ingredients) {
@@ -130,7 +135,7 @@ function addIngredients(id, ingredients) {
 
   client.query(queryString, values, (err, data) => {
     if (err) {
-      res.status(400).send({ error: err.message });
+      console.log(err);
       client.end();
     } else {
       return data.rows[0].ingredient;
@@ -164,4 +169,16 @@ function uploadPicture(id, picture, res) {
       );
     });
   });
+}
+
+function deleteRec(id, res) {
+  const query = `DELETE FROM Recipe WHERE recipe_id=$1`;
+  value = [id];
+  client
+    .query(query, value)
+    .then(() => {
+      res.status(200).send({ success: true, message: 'Recipe Deleted' });
+      client.end();
+    })
+    .catch(e => console.log(e));
 }
