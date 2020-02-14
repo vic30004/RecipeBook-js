@@ -1,0 +1,115 @@
+#head {
+  background: url('../../images/background\ .jpg') center center/cover no-repeat;
+  height: 100vh;
+}
+
+#head .container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+#head .container .text-content {
+  padding: 2rem;
+}
+
+#head .container .text-content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  font-family: var(--serif-font);
+  letter-spacing: 4px;
+  font-weight: bolder;
+}
+
+#head .container .text-content p {
+  font-family: var(--san-serif-font);
+  font-size: 2rem;
+  letter-spacing: 0.1px;
+}
+
+#head .container .text-content .joinBtn {
+  padding: 0.5rem 1rem;
+  min-width: 150px;
+  font-family: var(--serif-font);
+  border:none;
+  outline: none;
+  font-size: 1.5rem;
+  background-color: rgba(197, 197, 190, 0.575);
+  border-radius: 5px;
+  margin-top: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  transition: all 1s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  z-index:1;
+  cursor: pointer;
+}
+#head .container .text-content .joinBtn::before{
+    position: absolute;
+    content: '';
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background: #722f37;
+    clip-path: polygon(42% 20%, 100% 47%, 100% 100%, 50% 100%, 0 100%, 0 0);
+    transform: translateX(-110%);
+    z-index: -1;
+
+}
+
+#head .container .text-content .joinBtn:hover::before{
+    animation: load 1s ease 1;
+}
+#head .container .text-content .joinBtn:hover{
+    background: #722f37;
+    transform: scale(1.1);
+    transition: transform 1s ease, background 0.5s ease 1s;
+    
+}
+
+
+@keyframes load{
+    0%{
+        transform: translateX(-60%)
+
+    }
+    14.28%{
+        transform: translateX(-50%);
+        clip-path: polygon(49% 33%, 100% 11%, 100% 98%, 50% 100%, 0 100%, 0 55%);
+    }
+    28.56%{
+        transform: translateX(-40%);
+        clip-path: polygon(52% 0, 100% 0, 100% 100%, 50% 100%, 0 100%, 0 0);
+
+    }
+    42.84%{
+        transform: translateX(-30%);
+        clip-path: polygon(53% 23%, 100% 45%, 100% 100%, 50% 100%, 0 100%, 0 0);
+
+    }
+    57.12%{
+        transform: translateX(-20%);
+        clip-path: polygon(52% 42%, 100% 43%, 100% 100%, 50% 100%, 0 100%, 0 43%);
+
+    }
+    71.4%{
+        transform: translateX(-10%);
+        clip-path: polygon(52% 42%, 100% 1%, 100% 100%, 50% 100%, 0 100%, 0 57%);
+    }
+    85.68%{
+        transform: translateX(0);
+        clip-path: polygon(54% 0, 100% 0, 100% 100%, 50% 100%, 0 100%, 0 0);
+
+    }
+    100%{
+        transform: translateX(0); 
+        clip-path: polygon(54% 0, 100% 0, 100% 100%, 50% 100%, 0 100%, 0 0);
+
+    }
+}
