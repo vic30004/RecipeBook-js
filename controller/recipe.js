@@ -26,9 +26,11 @@ exports.addRecipe = asyncHandler(async (req, res, next) => {
       if (err) {
         res.sendStatus(403);
       } else {
+        console.log(authData)
         return authData.id;
       }
     });
+    console.log(id)
     const queryString = `INSERT INTO Recipe(user_id,title,cook_time,description,directions,picture_name) VALUES($1,$2,$3,$4,$5,$6) RETURNING *`;
     const values = [
       id,
@@ -87,10 +89,11 @@ exports.findIngredients = asyncHandler(async (req, res, next) => {
   const { ingredients } = req.body;
   const query = createParam(ingredients);
   const values = createIlikeQuery(ingredients);
+  console.log(values)
   try {
     const table = await client.query(query, [values]);
     if (table.rows.length > 0) {
-      res.status(200).send({ success: true, data: table.rows });
+      res.status(200).send({ success: true, count:table.rows.length,data: table.rows });
     } else {
       res.status(200).send({
         success: true,

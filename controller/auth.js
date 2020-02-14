@@ -16,6 +16,7 @@ const getSignedJwtToken = id => {
 
 // Retrieve JWT using user ID
 const sendTokenResponse = (statusCode, id, res) => {
+  console.log(id,'From jwt')
   const token = getSignedJwtToken(id);
   const options = {
     expires: new Date(Date.now() + 3110400000),
@@ -37,7 +38,9 @@ const sendTokenResponse = (statusCode, id, res) => {
 // @acess Public
 
 exports.register = async (req, res) => {
+  const {firstName,lastName,email}=req.body
   const salt = 10;
+  let first= upperFirstChar(firstName);
   let username = req.body.username.toLowerCase();
   let password = req.body.password;
 
@@ -46,7 +49,7 @@ exports.register = async (req, res) => {
   // TODO HASH PASSWORD
 
   client.query(
-    'SELECT username FROM users WHERE username=$1',
+    'SELECT user_name FROM users WHERE user_name=$1',
     [username],
     (err, user) => {
       if (err) {
@@ -59,15 +62,18 @@ exports.register = async (req, res) => {
           .status(400)
           .send({ message: 'Password must contain more than 6 characters.' });
       } else {
+   
+
         client.query(
-          'INSERT into users(username,password) VALUES($1,$2)',
-          [username, hashed],
+          'INSERT into users(user_name,first_name,last_name,email,password) VALUES($1,$2,$3,$4,$5) RETURNING *' ,
+          [username,first,lastName,email, hashed],
           (err, user) => {
-            console.log(user.rows);
+           
             if (err) {
               throw err;
             } else {
-              sendTokenResponse(200, user.rows.id, res);
+                sendTokenResponse(200, user.rows[0].user_id, res);
+              
             }
           }
         );
@@ -101,7 +107,7 @@ exports.getUsers = (req, res) => {
 exports.getSingleUser = (req, res) => {
   let username = req.body.username.toLowerCase();
   let password = req.body.password;
-  let queryStrin = 'SELECT * FROM users WHERE username=$1 ';
+  let queryStrin = 'SELECT * FROM users WHERE user_name=$1 ';
   let values = [username];
 
   try {
@@ -113,7 +119,7 @@ exports.getSingleUser = (req, res) => {
         data.forEach(async data => {
           let pass = await checkPass(password, data.password);
           if (pass) {
-            sendTokenResponse(200, data.userid, res);
+            sendTokenResponse(200, data.user_id, res);
           } else {
             res.status(400).send({ message: 'Invalid Credentials' });
           }
@@ -124,3 +130,9 @@ exports.getSingleUser = (req, res) => {
     res.status(400).send({ error: err.message });
   }
 };
+
+
+function upperFirstChar(str){
+  const upper = str.charAt(0).toUpperCase() + str.substring(1);
+  return upper
+  }
