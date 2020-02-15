@@ -1,7 +1,7 @@
 .menu-wrap {
   position: fixed;
   top: 0;
-  left: 0;
+  left: 95.2%;
   z-index: 1;
 }
 
@@ -142,6 +142,10 @@
 
 /* iPhone X in portrait & landscape */
 @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .menu-wrap{
+    left:81%;
+  }
+  
   .menu-wrap .hamburger {
     width: 30px;
     height: 30px;
@@ -150,6 +154,10 @@
 
 /* iPhone 6, 7, & 8 in portrait & landscape*/
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) {
+  .menu-wrap{
+    left:83%;
+  }
+  
   .menu-wrap .hamburger {
     width: 30px;
     height: 30px;
@@ -158,6 +166,10 @@
 
 /* iPhone 5 & 5S in portrait & landscape*/
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  .menu-wrap{
+    left:80%;
+  }
+  
   .menu-wrap .hamburger {
     width: 25px;
     height: 25px;
@@ -170,6 +182,10 @@
 
 /*iPhone 2G-4S in portrait & landscape*/
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .menu-wrap{
+    left:83%;
+  }
+  
   .menu-wrap .hamburger {
     width: 40px;
     height: 40px;

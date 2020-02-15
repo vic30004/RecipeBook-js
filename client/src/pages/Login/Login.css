@@ -14,7 +14,7 @@
  }
 
  #login .container .form-content{
-     background: rgba(233, 230, 230, 0.76);
+     background: #fc4c46a2;
      min-height:500px;
      max-height: 800px;
      display: flex;
@@ -51,4 +51,20 @@
      border-radius: 20px;
      border:none;
      outline: none;
+ }
+
+ #login .container .form-container button{
+     background:#1b232b;
+     color: #ecf1f4;
+     border: none;
+     display: block;
+     padding: 0.5rem 0.75rem;
+     width: 250px;
+     margin: auto;
+     font-family: var(--serif-font);
+     font-size: 1.3rem;
+     letter-spacing: 4px;
+     border-radius: 5px;
+     margin-bottom: 0.5rem;
+
  }
