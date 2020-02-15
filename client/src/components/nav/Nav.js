@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import {Link} from 'react-router-dom'
 import './Nav.css';
 const Nav = () => {
   return (
@@ -13,13 +14,13 @@ const Nav = () => {
             <div>
               <ul>
                 <li>
-                  <a href='#'>Home</a>{' '}
+                  <a href='/'>Home</a>{' '}
                 </li>
                 <li>
                   <a href='#'>Recipes</a>{' '}
                 </li>
                 <li>
-                  <a href='#'>Login</a>{' '}
+                  <Link to='/login'>Login</Link>{' '}
                 </li>
               </ul>
             </div>
