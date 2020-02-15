@@ -1,9 +1,10 @@
 import React from 'react';
-import Picture from '../../images/background .jpg';
-import Logo from '../../images/Logo.png'
 import './Header.css';
+import Nav from '../nav/Nav';
 export const Header = () => {
   return (
+    <div>
+    <Nav/>
     <header id='head'>
       <div className='container'>
         <div className='text-content'>
@@ -13,6 +14,7 @@ export const Header = () => {
         </div>
       </div>
     </header>
+      </div>
   );
 };
 

@@ -1,6 +1,8 @@
 #head {
   background: url('../../images/background\ .jpg') center center/cover no-repeat;
   height: 100vh;
+  z-index: -1;
+
 }
 
 #head .container {
@@ -46,7 +48,6 @@
   transition: all 1s ease-in-out;
   position: relative;
   overflow: hidden;
-  z-index:1;
   cursor: pointer;
 }
 #head .container .text-content .joinBtn::before{
