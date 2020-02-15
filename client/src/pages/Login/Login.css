@@ -1,20 +1,19 @@
-#login{
-    background: url("../../images//loginBack.jpg") center center/cover no-repeat;
+#register{
+    background: url("../../images/loginBack.jpg") center center/cover no-repeat;
     height: 100vh;
  }
 
 
- #login .container{
+ #register .container{
      display: flex;
      height: 100%;
      justify-content: flex-end;
      align-items: center;
      width: 1100px;
-     margin:auto;
+     margin:auto;     
  }
 
- #login .container .form-content{
-     background: #fc4c46a2;
+ #register .container .form-content{
      min-height:500px;
      max-height: 800px;
      display: flex;
@@ -22,13 +21,51 @@
      align-items: center;
      flex-flow: column;
      min-width: 300px;
-     padding: 2rem;
      border-radius: 10px;
      box-shadow: -10px 10px lightgray;
+     position: relative;
+     padding: 2rem;
+ }
+
+ #register .container .form-content .thecard{
+     position: absolute;
+    transform-style: preserve-3d;
+    transition: all 0.5s ease;
+    background: #fc4c46;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left: 0;
+    border-radius: 10px;
+
+    
+ }
+
+ #register .container .form-content .thecard .thefront{
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     backface-visibility: hidden;
+     background: #fc4c46a2;
+     border-radius: 20px;
+
+ }
+ #register .container .form-content .thecard .theback{
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     backface-visibility: hidden;
+     background: #fc4c46;
+     transform: rotateY(180deg);
+     border-radius: 20px;
 
  }
 
- #login .container .form-content h1{
+ .flip{
+     transform: rotateY(180deg);
+ }
+
+ #register .container .form-content h1{
      text-align: left;
      font-family: var(--serif-font);
      text-transform: uppercase;
@@ -36,14 +73,23 @@
      letter-spacing: 4px;
      font-size: 3rem;
      border-bottom: solid 1px #333;
+     padding:0.75rem;
  }
 
- #login .container .form-container{
+ #register .container .form-container{
      display: flex;
      flex-flow: column nowrap;
+     justify-content: center;
+     align-items: center;
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     top: 0;
+     left: 0;
+     
  }
 
- #login .container .form-container input{
+ #register .container .form-container input{
      margin:0.75rem;
      padding: 0.5rem 0.75rem;
      font-family: var(--san-serif-font);
@@ -53,7 +99,7 @@
      outline: none;
  }
 
- #login .container .form-container button{
+ #register .container .form-container button{
      background:#1b232b;
      color: #ecf1f4;
      border: none;
@@ -65,6 +111,18 @@
      font-size: 1.3rem;
      letter-spacing: 4px;
      border-radius: 5px;
-     margin-bottom: 0.5rem;
+ }
 
+ #register .container .form-container .reg{
+     margin-bottom: 0.75rem;
+ }
+
+ #register .container .form-container .reg a{
+     font-size: 1rem;
+     cursor: pointer;
+ }
+
+ .reg a:hover  .thecard {
+    transform: rotateY(180deg);
+    color: red;
  }
