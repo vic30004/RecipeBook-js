@@ -3,7 +3,6 @@
   top: 0;
   left: 0;
   z-index: 1;
-
 }
 
 .menu-wrap .toggler {
@@ -25,10 +24,10 @@
   width: 60px;
   height: 60px;
   padding: 1rem;
-  /* background: rgba(149, 148, 139, 0.75); */
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgba(199, 199, 195, 0.63);
 }
 
 /* hamburger line */
@@ -71,74 +70,112 @@
   transform: rotate(90deg);
 }
 
-
 /* Rotate on hover when checked */
 
-.menu-wrap .toggler:checked:hover + .hamburger > div{
-    transform: rotate(225deg);
+.menu-wrap .toggler:checked:hover + .hamburger > div {
+  transform: rotate(225deg);
 }
 
 /* Show Menu */
 
-.menu-wrap .toggler:checked ~ .menu{
-    visibility: visible;
+.menu-wrap .toggler:checked ~ .menu {
+  visibility: visible;
 }
 
-.menu-wrap .toggler:checked ~ .menu > div{
-    transform: scale(1) ;
-    transition-duration:0.75s ;
+.menu-wrap .toggler:checked ~ .menu > div {
+  transform: scale(1);
+  transition-duration: 0.75s;
 }
 
-.menu-wrap .toggler:checked ~ .menu > div >div{
-    opacity: 1;
-    transition: opacity 0.4s ease; 
+.menu-wrap .toggler:checked ~ .menu > div > div {
+  opacity: 1;
+  transition: opacity 0.4s ease;
 }
 
-.menu-wrap .menu{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    visibility: hidden;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
+.menu-wrap .menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.menu-wrap .menu >div{
-    background: rgba(53, 53, 53, 0.555);
-    border-radius:50%;
-    width: 200vw;
-    height: 200vw;
-    display: flex;
-    flex:none;
-    align-items: center;
-    justify-content: center;
-    transform:scale(0);
-    transition: all 0.4s ease;
+.menu-wrap .menu > div {
+  background: rgba(53, 53, 53, 0.555);
+  border-radius: 50%;
+  width: 200vw;
+  height: 200vh;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0);
+  transition: all 0.4s ease;
 }
 
-.menu-wrap .menu >div>div{
-    text-align: center;
-    max-width: 90vw;
-    max-height: 100vh;
-    opacity: 0;
-    transition: opacity 0.4s ease;
+.menu-wrap .menu > div > div {
+  text-align: center;
+  max-width: 90vw;
+  max-height: 100vh;
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
-.menu-wrap .menu >div>div>ul>li{
-    list-style: none;
-    color: #fff;
-    font-size: 2.5rem;
-    padding: 1rem;
-    font-family: var(--serif-font);
+.menu-wrap .menu > div > div > ul > li {
+  list-style: none;
+  color: #fff;
+  font-size: 2.5rem;
+  padding: 1rem;
+  font-family: var(--serif-font);
 }
 
-.menu-wrap .menu >div>div>ul>li >a{
-    color: inherit;
-    text-decoration: none;
-    transition: color 0.4s ease;
+.menu-wrap .menu > div > div > ul > li > a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.4s ease;
+}
+
+/* iPhone X in portrait & landscape */
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .menu-wrap .hamburger {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+/* iPhone 6, 7, & 8 in portrait & landscape*/
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) {
+  .menu-wrap .hamburger {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+/* iPhone 5 & 5S in portrait & landscape*/
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  .menu-wrap .hamburger {
+    width: 25px;
+    height: 25px;
+  }
+
+  .menu-wrap .menu > div > div > ul > li {
+    font-size: 1.5rem;
+  }
+}
+
+/*iPhone 2G-4S in portrait & landscape*/
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .menu-wrap .hamburger {
+    width: 40px;
+    height: 40px;
+  }
+
+  .menu-wrap .menu > div > div > ul > li {
+    font-size: 2rem;
+  }
 }

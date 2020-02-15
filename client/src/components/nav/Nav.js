@@ -13,13 +13,13 @@ const Nav = () => {
             <div>
               <ul>
                 <li>
-                  <a href='#'> Home</a>{' '}
-                </li>
-                <li>
-                  <a href='#'> Login</a>{' '}
+                  <a href='#'>Home</a>{' '}
                 </li>
                 <li>
                   <a href='#'>Recipes</a>{' '}
+                </li>
+                <li>
+                  <a href='#'>Login</a>{' '}
                 </li>
               </ul>
             </div>
