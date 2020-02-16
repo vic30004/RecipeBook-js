@@ -19,8 +19,11 @@ const Card = props => {
       <div className={'thecard ' + (clicked ? 'hide' : 'show')}>
         <div className={'thefront ' + (clicked ? flip : '')}>
           {props.param.path !== '/login' ? (
+              <Fragment>
+              <Fragment>
+            <h1>{props.title}</h1>
+            </Fragment>
             <form className='form-container'>
-              <h1>{props.title}</h1>
               {props.firstName}
               {props.lastName}
               {props.userName}
@@ -32,23 +35,28 @@ const Card = props => {
                 Not a member? <a onClick={setTrue}>Register!</a>{' '}
               </h5>
             </form>
+            </Fragment>
           ) : (
-            <form className='form-container'>
+              <Fragment>
+              
               <h1>Login</h1>
+            <form className='form-container'>
+              
               {props.userName}
               {props.password}
               <h5 className='reg'>
                 Already a member? <a onClick={setTrue}>Login!</a>{' '}
               </h5>
             </form>
+            </Fragment>
           )}
         </div>
 
         <div className={'theback ' + (!clicked ? flip : '')}>
           {props.param.path !== '/login' ? (
+              <Fragment>
+               <h1>Login</h1>
             <form className='form-container'>
-              <h1>Login</h1>
-
               {props.userName}
               {props.password}
               <button>Login</button>
@@ -56,9 +64,12 @@ const Card = props => {
                 Already a member? <a onClick={setFalse}>Login!</a>{' '}
               </h5>
             </form>
+            </Fragment>
           ) : (
+              <Fragment>
+             
             <form className='form-container'>
-              <h1>{props.title}</h1>
+               <h1>{props.title}</h1>
               {props.firstName}
               {props.lastName}
               {props.userName}
@@ -70,6 +81,7 @@ const Card = props => {
                 Not a member? <a onClick={setFalse}>Register!</a>{' '}
               </h5>
             </form>
+            </Fragment>
           )}
         </div>
       </div>

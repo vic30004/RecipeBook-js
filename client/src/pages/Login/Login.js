@@ -62,7 +62,7 @@ const Login = (props) => {
       <Nav />
       <section id='register'>
         <div className='container'>
-          <div className='form-content shadowAinmate'>
+          <div className='form-content'>
             <Card
               register={true}
               title={title}
