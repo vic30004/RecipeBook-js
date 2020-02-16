@@ -140,6 +140,22 @@
   transition: color 0.4s ease;
 }
 
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+  .menu-wrap{
+    left:88.5%;
+  }
+}
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape) {  
+  .menu-wrap{
+  left:91%;
+}}
+
 /* iPhone X in portrait & landscape */
 @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) {
   .menu-wrap{
