@@ -114,7 +114,7 @@
      display: block;
      padding: 0.5rem 0.75rem;
      width: 250px;
-     margin: auto;
+     margin: 0 auto;
      font-family: var(--serif-font);
      font-size: 1.3rem;
      letter-spacing: 4px;

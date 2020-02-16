@@ -34,6 +34,7 @@ const Card = props => {
             </form>
           ) : (
             <form className='form-container'>
+              <h1>Login</h1>
               {props.userName}
               {props.password}
               <h5 className='reg'>
@@ -46,8 +47,11 @@ const Card = props => {
         <div className={'theback ' + (!clicked ? flip : '')}>
           {props.param.path !== '/login' ? (
             <form className='form-container'>
+              <h1>Login</h1>
+
               {props.userName}
               {props.password}
+              <button>Login</button>
               <h5 className='reg'>
                 Already a member? <a onClick={setFalse}>Login!</a>{' '}
               </h5>
