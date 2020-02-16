@@ -74,6 +74,10 @@
     
 }
 
+#head .container .text-content .joinBtn a{
+  text-decoration: none;
+  color: inherit;
+}
 
 @keyframes load{
     0%{

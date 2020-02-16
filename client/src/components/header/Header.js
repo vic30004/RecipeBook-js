@@ -10,7 +10,7 @@ export const Header = () => {
         <div className='text-content'>
           <h1>RECIPE BOOK</h1>
           <p>Join to add your recipes and to find some delicious recipes!</p>
-          <button className='joinBtn'>Join!</button>
+          <button className='joinBtn'> <a href="/register">Join!</a> </button>
         </div>
       </div>
     </header>
