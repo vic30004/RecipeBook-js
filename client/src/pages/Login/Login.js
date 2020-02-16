@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import './Login.css';
 import Nav from '../../components/nav/Nav';
 import Card from '../../components/Card/Card';
-const Login = () => {
+const Login = (props) => {
   const title = 'Register';
   const firstName = (
     <input
@@ -55,15 +55,14 @@ const Login = () => {
   );
 
  
-
+    
   const registerBtn = <button>Register</button>;
-
   return (
     <Fragment>
       <Nav />
       <section id='register'>
         <div className='container'>
-          <div className='form-content'>
+          <div className='form-content shadowAinmate'>
             <Card
               register={true}
               title={title}
@@ -74,6 +73,7 @@ const Login = () => {
               password={password}
               registerBtn={registerBtn}
               notMbr={notMbr}
+              param={props.match}
 
             />
           </div>

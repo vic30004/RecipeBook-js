@@ -1,39 +1,74 @@
-import React,{Fragment,useState} from 'react';
-import "./Card.css"
+import React, { Fragment, useState } from 'react';
+import './Card.css';
 
 const Card = props => {
-    const flip = "flip"
-    const [clicked,setClicked] = useState();
+  const flip = 'flip';
 
-    const onclick = (e)=>{
-        e.preventDefault();
-        console.log('clicked')
-        setClicked(true)
-      }
+  const [clicked, setClicked] = useState();
+
+  const setTrue = e => {
+    e.preventDefault();
+    setClicked(true);
+  };
+  const setFalse = e => {
+    e.preventDefault();
+    setClicked(false);
+  };
   return (
-      <Fragment>
-      
-      <div class="thecard">
+    <Fragment>
+      <div className={'thecard ' + (clicked ? 'hide' : 'show')}>
+        <div className={'thefront ' + (clicked ? flip : '')}>
+          {props.param.path !== '/login' ? (
+            <form className='form-container'>
+              <h1>{props.title}</h1>
+              {props.firstName}
+              {props.lastName}
+              {props.userName}
+              {props.email}
+              {props.password}
+              {props.registerBtn}
 
-          <div className={'thefront '+ (clicked?flip:'')} >
-          <form className='form-container'>
-            <h1>{props.title}</h1>
-            {props.firstName}
-            {props.lastName}
-            {props.userName}
-            {props.email}
-            {props.password}
-            {props.registerBtn}
-            <h5 className="reg">
-            Not a member? <a onClick={onclick}>Register!</a>{' '}
-          </h5>
+              <h5 className='reg'>
+                Not a member? <a onClick={setTrue}>Register!</a>{' '}
+              </h5>
             </form>
-          </div>
-        
-        <div class='theback'>
-          
+          ) : (
+            <form className='form-container'>
+              {props.userName}
+              {props.password}
+              <h5 className='reg'>
+                Already a member? <a onClick={setTrue}>Login!</a>{' '}
+              </h5>
+            </form>
+          )}
         </div>
+
+        <div className={'theback ' + (!clicked ? flip : '')}>
+          {props.param.path !== '/login' ? (
+            <form className='form-container'>
+              {props.userName}
+              {props.password}
+              <h5 className='reg'>
+                Already a member? <a onClick={setFalse}>Login!</a>{' '}
+              </h5>
+            </form>
+          ) : (
+            <form className='form-container'>
+              <h1>{props.title}</h1>
+              {props.firstName}
+              {props.lastName}
+              {props.userName}
+              {props.email}
+              {props.password}
+              {props.registerBtn}
+
+              <h5 className='reg'>
+                Not a member? <a onClick={setFalse}>Register!</a>{' '}
+              </h5>
+            </form>
+          )}
         </div>
+      </div>
     </Fragment>
   );
 };
