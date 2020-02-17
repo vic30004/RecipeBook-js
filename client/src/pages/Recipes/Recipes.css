@@ -1,0 +1,68 @@
+#recipeSearch{
+    height: 50vh;
+    background: papayawhip;
+}
+
+#recipeSearch .search-container{
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    max-width: 1100px;
+    align-items: center;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+#recipeSearch .search-container img{
+    width: 250px;
+}
+
+#recipeSearch .search-container #search{
+    width: 400px;
+    height: 40px;
+    padding: 0 1rem;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    font-family: var(--san-serif-font);
+    font-size: 1.4rem;
+    transform: translateY(-20px);
+    margin-bottom: 1rem;
+    box-shadow: -3px 3px 5px lightgray;
+    transition: all 0.5s ease-in-out;
+}
+
+#recipeSearch .search-container #search:focus{
+    box-shadow: none;
+    transform: translateY(-18px);
+}
+
+#recipeSearch .search-container .searchBtn{
+    min-width: 100px;
+    max-width: 200px;
+    padding: 0.65rem ;
+    border:2px solid rgb(218, 171, 178);
+    border-radius: 20px;
+    outline: none;
+    background: rgb(218, 170, 177);
+    font-family: var(--serif-font);
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.2rem;
+    letter-spacing: 4px;
+    cursor: pointer;
+    transform: scale(1.1);
+    box-shadow: -5px 5px 7px lightgray;
+    transition: all 0.2s ease-out;
+}
+
+#recipeSearch .search-container .searchBtn:hover{
+    transform: scale(1);
+    box-shadow: -3px 3px 5px lightgray;
+}
+
+#recipeSearch .search-container .searchBtn:active{
+    transform: scale(0.9);
+    box-shadow: none;
+}

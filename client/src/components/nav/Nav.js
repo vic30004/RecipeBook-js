@@ -14,10 +14,10 @@ const Nav = () => {
             <div>
               <ul>
                 <li>
-                  <a href='/'>Home</a>{' '}
+                  <Link to='/'>Home</Link>{' '}
                 </li>
                 <li>
-                  <a href='#'>Recipes</a>{' '}
+                  <Link to='/recipes'>Recipes</Link>{' '}
                 </li>
                 <li>
                   <Link to='/login'>Login</Link>{' '}

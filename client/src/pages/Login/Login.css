@@ -310,7 +310,7 @@ and (max-device-width : 667px) {
     #register .container .form-container{
         flex-flow: column nowrap;
         /* justify-content: center; */
-        width: 250px;
+        /* width: 250px; */
     }
 
     #register .container .form-container input{
