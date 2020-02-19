@@ -71,10 +71,11 @@ export const Recipes = () => {
     <Fragment>
       <Nav />
       <div id='recipeSearch'>
+   
         <header className='search-container'>
-          <img src={Logo} alt='Logo' />
+        <h1 className="title">Recipe Book</h1>
           <SearchBar />
-          <button className='searchBtn'>Search</button>
+          <button className="searchBtn">Search</button>
         </header>
       </div>
 
