@@ -1,6 +1,7 @@
 import React from 'react';
 import './Header.css';
 import Nav from '../nav/Nav';
+import {Link} from 'react-router-dom'
 export const Header = () => {
   return (
     <div>
@@ -10,7 +11,7 @@ export const Header = () => {
         <div className='text-content'>
           <h1>RECIPE BOOK</h1>
           <p>Join to add your recipes and to find some delicious recipes!</p>
-          <button className='joinBtn'> <a href="/register">Join!</a> </button>
+          <button className='joinBtn'> <Link to="/register">Join!</Link> </button>
         </div>
       </div>
     </header>

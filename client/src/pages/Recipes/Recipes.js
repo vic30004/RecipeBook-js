@@ -7,6 +7,7 @@ import RecipeItems from './RecipeItems';
 export const Recipes = () => {
   const recipes = [
     {
+      id:1,
       title: 'BBQ Chicken',
       cookTime: '25 min',
       description: 'A juicy chicken with BBQ sauce.',
@@ -22,6 +23,7 @@ export const Recipes = () => {
         "Cook chicken until browned on both sides, make sure to season with salt and pepper. Combine the sauce and the galic and add to chicken. Cook on low heat for another 15 minutes and that's it!"
     },
     {
+      id:2,
         title: 'BBQ Chicken',
         cookTime: '25 min',
         description: 'A juicy chicken with BBQ sauce.',
@@ -37,6 +39,7 @@ export const Recipes = () => {
           "Cook chicken until browned on both sides, make sure to season with salt and pepper. Combine the sauce and the galic and add to chicken. Cook on low heat for another 15 minutes and that's it!"
       },
       {
+        id:3,
         title: 'BBQ Chicken',
         cookTime: '25 min',
         description: 'A juicy chicken with BBQ sauce.',
@@ -52,6 +55,7 @@ export const Recipes = () => {
           "Cook chicken until browned on both sides, make sure to season with salt and pepper. Combine the sauce and the galic and add to chicken. Cook on low heat for another 15 minutes and that's it!"
       },
       {
+        id:4,
         title: 'BBQ Chicken',
         cookTime: '25 min',
         description: 'A juicy chicken with BBQ sauce.',
@@ -82,7 +86,7 @@ export const Recipes = () => {
       <div id='results'>
         <div className='contaienr'>
         {recipes!==null? recipes.map(data=>(
-            <RecipeItems key={data.title} recipe={data}/>
+            <RecipeItems key={data.id} recipe={data}/>
         )):''}
         </div>
       </div>

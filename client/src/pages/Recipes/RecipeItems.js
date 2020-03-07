@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
+import {Link} from 'react-router-dom'
 const RecipeItems = ({ recipe }) => {
-    const {title,cookTime,img,description,ingredients,directions}= recipe
-  console.log(ingredients);
+    const {title,cookTime,img,description,ingredients,directions,id}= recipe
+  console.log(id);
   return <Fragment>{recipe ? 
     <div className="recipe-card">
     <div className="picture">
@@ -13,7 +14,7 @@ const RecipeItems = ({ recipe }) => {
     {description && (
         <p className="description">{description}</p>
     )}
-    
+    <Link to={id} className="recipeBtn">View Recipe</Link>
     </div>
 
 
