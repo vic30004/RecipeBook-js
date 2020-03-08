@@ -170,3 +170,40 @@ img{
     transform: translateY(2px);
     box-shadow: none;
 }
+
+/* Media */
+
+/* Ipad */
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px)  { 
+
+    #recipeSearch{
+        position: static;
+    }
+
+    #results{
+        height: 100%;
+        position: static;
+    }
+
+    #recipeSearch .search-container #search{
+        width: 200px;
+    }
+    #recipeSearch .search-container .title{
+        font-size: 1.5rem;
+    }
+    #results .contaienr .recipe-card{
+        flex-flow: row nowrap;
+        max-width: none;
+        max-height: 300px;
+    }
+    .picture{
+        height: 100%;
+        width: 60%;
+    }
+    img{
+        border-top-right-radius: none;
+    }
+}
