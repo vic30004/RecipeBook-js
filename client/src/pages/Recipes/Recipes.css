@@ -94,7 +94,7 @@
     padding: 2rem 3rem;
     margin:3rem;
     max-width: 2000px;
-    min-width: 400px;
+    min-width: 300px;
     margin:0 auto;
     height: 100%;
     display: flex;
@@ -205,5 +205,58 @@ and (max-device-width : 1024px)  {
     }
     img{
         border-top-right-radius: none;
+    }
+}
+
+/* Iphone X */
+
+@media only screen 
+and (min-device-width : 375px) 
+and (max-device-width : 812px)
+and (-webkit-device-pixel-ratio : 3) { 
+    #recipeSearch{
+        position: static;
+        min-height: 150px;
+        height: 170px;
+    }
+    #results{
+        height: 100%;
+        position: static;
+        margin: 0 auto;
+    }
+    #recipeSearch .search-container #search{
+        width: 50px;
+    }
+    #recipeSearch .search-container .title{
+        font-size: 1rem;
+    }
+
+    #recipeSearch .search-container{
+        flex-flow: column nowrap;
+        justify-content: flex-start;
+    }
+    #recipeSearch .search-container #search{
+        margin: 0.75rem;
+    }
+
+    #results .contaienr{
+        justify-content: center;
+        padding: 1rem 0;
+    }
+    #results .contaienr .recipe-card{
+        flex-flow: column nowrap;
+        width: 250px;
+        height: 300px;
+        margin:0.5rem;
+    }
+    .picture{
+        height: 40%;
+        width: 100%;
+    }
+    #results .contaienr .recipe-card .recipe-content .title{
+        font-size: 1rem;
+    }
+    #results .contaienr .recipe-card .recipe-content{
+        font-size: 1rem;
     }
 }
