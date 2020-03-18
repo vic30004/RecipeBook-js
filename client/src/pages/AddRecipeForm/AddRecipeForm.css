@@ -1,0 +1,44 @@
+#emptyDiv{
+    background-color: brown;
+    height: 50vh;
+}
+
+#recipeForm{
+height: 50vh;
+}
+
+#recipeForm .form-container{
+    max-width: 1100px;
+    margin: 0 auto;
+
+}
+
+#recipeForm .form-container .form-content{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    transform: translateY(-50%);
+    background: whitesmoke;
+    max-width: 300px;
+    text-align: center;
+    height: 500px;
+    margin: auto;
+    border-radius: 10px;
+}
+
+#title,#cookTime,#indgredients{
+    width: 220px;
+}
+
+input,textarea{
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    margin: 0.5rem 0;
+    border: none;
+    outline: none;
+    font-family: var(--san-serif-font);
+    resize: none;
+}
