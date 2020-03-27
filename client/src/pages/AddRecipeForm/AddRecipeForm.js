@@ -22,13 +22,21 @@ const ingInput = (num)=>{
   for(let i =0; i<num;i++){
     data.push(<input
     type='text'
-    name='cookTime'
-    placeholder='Cook Time'
-    id='cookTime'
+    name='ingredients'
+    placeholder='Ingredients'
+    id='ingredients'
     required
   />)
 }
+console.log(data)
  return data
+}
+const addInp=(e)=>{
+  e.preventDefault();
+  setNum(num+1)
+  
+  
+  ingInput(num)
 }
 
   return (
@@ -47,7 +55,6 @@ const ingInput = (num)=>{
               required
             />
           </label>
-          <input type='text' placeholder='0' onChange={e => setNum(e.target.value)} />
           <label>
             Cook Time*<br></br>
             <input
@@ -59,9 +66,10 @@ const ingInput = (num)=>{
             />
           </label>
           <label>
-            Ingredients*<br></br>
-           {ingInput(num)}
+          {ingInput(num)}           
           </label>
+          <button onClick={e=>addInp(e)}>Ingredients+*</button>  <br></br>
+
           <label>
             Description<br></br>
             <textarea
