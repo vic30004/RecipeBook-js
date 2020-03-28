@@ -16,7 +16,7 @@ const startServer = async () => {
     console.log(err);
   }
 };
-startServer();
+// startServer();
 const PORT = 5000;
 
 // File upload

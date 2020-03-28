@@ -2,44 +2,46 @@ import React, { Fragment, useState } from 'react';
 import './AddRecipeForm.css';
 const AddRecipeForm = () => {
   const [num, setNum] = useState(0);
-//   const dynamicIng =[];
-//   const generateIng = e => {
+  const [formData,setFormData] = useState()
 
-//     if (e.target.value !== 0 || e.target.value < 20) {
-//       for (let i = 0; i < e.target.value; i++) {
-//     dynamicIng.push(<li>test</li>)
-          
-//     }
-//     console.log(dynamicIng)
-//   };
-// }
+  const ingInput = num => {
+    const data = [];
+   
+    for (let i = 0; i < num; i++) {
+      data.push(
+        <input
+          type='text'
+          name='ingredients'
+          placeholder='Ingredients'
+          id='ingredients'
+          key={Math.floor(Math.random()*100)+1}
+          value={formData}
+          onChange={e=>
+            onChange(e)
+          }
+          required
+        />
+      );
+    }
+    console.log(data);
+    return data;
+  };
+  const addInp = e => {
+    e.preventDefault();
+    setNum(num + 1);
 
-const ingInput = (num)=>{
-    const data=[]
-  if(num===0 || num>20){
-      return
+    ingInput(num);
+  };
+
+  const onChange = e =>{
+    const ing=e.target.value;
+    setFormData({ ...formData, ...formData.concat(e.target.value)});
   }
-  for(let i =0; i<num;i++){
-    data.push(<input
-    type='text'
-    name='ingredients'
-    placeholder='Ingredients'
-    id='ingredients'
-    required
-  />)
-}
-console.log(data)
- return data
-}
-const addInp=(e)=>{
-  e.preventDefault();
-  setNum(num+1)
-  
-  
-  ingInput(num)
-}
 
   return (
+    <div className="wrapper">
+    
+    
     <div id='recipeForm'>
       <div id='emptyDiv'></div>
       <div className='form-container'>
@@ -65,11 +67,16 @@ const addInp=(e)=>{
               required
             />
           </label>
-          <label>
-          {ingInput(num)}           
+          <label>Ingredients<br></br>
+          <textarea name=''
+          id=''
+          cols='30'
+          rows='4'
+          placeholder='Ingredients'></textarea>
+          
           </label>
-          <button onClick={e=>addInp(e)}>Ingredients+*</button>  <br></br>
 
+          
           <label>
             Description<br></br>
             <textarea
@@ -82,21 +89,25 @@ const addInp=(e)=>{
           </label>
           <label htmlFor=''>Picture</label>
           <input type='file' name='picture' id='pic' />
-          <div className='check'>
-            <label htmlFor=''>
+          <div className='check-container'>
+            <label className='check-container'>
               Public
-              <input type='checkbox' />
+              <input type='checkbox'/>
+              <span class="checkmark"></span>
+
             </label>
 
-            <label htmlFor=''>
+            <label className='check-container'>
               Private
               <input type='checkbox' />
+              <span class="checkmark"></span>
+
             </label>
           </div>
-
-          <button>Add</button>
+          <button className="addBtn">Add</button>
         </form>
       </div>
+    </div>
     </div>
   );
 };
