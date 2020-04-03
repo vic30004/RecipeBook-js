@@ -5,7 +5,7 @@ export const DashboardHeader = styled.section`
 display:flex;
 justify-content:flex-start;
 align-items:center;
-height:30vh;
+height:40vh;
 background:#333;
 color:#fff;
 `
