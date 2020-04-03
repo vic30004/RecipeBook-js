@@ -5,16 +5,16 @@ const ButtonContainer = () => {
   return (
     <Fragment>
       <DashboardBtnContainer>
-        <DashboardButton>
+        <DashboardButton color="#d03e43">
           <i class='fas fa-carrot fa-4x'></i>
           <p>All Recipes</p>
         </DashboardButton>
-        <DashboardButton color='purple'>
+        <DashboardButton color='#ff7e9f'>
           <i class='fas fa-user-edit fa-4x'></i>
 
           <p>Edit Account</p>
         </DashboardButton>
-        <DashboardButton color='green'>
+        <DashboardButton color='#fedb94'>
           <i class='fas fa-plus fa-4x'></i>
 
           <p>Add Recipe</p>
@@ -32,7 +32,7 @@ const ButtonContainer = () => {
 const DashboardBtnContainer = styled.section`
   max-width: 100%;
   width: 800px;
-  background: grey;
+  background: #eff3f6;
   margin: 0 auto;
   height: 300px;
   transform: translateY(-50%);

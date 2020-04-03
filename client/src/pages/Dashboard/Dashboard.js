@@ -1,24 +1,23 @@
 import React from 'react';
-import { DashboardHeader, DahsboardContainer } from './DashboardHeader';
+import { DashboardHeader, DahsboardContainer,Wrapper } from './DashboardHeader';
 import ButtonContainer from '../../components/DashboardButtonContainer/ButtonContainer'
+import Nav from '../../components/nav/Nav'
 const Dashboard = () => {
   return (
-    <div>
+    <Wrapper >
+    <Nav/>
       <DashboardHeader>
         <DahsboardContainer className='container'>
-          <img
-            src='https://randomuser.me/api/portraits/men/72.jpg'
-            alt='user'
-          />
+         
           <div className='text-container'>
+          <h1>Welcome to your dashboard</h1>
             <h2>John Doe</h2>
-            <p>Dashboard</p>
           </div>
         </DahsboardContainer>
       </DashboardHeader>
         <ButtonContainer/>
      
-    </div>
+    </Wrapper>
   );
 };
 
