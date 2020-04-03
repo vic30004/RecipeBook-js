@@ -4,12 +4,30 @@ const ButtonContainer = () => {
     return (
         <Fragment>
         <div className="button-container">
-        <div className="main-container">
+        <button className="main-container">
           <div>
           <i class="fas fa-carrot fa-4x"></i>
               Recipe
           </div>
-        </div>
+        </button>
+        <button className="main-container">
+          <div>
+          <i class="fas fa-carrot fa-4x"></i>
+              Recipe
+          </div>
+        </button>
+        <button className="main-container">
+          <div>
+          <i class="fas fa-carrot fa-4x"></i>
+              Recipe
+          </div>
+        </button>
+        <button className="main-container">
+          <div>
+          <i class="fas fa-carrot fa-4x"></i>
+              Recipe
+          </div>
+        </button>
         </div>
         </Fragment>
     )
