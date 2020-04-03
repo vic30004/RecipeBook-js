@@ -5,6 +5,7 @@ import './App.css';
 import Login from './pages/Login/Login';
 import Recipes from './pages/Recipes/Recipes'
 import AddRecipeForm from './pages/AddRecipeForm/AddRecipeForm';
+import Dashboard from './pages/Dashboard/Dashboard';
 export const App = () => {
   return (
     <Router>
@@ -14,6 +15,7 @@ export const App = () => {
     <Route exact path="/register" component={Login}/>
     <Route exact path="/recipes" component={Recipes}/>
     <Route exact path="/addRecipe" component={AddRecipeForm}/>
+    <Route exact path='/dashboard' component={Dashboard}/>
     </Switch>
    
     <div>
