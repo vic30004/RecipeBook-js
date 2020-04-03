@@ -57,5 +57,19 @@ const DashboardButton = styled.div`
   height: 150px;
   clip-path: circle(50% at 50% 50%);
   cursor: pointer;
+  font-family:var(--serif-font);
+  padding:0.5rem;
+  transition: all 0.3s ease;
+p{
+    font-size:1.2rem;
+    margin:0.5rem 0;
+}
+:hover{
+    transform:scale(1.1);
+}
+:focus{
+    outline:none;
+}
 `;
+
 export default ButtonContainer;
