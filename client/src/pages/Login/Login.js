@@ -75,7 +75,7 @@ const Login = (props) => {
               registerBtn={registerBtn}
               notMbr={notMbr}
               param={props.match}
-
+              history= {props.history}
             />
           </div>
         </div>
