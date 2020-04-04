@@ -6,8 +6,10 @@ import Login from './pages/Login/Login';
 import Recipes from './pages/Recipes/Recipes'
 import AddRecipeForm from './pages/AddRecipeForm/AddRecipeForm';
 import Dashboard from './pages/Dashboard/Dashboard';
+import AuthState from './components/context/auth/AuthState';
 export const App = () => {
   return (
+    <AuthState>
     <Router>
     <Switch>
     <Route exact path ="/" component = {Header}/>
@@ -22,7 +24,7 @@ export const App = () => {
      
     </div>
  </Router>
-
+</AuthState>
   );
 };
 
