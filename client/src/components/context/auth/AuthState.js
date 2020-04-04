@@ -70,4 +70,15 @@ if(errors){
 
 }
 
+const setAlert = (msg,alertType) =>{
+    const id =uuid.v4();
+    return dispatch({
+        type:SET_ALERT,
+        payload: {msg,alertType,id}
+    })
+  }
+
+  const removeAlert = () =>dispatch({ type:REMOVE_ALERT})
+
+
 }
