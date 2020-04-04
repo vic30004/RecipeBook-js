@@ -41,7 +41,7 @@ const AuthState = (props) => {
     }
 
     try{
-      const res = await axios.get('/api/auth');
+      const res = await axios.get('/api/register/auth');
 
       dispatch({
         type:USER_LOADED,

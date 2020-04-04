@@ -1,10 +1,18 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState,useContext,useEffect } from 'react';
 import './Card.css';
-
+import AuthContext from '../../components/context/auth/AuthContext';
 const Card = props => {
   const flip = 'flip';
 
   const [clicked, setClicked] = useState();
+  const [formData,setFormData]= useState({
+    username:'',
+    firstName:'',
+    lastName:'',
+    email:'',
+    password:''
+  })
+
 
   const setTrue = e => {
     e.preventDefault();
