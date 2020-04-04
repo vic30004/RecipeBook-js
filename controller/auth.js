@@ -1,5 +1,6 @@
 const client = require('../config/db');
 const bcrypt = require('bcrypt');
+const asyncHandler = require('../middleware/async')
 const jwt = require('jsonwebtoken');
 
 // check entered password vs hashed password
@@ -130,6 +131,31 @@ exports.getSingleUser = (req, res) => {
     res.status(400).send({ error: err.message });
   }
 };
+
+exports.getUser = asyncHandler(async(req,res,next)=>{
+  const id = jwt.verify(req.token, 'dasdfc', (err, authData) => {
+    if (err) {
+      res.sendStatus(403);
+      console.log(err);
+      return;
+    } else {
+      return authData.id;
+    }
+  });
+  const query = 'SELECT user_id,user_name,first_name,last_name,email FROM Users where user_id =$1'
+  const value = [id]
+  try {
+    client.query(query,value,async(err,user)=>{
+      if(err){
+       console.log(err.message)
+      }else{
+        res.status(200).json({sucess:true,data:user.rows})
+      }
+    })
+  } catch (error) {
+    res.status(403).send({message:error.message})
+  }
+})
 
 
 function upperFirstChar(str){
