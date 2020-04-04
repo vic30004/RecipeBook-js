@@ -6,21 +6,21 @@ const ButtonContainer = () => {
     <Fragment>
       <DashboardBtnContainer>
         <DashboardButton color="#d03e43">
-          <i class='fas fa-carrot fa-4x'></i>
+          <i class='fas fa-carrot fa-2x'></i>
           <p>All Recipes</p>
         </DashboardButton>
         <DashboardButton color='#ff7e9f'>
-          <i class='fas fa-user-edit fa-4x'></i>
+          <i class='fas fa-user-edit '></i>
 
           <p>Edit Account</p>
         </DashboardButton>
         <DashboardButton color='#fedb94'>
-          <i class='fas fa-plus fa-4x'></i>
+          <i class='fas fa-plus'></i>
 
           <p>Add Recipe</p>
         </DashboardButton>
         <DashboardButton color='ivory'>
-          <i class='fas fa-sign-out-alt fa-4x'></i>
+          <i class='fas fa-sign-out-alt '></i>
 
           <p>Sign Out</p>
         </DashboardButton>
@@ -42,6 +42,15 @@ const DashboardBtnContainer = styled.section`
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+  padding:1rem;
+
+  @media(max-width:600px){
+    flex-flow: row wrap;
+    width:400px;
+    height:200px;
+    transform:translateY(-20%);
+    padding:0.5rem 0;
+  }
 `;
 
 const DashboardButton = styled.div`
@@ -64,11 +73,23 @@ p{
     font-size:1.2rem;
     margin:0.5rem 0;
 }
+i{
+  font-size:1.2rem;
+}
 :hover{
     transform:scale(1.1);
 }
 :focus{
     outline:none;
+}
+
+@media (max-width:600px){
+  width:80px;
+  height:80px;
+  margin:0 0.5rem;
+  p{
+    font-size:0.75rem;
+  }
 }
 `;
 

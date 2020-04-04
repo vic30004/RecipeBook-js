@@ -43,4 +43,13 @@ h1{
     width:100%;
     margin-left:1rem;
 }
+
+@media (max-width:800px){
+    h2{
+        font-size:1.5rem;
+    }
+    h1{
+        font-size:2rem;
+    }
+}
 `
