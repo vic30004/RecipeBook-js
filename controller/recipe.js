@@ -75,10 +75,8 @@ exports.getAllRecipes = asyncHandler(async (req, res, next) => {
     res
       .status(200)
       .send({ sucess: true, count: table.rows.length, message: table.rows });
-    client.end();
   } catch (error) {
     res.status(500).send({ erorr: error.message });
-    client.end();
   }
 });
 

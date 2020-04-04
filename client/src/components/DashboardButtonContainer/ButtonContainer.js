@@ -74,7 +74,7 @@ p{
     margin:0.5rem 0;
 }
 i{
-  font-size:1.2rem;
+  font-size:4rem;
 }
 :hover{
     transform:scale(1.1);
@@ -89,6 +89,9 @@ i{
   margin:0 0.5rem;
   p{
     font-size:0.75rem;
+  }
+  i{
+    font-size:1.2rem;
   }
 }
 `;
