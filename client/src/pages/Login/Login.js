@@ -45,6 +45,7 @@ const Login = (props) => {
       id='password'
       minLength='6'
       required
+      
     />
   );
 

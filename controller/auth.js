@@ -41,6 +41,7 @@ const sendTokenResponse = (statusCode, id, res) => {
 exports.register = async (req, res) => {
   const {firstName,lastName,email}=req.body
   const salt = 10;
+  console.log(req.body)
   let first= upperFirstChar(firstName);
   let username = req.body.username.toLowerCase();
   let password = req.body.password;

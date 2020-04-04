@@ -57,14 +57,14 @@ const AuthState = (props) => {
 
 
   //REGISTER USER,
-  const registerUser = async ({ name, email, username, password }) => {
+  const registerUser = async ({ firstName,lastName, email, username, password }) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
 
-    const body = JSON.stringify({ name, email, username, password });
+    const body = JSON.stringify({ firstName,lastName, email, username, password });
 
     try {
       const res = await axios.post('/api/register', body, config);
