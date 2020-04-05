@@ -32,39 +32,48 @@ const AuthState = (props) => {
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
-
   // Load user
 
-  const loadUser = async()=>{
-    if(localStorage.token){
-      setAuthToken(localStorage.token)
+  const loadUser = async () => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
     }
 
-    try{
+    try {
       const res = await axios.get('/api/register/auth');
 
       dispatch({
-        type:USER_LOADED,
-        payload:res.data
-      })
-    }catch(err){
+        type: USER_LOADED,
+        payload: res.data,
+      });
+    } catch (err) {
       dispatch({
-        type:AUTH_ERROR
-      })
+        type: AUTH_ERROR,
+      });
     }
-
-  }
-
+  };
 
   //REGISTER USER,
-  const registerUser = async ({ firstName,lastName, email, username, password }) => {
+  const registerUser = async ({
+    firstName,
+    lastName,
+    email,
+    username,
+    password,
+  }) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
 
-    const body = JSON.stringify({ firstName,lastName, email, username, password });
+    const body = JSON.stringify({
+      firstName,
+      lastName,
+      email,
+      username,
+      password,
+    });
 
     try {
       const res = await axios.post('/api/register', body, config);
@@ -88,6 +97,39 @@ const AuthState = (props) => {
     }
   };
 
+  const login = async ({username,password}) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const body = JSON.stringify({ username, password });
+    console.log(body)
+    try {
+      const res = await axios.post('/api/register/user', body, config);
+
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data,
+      });
+      loadUser();
+    } catch (err) {
+      const errors = err.response.data.error;
+
+      if (errors) {
+        setAlert(errors, 'danger');
+        setTimeout(() => {
+          removeAlert();
+        }, 5000);
+      }
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: err.response.data.error,
+      });
+    }
+  };
+
   const setAlert = (msg, alertType) => {
     const id = uuid.v4();
     return dispatch({
@@ -103,9 +145,11 @@ const AuthState = (props) => {
       value={{
         users: state.users,
         errorState: state.errorState,
+        token: state.token,
         registerUser,
         setAlert,
         loadUser,
+        login,
         removeAlert,
         user: state.user,
         isAuthenticated: state.isAuthenticated,
@@ -116,4 +160,4 @@ const AuthState = (props) => {
   );
 };
 
-export default AuthState
+export default AuthState;

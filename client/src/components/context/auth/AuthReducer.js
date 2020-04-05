@@ -19,6 +19,7 @@ import {
     switch (type) {
 
     case REGISTER_USER:
+      case LOGIN_SUCCESS:
         localStorage.setItem('token',payload.token);
         return{
             ...state,
@@ -27,6 +28,16 @@ import {
             loading:true
         }
 
+        case REGISTER_FAIL:
+      case LOGIN_FAIL:
+       localStorage.removeItem('token');
+       return{
+        ...state,
+        token:null,
+        isAuthenticated:false,
+        loading: false,
+        user:null,
+       }
         case SET_ALERT:
             return {
               ...state,

@@ -1,7 +1,20 @@
-import React, { Fragment } from 'react';
+import React, { Fragment,useContext  } from 'react';
 import {Link} from 'react-router-dom'
+import AuthContext from "../context/auth/AuthContext";
 import './Nav.css';
 const Nav = () => {
+
+  const authContext = useContext(AuthContext);
+  const { isAuthenticated, logout, user } = authContext;
+
+  const guestLink= (
+    <Link to='/login'>Login</Link>
+  )
+  
+  const authLink = (
+    <Link to='#'>Logout</Link>
+  )
+
   return (
     <Fragment>
       <div className='menu-wrap'>
@@ -20,7 +33,7 @@ const Nav = () => {
                   <Link to='/recipes'>Recipes</Link>{' '}
                 </li>
                 <li>
-                  <Link to='/login'>Login</Link>{' '}
+                 {isAuthenticated?authLink:guestLink}
                 </li>
               </ul>
             </div>

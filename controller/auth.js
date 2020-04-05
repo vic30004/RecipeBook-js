@@ -107,6 +107,7 @@ exports.getUsers = (req, res) => {
 // @acess   Private
 
 exports.getSingleUser = (req, res) => {
+  console.log(req.body)
   let username = req.body.username.toLowerCase();
   let password = req.body.password;
   let queryStrin = 'SELECT * FROM users WHERE user_name=$1 ';
