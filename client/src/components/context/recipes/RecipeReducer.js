@@ -9,6 +9,13 @@ export default (state, action) => {
         recipes: payload,
         loading: false,
       };
+    
+    case RECIPE_ERROR:
+        return{
+            ...state,
+            errorState:payload,
+            loading:false
+        }
 
     case SET_ALERT:
       return {
