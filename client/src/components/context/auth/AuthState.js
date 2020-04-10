@@ -33,20 +33,27 @@ const AuthState = (props) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
   // Load user
+ 
 
   const loadUser = async () => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
-
     try {
-      const res = await axios.get('/api/register/auth');
-
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${localStorage.token}`,
+        },
+      };
+      console.log(localStorage.token)
+      const res = await axios.get('/api/register/auth',config);
+      console.log(res.data)
       dispatch({
         type: USER_LOADED,
         payload: res.data,
       });
     } catch (err) {
+      console.log(err.stack)
       dispatch({
         type: AUTH_ERROR,
       });
@@ -105,7 +112,6 @@ const AuthState = (props) => {
     };
 
     const body = JSON.stringify({ username, password });
-    console.log(body)
     try {
       const res = await axios.post('/api/register/user', body, config);
 
@@ -115,7 +121,7 @@ const AuthState = (props) => {
       });
       loadUser();
     } catch (err) {
-      const errors = err.response.data.error;
+      const errors = err.response;
 
       if (errors) {
         setAlert(errors, 'danger');

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useContext,useEffect} from 'react';
 import { BrowserRouter as Router, Route, Switch  } from "react-router-dom";
 import Header from './components/header/Header';
 import './App.css';
@@ -8,7 +8,9 @@ import AddRecipeForm from './pages/AddRecipeForm/AddRecipeForm';
 import Dashboard from './pages/Dashboard/Dashboard';
 import AuthState from './components/context/auth/AuthState';
 import PrivateRoute from './components/Routing/PrivateRoute';
+
 export const App = () => {
+
   return (
     <AuthState>
     <Router>

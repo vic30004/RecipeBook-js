@@ -1,8 +1,18 @@
-import React from 'react';
+import React, {useContext,useEffect} from 'react';
 import { DashboardHeader, DahsboardContainer,Wrapper } from './DashboardHeader';
 import ButtonContainer from '../../components/DashboardButtonContainer/ButtonContainer'
 import Nav from '../../components/nav/Nav'
-const Dashboard = () => {
+import AuthContext from '../../components/context/auth/AuthContext'
+const Dashboard = (props) => {
+  const authContext = useContext(AuthContext);
+  const {loadUser,isAuthenticated} = authContext;
+
+  useEffect(()=>{
+    if(localStorage.token){
+      loadUser();
+    }
+  },[])
+
   return (
     <Wrapper >
     <Nav/>

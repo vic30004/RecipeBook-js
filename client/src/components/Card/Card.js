@@ -4,7 +4,7 @@ import AuthContext from '../../components/context/auth/AuthContext';
 const Card = (props) => {
   const flip = 'flip';
 
-  const [clicked, setClicked] = useState();
+  const [clicked, setClicked] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
     firstName: '',

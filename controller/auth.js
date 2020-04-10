@@ -17,7 +17,6 @@ const getSignedJwtToken = id => {
 
 // Retrieve JWT using user ID
 const sendTokenResponse = (statusCode, id, res) => {
-  console.log(id,'From jwt')
   const token = getSignedJwtToken(id);
   const options = {
     expires: new Date(Date.now() + 3110400000),
@@ -107,12 +106,10 @@ exports.getUsers = (req, res) => {
 // @acess   Private
 
 exports.getSingleUser = (req, res) => {
-  console.log(req.body)
   let username = req.body.username.toLowerCase();
   let password = req.body.password;
-  let queryStrin = 'SELECT * FROM users WHERE user_name=$1 ';
+  let queryStrin = 'SELECT * FROM Users WHERE user_name=$1 ';
   let values = [username];
-
   try {
     client.query(queryStrin, values, async (err, user) => {
       if (err) {
@@ -135,6 +132,7 @@ exports.getSingleUser = (req, res) => {
 };
 
 exports.getUser = asyncHandler(async(req,res,next)=>{
+  console.log(req.body)
   const id = jwt.verify(req.token, 'dasdfc', (err, authData) => {
     if (err) {
       res.sendStatus(403);
@@ -144,6 +142,8 @@ exports.getUser = asyncHandler(async(req,res,next)=>{
       return authData.id;
     }
   });
+    console.log(id)
+
   const query = 'SELECT user_id,user_name,first_name,last_name,email FROM Users where user_id =$1'
   const value = [id]
   try {
@@ -151,10 +151,13 @@ exports.getUser = asyncHandler(async(req,res,next)=>{
       if(err){
        console.log(err.message)
       }else{
+      
         res.status(200).json({sucess:true,data:user.rows})
       }
     })
   } catch (error) {
+    console.log(err.message)
+
     res.status(403).send({message:error.message})
   }
 })
