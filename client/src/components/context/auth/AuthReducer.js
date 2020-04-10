@@ -7,6 +7,8 @@ import {
   AUTH_ERROR,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
+  CLEAR_PROFILE,
+  PROFILE_ERROR,
   LOGOUT,
   DELETE,
 } from '../types';
@@ -40,6 +42,16 @@ export default (state, action) => {
         isAuthenticated: true,
         loading: true,
       };
+
+      case LOGOUT: 
+      localStorage.removeItem('token');
+      return{
+       ...state,
+       token:null,
+       isAuthenticated:false,
+       loading: false,
+       user:null,
+      }
 
     case REGISTER_FAIL:
     case LOGIN_FAIL:

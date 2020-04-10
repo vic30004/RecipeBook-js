@@ -33,7 +33,6 @@ const AuthState = (props) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
   // Load user
- 
 
   const loadUser = async () => {
     if (localStorage.token) {
@@ -45,9 +44,7 @@ const AuthState = (props) => {
           'Authorization': `Bearer ${localStorage.token}`,
         },
       };
-      console.log(localStorage.token)
       const res = await axios.get('/api/register/auth',config);
-      console.log(res.data)
       dispatch({
         type: USER_LOADED,
         payload: res.data,
@@ -104,6 +101,8 @@ const AuthState = (props) => {
     }
   };
 
+  // Login user
+
   const login = async ({username,password}) => {
     const config = {
       headers: {
@@ -136,6 +135,16 @@ const AuthState = (props) => {
     }
   };
 
+  // Log out user
+  const logout = ()=>{
+
+    dispatch({
+      type:LOGOUT
+    })
+   
+  }
+
+  // Set Alert TODO add this to dom
   const setAlert = (msg, alertType) => {
     const id = uuid.v4();
     return dispatch({
@@ -157,6 +166,7 @@ const AuthState = (props) => {
         loadUser,
         login,
         removeAlert,
+        logout,
         user: state.user,
         isAuthenticated: state.isAuthenticated,
       }}

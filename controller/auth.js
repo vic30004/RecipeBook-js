@@ -142,7 +142,6 @@ exports.getUser = asyncHandler(async(req,res,next)=>{
       return authData.id;
     }
   });
-    console.log(id)
 
   const query = 'SELECT user_id,user_name,first_name,last_name,email FROM Users where user_id =$1'
   const value = [id]
