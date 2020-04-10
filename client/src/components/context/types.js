@@ -15,3 +15,4 @@ export const SET_ALERT = 'SET_ALERT';
 
 // Recipe
 export const SHOW_RECIPES = 'SHOW_RECIPES'
+export const RECIPE_ERROR = 'RECIPE_ERROR'
