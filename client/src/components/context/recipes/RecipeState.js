@@ -23,7 +23,7 @@ const showRecipes = async ()=>{
         const res = await axios.get('/api/recipes');
         dispatch({
             type: SHOW_RECIPES,
-            payload:res.data
+            payload:res.data.message
         })
     } catch (error) {
         const errors = error.response;
@@ -36,7 +36,7 @@ const showRecipes = async ()=>{
       }
       dispatch({
         type: RECIPE_ERROR,
-        payload: error.response.data.error,
+        payload: error.message
       });
     }
 }
@@ -59,7 +59,8 @@ const showRecipes = async ()=>{
           recipe: state.recipe,
           loading:state.loading,
           error:state.error,
-          errorState: state.errorState
+          errorState: state.errorState,
+          showRecipes
       }}
       >
       {props.children}
