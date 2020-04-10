@@ -7,12 +7,16 @@ const Nav = () => {
   const authContext = useContext(AuthContext);
   const { isAuthenticated, logout, user } = authContext;
 
+  const onLogout=()=>{
+    logout();
+  }
+
   const guestLink= (
     <Link to='/login'>Login</Link>
   )
   
   const authLink = (
-    <Link to='#'>Logout</Link>
+    <Link onClick={onLogout}>Logout</Link>
   )
 
   return (

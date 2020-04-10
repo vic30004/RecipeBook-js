@@ -5,7 +5,7 @@ import Nav from '../../components/nav/Nav'
 import AuthContext from '../../components/context/auth/AuthContext'
 const Dashboard = (props) => {
   const authContext = useContext(AuthContext);
-  const {loadUser,isAuthenticated} = authContext;
+  const {loadUser,isAuthenticated,logout} = authContext;
 
   useEffect(()=>{
     if(localStorage.token){
@@ -25,7 +25,7 @@ const Dashboard = (props) => {
           </div>
         </DahsboardContainer>
       </DashboardHeader>
-        <ButtonContainer/>
+        <ButtonContainer logout={logout}/>
      
     </Wrapper>
   );
