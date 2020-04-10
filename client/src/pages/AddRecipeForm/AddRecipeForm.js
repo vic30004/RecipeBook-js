@@ -1,10 +1,14 @@
 import React, { Fragment, useState, useContext, useEffect } from 'react';
 import './AddRecipeForm.css';
 import AuthContext from '../../components/context/auth/AuthContext';
-
+import RecipeContext from '../../components/context/recipes/RecipeContext'
 const AddRecipeForm = (props) => {
   const authContext = useContext(AuthContext);
+  const recipeContext = useContext(RecipeContext);
+
   const { loadUser, isAuthenticated } = authContext;
+  const {addRecipe,loading} = recipeContext
+
 
   useEffect(() => {
     if (localStorage.token) {
@@ -20,19 +24,44 @@ const AddRecipeForm = (props) => {
     directions: '',
     ingredients: '',
     description: '',
-    picture: '',
+    picture:[],
   });
   const { title, cookTime, directions, ingredients,description, picture } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+    const handleImage = (e)=>{
+      e.preventDefault();
+      console.log(e.target.files[0])
+      setFormData({...formData,picture:[e.target.files[0]]})
+    }
+
+  const onSubmit = (e)=>{
+    e.preventDefault();
+    try {
+      addRecipe({
+        title, 
+        cookTime,
+        directions,
+        ingredients,
+        description,
+        picture
+
+      })
+      props.history.push('/recipes')
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+
   return (
     <div className='wrapper'>
       <div id='recipeForm'>
         <div id='emptyDiv'></div>
         <div className='form-container'>
-          <form action='' className='form-content'>
+          <form className='form-content' onSubmit={(e)=>onSubmit(e)}> 
             <h2>Add Recipe</h2>
             <label>
               Title* <br></br>
@@ -83,8 +112,20 @@ const AddRecipeForm = (props) => {
                 onChange={(e) => onChange(e)}
               ></textarea>
             </label>
+            <label>
+              Directions<br></br>
+              <textarea
+                name='directions'
+                id='directions'
+                cols='30'
+                rows='4'
+                placeholder='Directions'
+                value={directions}
+                onChange={(e) => onChange(e)}
+              ></textarea>
+            </label>
             <label htmlFor=''>Picture</label>
-            <input type='file' name='picture' value={picture} id='pic' onChange={(e) => onChange(e)} />
+            <input type='file' name='picture' id='pic' onChange={(e) => handleImage(e)} />
 
             <button className='addBtn'>Add</button>
           </form>

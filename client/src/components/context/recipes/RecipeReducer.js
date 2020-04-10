@@ -1,4 +1,4 @@
-import { SHOW_RECIPES, SET_ALERT, REMOVE_ALERT, RECIPE_ERROR } from '../types';
+import { SHOW_RECIPES, SET_ALERT, REMOVE_ALERT, RECIPE_ERROR,ADD_RECIPE } from '../types';
 
 export default (state, action) => {
   const { type, payload } = action;
@@ -16,6 +16,13 @@ export default (state, action) => {
             errorState:payload,
             loading:false
         }
+
+    case ADD_RECIPE:
+      return{
+        ...state,
+        recipes: [payload,...state.recipes],
+        loading:false
+      }
 
     case SET_ALERT:
       return {

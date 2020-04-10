@@ -29,6 +29,7 @@ exports.addRecipe = asyncHandler(async (req, res, next) => {
         return authData.id;
       }
     });
+    console.log(id)
     const queryString = `INSERT INTO Recipe(user_id,title,cook_time,description,directions,picture_name) VALUES($1,$2,$3,$4,$5,$6) RETURNING *`;
     const values = [
       id,
