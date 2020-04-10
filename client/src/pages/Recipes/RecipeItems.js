@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import {Link} from 'react-router-dom'
 const RecipeItems = ({ recipe }) => {
-    const {title,cookTime,picture_name,description,ingredients,directions,id}= recipe
+    const {title,cook_time,picture_name,description,ingredients,directions,id}= recipe
   return <Fragment>{recipe ? 
     <div className="recipe-card">
     <div className="picture">
@@ -9,7 +9,7 @@ const RecipeItems = ({ recipe }) => {
     </div>
     <div className="recipe-content">
         <h3 className="title">{title}</h3>
-    <h4 id="cookTime">Cook Time: {cookTime}</h4>
+    <h4 id="cookTime">Cook Time: {cook_time}</h4>
     {description && (
         <p className="description">{description}</p>
     )}

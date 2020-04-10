@@ -131,7 +131,7 @@ exports.getUsersRecipe = asyncHandler(async (req, res, next) => {
   }
 });
 
-// TODO add function to update recipe
+// function to update recipe
 exports.updateRecipe = asyncHandler(async (req, res, next) => {
   const { title, cook_time, description, directions, ingredient } = req.body;
   const { id } = req.params;
