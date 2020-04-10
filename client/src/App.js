@@ -8,11 +8,13 @@ import AddRecipeForm from './pages/AddRecipeForm/AddRecipeForm';
 import Dashboard from './pages/Dashboard/Dashboard';
 import AuthState from './components/context/auth/AuthState';
 import PrivateRoute from './components/Routing/PrivateRoute';
+import RecipeState from './components/context/recipes/RecipeState';
 
 export const App = () => {
 
   return (
     <AuthState>
+    <RecipeState>
     <Router>
     <Switch>
     <Route exact path ="/" component = {Header}/>
@@ -29,6 +31,7 @@ export const App = () => {
      
     </div>
  </Router>
+ </RecipeState>
 </AuthState>
   );
 };

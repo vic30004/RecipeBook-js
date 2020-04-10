@@ -8,15 +8,12 @@ import {
   REGISTER_USER,
   REGISTER_FAIL,
   SET_ALERT,
-  CLEAR_PROFILE,
-  PROFILE_ERROR,
   REMOVE_ALERT,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT,
-  DELETE,
+  LOGOUT
 } from '../types';
 
 const AuthState = (props) => {
