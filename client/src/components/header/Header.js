@@ -4,7 +4,7 @@ import Nav from '../nav/Nav';
 import { Link } from 'react-router-dom';
 import AuthContext from '../context/auth/AuthContext';
 
-export const Header = () => {
+export const Header = (props) => {
   const authContext = useContext(AuthContext);
   const { loadUser,isAuthenticated } = authContext;
 
@@ -12,8 +12,11 @@ export const Header = () => {
     if (localStorage.token) {
       loadUser();
       //eslint-disable-next-line
+      if (isAuthenticated) {
+        props.history.push('/dashboard');
+      }
     }
-  }, []);
+  }, [isAuthenticated, props]);
   return (
     <div>
       <Nav />

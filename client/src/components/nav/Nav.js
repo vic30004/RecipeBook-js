@@ -1,23 +1,33 @@
-import React, { Fragment,useContext  } from 'react';
-import {Link} from 'react-router-dom'
-import AuthContext from "../context/auth/AuthContext";
+import React, { Fragment, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import AuthContext from '../context/auth/AuthContext';
 import './Nav.css';
 const Nav = () => {
-
   const authContext = useContext(AuthContext);
   const { isAuthenticated, logout, user } = authContext;
 
-  const onLogout=()=>{
+  const onLogout = () => {
     logout();
-  }
+  };
 
-  const guestLink= (
-    <Link to='/login'>Login</Link>
-  )
-  
+  const guestLink = (
+    <Fragment>
+    <li><Link to='/login'>Login</Link></li>
+    </Fragment>
+    
+  );
+
   const authLink = (
-    <Link onClick={onLogout}>Logout</Link>
-  )
+    <Fragment>
+      <li>
+        <Link onClick={onLogout}>Logout</Link>
+      </li>
+      <li>
+        {' '}
+        <Link to='/addRecipe'>Add a Recipe</Link>
+      </li>
+    </Fragment>
+  );
 
   return (
     <Fragment>
@@ -36,9 +46,7 @@ const Nav = () => {
                 <li>
                   <Link to='/recipes'>Recipes</Link>{' '}
                 </li>
-                <li>
-                 {isAuthenticated?authLink:guestLink}
-                </li>
+                {isAuthenticated ? authLink : guestLink}
               </ul>
             </div>
           </div>

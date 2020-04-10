@@ -21,14 +21,16 @@ padding:0 1rem;
 text-align:center;
 margin-top:8rem;
 
+
 img{
     border-radius:50%;
 }
 
 h2{
-    font-family:var(--san-serif-font);
-    letter-spacing:3px;
+    font-family:var(--serif-font);
+    letter-spacing:5px;
     font-size:2rem;
+    text-transform: capitalize;
 }
 
 h1{
@@ -44,12 +46,14 @@ h1{
     margin-left:1rem;
 }
 
+
+
 @media (max-width:800px){
     h2{
         font-size:1.5rem;
     }
     h1{
-        font-size:2rem;
+        font-size:1.5rem;
     }
 }
 `

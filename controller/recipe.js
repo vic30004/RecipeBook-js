@@ -9,6 +9,7 @@ const filePath = config.get('filePath');
 exports.addRecipe = asyncHandler(async (req, res, next) => {
   const { title, cookTime, description, ingredients, directions } = req.body;
   const file = req.files;
+
   let pictureName = file.pictureId;
   if (
     !file.pictureId.mimetype.startsWith('image') ||

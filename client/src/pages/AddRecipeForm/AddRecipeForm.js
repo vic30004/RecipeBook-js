@@ -15,7 +15,7 @@ const AddRecipeForm = (props) => {
       loadUser();
       //eslint-disable-next-line
     }
-  }, [isAuthenticated, props]);
+  }, []);
 
   const [num, setNum] = useState(0);
   const [formData, setFormData] = useState({

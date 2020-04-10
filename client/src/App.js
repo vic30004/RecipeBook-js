@@ -21,7 +21,7 @@ export const App = () => {
     <Route exact path="/login" component={Login}/>
     <Route exact path="/register" component={Login}/>
     <Route exact path="/recipes" component={Recipes}/>
-    <Route exact path="/addRecipe" component={AddRecipeForm}/>
+    <PrivateRoute exact path="/addRecipe" component={AddRecipeForm}/>
     <Switch>
       <PrivateRoute exact path='/dashboard' component={Dashboard}/>
     </Switch>
