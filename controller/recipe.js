@@ -145,18 +145,37 @@ exports.saveRecipe = asyncHandler(async (req, res, next) => {
       return authData.id;
     }
   });
+  const firstQuery = `SELECT * FROM Favorites where (user_id=$1 AND recipe_id=$2)`;
+  const removeQuery = `DELETE FROM Favorites WHERE (user_id=$1 AND recipe_id=$2)`;
   const queryString = `INSERT INTO Favorites (user_id,recipe_id) VALUES ($1,$2) RETURNING * `;
   const values = [id, recipeId];
 
   try {
-    const table = await client.query(queryString, values);
-    if (table.rows.length > 0) {
-      res
-        .status(200)
-        .send({ success: true, count: table.rows.length, data: table.rows });
+    const check = await client.query(firstQuery, values);
+    if (check.rows.length === 0) {
+      try {
+        const table = await client.query(queryString, values);
+        if (table.rows.length > 0) {
+          res
+            .status(200)
+            .send({
+              success: true,
+              count: table.rows.length,
+              data: table.rows,
+            });
+        }
+      } catch (error) {
+        res.status(400).send({ success: false, message: error});
+      }
+    } else {
+      try {
+        const remove = await client.query(removeQuery, values);
+      } catch (error) {
+        res.status(400).send({ sucess: false, message: 'Deleted'});
+      }
     }
   } catch (error) {
-    res.status(400).send({ success: false, message: error.message });
+    res.status(400).send({ sucess: false, message: error });
   }
 });
 
