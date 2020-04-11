@@ -168,11 +168,9 @@ exports.saveRecipe = asyncHandler(async (req, res, next) => {
         res.status(400).send({ success: false, message: error});
       }
     } else {
-      try {
-        const remove = await client.query(removeQuery, values);
-      } catch (error) {
-        res.status(400).send({ sucess: false, message: 'Deleted'});
-      }
+      client.query(removeQuery,values).then(()=>{
+        res.status(200).send({ success: true, message: 'Recipe Deleted' });
+      }).catch((e)=>console.log(e))
     }
   } catch (error) {
     res.status(400).send({ sucess: false, message: error });
