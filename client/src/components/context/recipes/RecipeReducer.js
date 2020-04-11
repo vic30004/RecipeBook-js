@@ -1,4 +1,13 @@
-import { SHOW_RECIPES, SET_ALERT, REMOVE_ALERT, RECIPE_ERROR,ADD_RECIPE } from '../types';
+import {
+  SHOW_RECIPES,
+  SET_ALERT,
+  REMOVE_ALERT,
+  RECIPE_ERROR,
+  ADD_RECIPE,
+  SHOW_SAVED,
+  SAVED_ERROR,
+  SAVE_RECIPE,
+} from '../types';
 
 export default (state, action) => {
   const { type, payload } = action;
@@ -9,21 +18,34 @@ export default (state, action) => {
         recipes: payload,
         loading: false,
       };
-    
+
     case RECIPE_ERROR:
-        return{
-            ...state,
-            errorState:payload,
-            loading:false
-        }
+    case SAVED_ERROR:
+      return {
+        ...state,
+        errorState: payload,
+        loading: false,
+      };
 
     case ADD_RECIPE:
-      return{
+      return {
         ...state,
-        recipes: [payload,...state.recipes],
-        loading:false
-      }
+        recipes: [payload, ...state.recipes],
+        loading: false,
+      };
 
+    case SHOW_SAVED:
+      return {
+        ...state,
+        saved: payload,
+        loading: false,
+      };
+    case SAVE_RECIPE:
+      return {
+        ...state,
+        saved: [payload, ...state.saved],
+        loading: false,
+      };
     case SET_ALERT:
       return {
         ...state,

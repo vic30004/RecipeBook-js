@@ -9,6 +9,9 @@ import {
   REMOVE_ALERT,
   RECIPE_ERROR,
   ADD_RECIPE,
+  SHOW_SAVED,
+  SAVED_ERROR,
+  SAVE_RECIPE,
 } from '../types';
 import setAuthToken from '../../../utils/SetAuthToken';
 
@@ -19,6 +22,7 @@ const RecipeState = (props) => {
     recipe: [],
     error: {},
     errorState: [],
+    saved:[]
   };
   const [state, dispatch] = useReducer(RecipeReducer, initialState);
 
@@ -66,16 +70,8 @@ const RecipeState = (props) => {
           Authorization: `Bearer ${localStorage.token}`,
         },
       };
-      // const body = {
-      //   title,
-      //   cookTime,
-      //   directions,
-      //   ingredients,
-      //   description,
-      //   picture,
-      // };
       let file = picture;
-      console.log(picture)
+      console.log(picture);
       let formdata = new FormData();
 
       formdata.append('title', title);
@@ -98,6 +94,62 @@ const RecipeState = (props) => {
     }
   };
 
+  // Save Recipe
+  const saveRecipe = async (recipeId) => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.token}`,
+        },
+      };
+      const body = {
+        recipeId,
+      };
+
+      const res = await axios.post('/api/recipes/save', body, config);
+      dispatch({
+        type: SAVE_RECIPE,
+        payload: res.data.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: SAVED_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+
+  // Show Saved 
+  const showSaved = async()=>{
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+
+        }
+      }
+      const res = await axios.get('/api/recipes/save',config);
+      console.log(res)
+      dispatch({
+        type: SHOW_SAVED,
+        payload: res.data.data,
+      })
+    } catch (error) {
+      dispatch({
+        type: SAVED_ERROR,
+        payload: error.message,
+      });
+    }
+  }
+
   // Set Alert TODO add this to dom
   const setAlert = (msg, alertType) => {
     const id = uuid.v4();
@@ -119,6 +171,8 @@ const RecipeState = (props) => {
         errorState: state.errorState,
         showRecipes,
         addRecipe,
+        saveRecipe,
+        showSaved
       }}
     >
       {props.children}

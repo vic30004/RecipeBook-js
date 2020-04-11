@@ -11,13 +11,15 @@ export const Recipes = () => {
 const authContext = useContext(AuthContext);
 const recipeContext = useContext(RecipeContext);
 
-const {loadUser} = authContext;
-const {recipes,loading,showRecipes} = recipeContext
+const {loadUser,isAuthenticated} = authContext;
+const {recipes,loading,showRecipes,saveRecipe,showSaved} = recipeContext
 
   
 useEffect(()=>{
   if(localStorage.token){
     loadUser();
+      showSaved()
+
   }
   showRecipes()
 },[])
@@ -37,7 +39,7 @@ useEffect(()=>{
       <div id='results'>
         <div className='contaienr'>
         {recipes.length>0? recipes.map(data=>(
-            <RecipeItems key={data.id} recipe={data}/>
+            <RecipeItems key={data.recipe_id} recipe={data} isAuthenticated={isAuthenticated} saveRecipe={saveRecipe}/>
         )):''}
         </div>
       </div>
