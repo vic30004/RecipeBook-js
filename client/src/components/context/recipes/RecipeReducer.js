@@ -7,6 +7,7 @@ import {
   SHOW_SAVED,
   SAVED_ERROR,
   SAVE_RECIPE,
+  REMOVE_SAVED_RECIPE
 } from '../types';
 
 export default (state, action) => {
@@ -26,6 +27,12 @@ export default (state, action) => {
         errorState: payload,
         loading: false,
       };
+      case REMOVE_SAVED_RECIPE:
+        return{
+          ...state,
+          saved:state.saved.filter(save=>save.favorite_id !== payload),
+          loading:false
+        }
 
     case ADD_RECIPE:
       return {

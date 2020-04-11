@@ -29,7 +29,7 @@ const Card = (props) => {
   } = authContext;
 
   const { lastName, firstName, username, email, password } = formData;
-  const {logUser,logPass} = loginForm
+  const { logUser, logPass } = loginForm;
 
   useEffect(() => {
     if (localStorage.token) {
@@ -63,7 +63,7 @@ const Card = (props) => {
     } else {
       let username = loginForm.username;
       let password = loginForm.password;
-      login({username, password});
+      login({ username, password });
     }
   };
 

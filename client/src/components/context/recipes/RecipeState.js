@@ -12,6 +12,7 @@ import {
   SHOW_SAVED,
   SAVED_ERROR,
   SAVE_RECIPE,
+  REMOVE_SAVED_RECIPE
 } from '../types';
 import setAuthToken from '../../../utils/SetAuthToken';
 
@@ -22,7 +23,7 @@ const RecipeState = (props) => {
     recipe: [],
     error: {},
     errorState: [],
-    saved:[]
+    saved:null
   };
   const [state, dispatch] = useReducer(RecipeReducer, initialState);
 
@@ -123,6 +124,35 @@ const RecipeState = (props) => {
       });
     }
   };
+  // Remove Save Recipe
+  const removeSavedRecipe = async (recipeId) => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.token}`,
+        },
+      };
+      const body = {
+        recipeId,
+      };
+
+      const res = await axios.post('/api/recipes/save', body, config);
+      dispatch({
+        type: REMOVE_SAVED_RECIPE,
+        payload: res.data.data.favorite_id,
+      });
+    } catch (error) {
+      dispatch({
+        type: SAVED_ERROR,
+        payload: error.message,
+      });
+    }
+  };
 
   // Show Saved 
   const showSaved = async()=>{
@@ -172,7 +202,8 @@ const RecipeState = (props) => {
         showRecipes,
         addRecipe,
         saveRecipe,
-        showSaved
+        showSaved,
+        removeSavedRecipe
       }}
     >
       {props.children}

@@ -17,4 +17,5 @@ export const RECIPE_ERROR = 'RECIPE_ERROR';
 export const ADD_RECIPE = 'ADD_RECIPE';
 export const SAVE_RECIPE = 'SAVE_RECIPE';
 export const SHOW_SAVED ='SHOW_SAVED';
-export const SAVED_ERROR ='SAVED_ERROR'
+export const SAVED_ERROR ='SAVED_ERROR';
+export const REMOVE_SAVED_RECIPE ='REMOVE_SAVED_RECIPE';

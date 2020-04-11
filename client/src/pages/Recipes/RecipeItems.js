@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
+import React, { Fragment,useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const RecipeItems = ({ recipe, saveRecipe, isAuthenticated }) => {
+const RecipeItems = ({ recipe, saveRecipe, isAuthenticated,removeSavedRecipe }) => {
   const {
     title,
     cook_time,
@@ -13,10 +13,19 @@ const RecipeItems = ({ recipe, saveRecipe, isAuthenticated }) => {
     recipe_id,
   } = recipe;
 
+const [save,setSave] = useState(false)
+
   const getKey = (e) => {
     let val = e.target;
+    setSave(true);
+    removeSavedRecipe(val.getAttribute('data-key'))
+    if(save){
+        
+    }else{
+      saveRecipe(val.getAttribute('data-key'));  
+    }
 
-    saveRecipe(val.getAttribute('data-key'));
+    
   };
   return (
     <Fragment>

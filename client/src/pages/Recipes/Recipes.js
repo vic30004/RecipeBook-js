@@ -12,7 +12,7 @@ const authContext = useContext(AuthContext);
 const recipeContext = useContext(RecipeContext);
 
 const {loadUser,isAuthenticated} = authContext;
-const {recipes,loading,showRecipes,saveRecipe,showSaved} = recipeContext
+const {recipes,loading,showRecipes,saveRecipe,showSaved,removeSavedRecipe} = recipeContext
 
   
 useEffect(()=>{
@@ -39,7 +39,7 @@ useEffect(()=>{
       <div id='results'>
         <div className='contaienr'>
         {recipes.length>0? recipes.map(data=>(
-            <RecipeItems key={data.recipe_id} recipe={data} isAuthenticated={isAuthenticated} saveRecipe={saveRecipe}/>
+            <RecipeItems key={data.recipe_id} recipe={data} removeSavedRecipe={removeSavedRecipe} showRecipes={showRecipes} isAuthenticated={isAuthenticated} saveRecipe={saveRecipe}/>
         )):''}
         </div>
       </div>
