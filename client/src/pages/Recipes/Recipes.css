@@ -1,3 +1,11 @@
+i{
+    color:red;
+    cursor: pointer;
+    display: inline;
+}
+
+
+
 #recipeSearch{
     background: #eff3f6;
     display: flex;
@@ -154,7 +162,7 @@ img{
     background: rgb(252, 69, 69);
     color: #d3d5d6;
     display: block;
-    margin: 1rem auto;
+    margin: 1rem  ;
     max-width: 140px;
     padding:0.2rem;
     border-radius: 5px;

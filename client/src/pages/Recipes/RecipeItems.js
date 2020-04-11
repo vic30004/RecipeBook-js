@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 import {Link} from 'react-router-dom'
+import styled from 'styled-components'
+
 const RecipeItems = ({ recipe }) => {
     const {title,cook_time,picture_name,description,ingredients,directions,id}= recipe
   return <Fragment>{recipe ? 
@@ -13,11 +15,24 @@ const RecipeItems = ({ recipe }) => {
     {description && (
         <p className="description">{description}</p>
     )}
+    <Container >
+    <i class="fas fa-heart"></i>
     <Link to={id} className="recipeBtn">View Recipe</Link>
+    </Container>
+
     </div>
 
 
     </div> : ''}</Fragment>;
 };
+
+
+const Container = styled.div `
+display:flex;
+justify-content:center;
+align-items:center;
+
+
+`
 
 export default RecipeItems;

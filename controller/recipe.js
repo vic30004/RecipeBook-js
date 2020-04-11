@@ -30,7 +30,7 @@ exports.addRecipe = asyncHandler(async (req, res, next) => {
         return authData.id;
       }
     });
-    console.log(id)
+    console.log(id);
     const queryString = `INSERT INTO Recipe(user_id,title,cook_time,description,directions,picture_name) VALUES($1,$2,$3,$4,$5,$6) RETURNING *`;
     const values = [
       id,
@@ -38,11 +38,11 @@ exports.addRecipe = asyncHandler(async (req, res, next) => {
       cookTime,
       description,
       directions,
-      req.files.pictureId.name
+      req.files.pictureId.name,
     ];
     client
       .query(queryString, values)
-      .then(data => {
+      .then((data) => {
         addIngredients(data.rows[0].recipe_id, ingredients);
         client.query(
           'SELECT user_id,Recipe.recipe_id,title,cook_time,description,directions,picture_name,date_added,Ingredients.ingredient FROM Recipe INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id WHERE Recipe.recipe_id = $1',
@@ -58,13 +58,13 @@ exports.addRecipe = asyncHandler(async (req, res, next) => {
               );
               res.status(200).send({
                 message: 'sucess',
-                data: table.rows[0]
+                data: table.rows[0],
               });
             }
           }
         );
       })
-      .catch(err => console.log(err.stack));
+      .catch((err) => console.log(err.stack));
   }
 });
 
@@ -97,7 +97,7 @@ exports.findIngredients = asyncHandler(async (req, res, next) => {
     } else {
       res.status(200).send({
         success: true,
-        message: 'No recipes found with these ingredients!'
+        message: 'No recipes found with these ingredients!',
       });
     }
   } catch (error) {
@@ -133,6 +133,57 @@ exports.getUsersRecipe = asyncHandler(async (req, res, next) => {
   }
 });
 
+// Function to save recipe to favorite
+exports.saveRecipe = asyncHandler(async (req, res, next) => {
+  const { recipeId } = req.body;
+  const id = jwt.verify(req.token, 'dasdfc', (err, authData) => {
+    if (err) {
+      res.sendStatus(403);
+      console.log(err);
+      return;
+    } else {
+      return authData.id;
+    }
+  });
+  const queryString = `INSERT INTO Favorites (user_id,recipe_id) VALUES ($1,$2) RETURNING * `;
+  const values = [id, recipeId];
+
+  try {
+    const table = await client.query(queryString, values);
+    if (table.rows.length > 0) {
+      res
+        .status(200)
+        .send({ success: true, count: table.rows.length, data: table.rows });
+    }
+  } catch (error) {
+    res.status(400).send({ success: false, message: error.message });
+  }
+});
+
+// Query to show saved recipes according to user
+exports.showSaved = asyncHandler(async (req, res, next) => {
+  const id = jwt.verify(req.token, 'dasdfc', (err, authData) => {
+    if (err) {
+      res.sendStatus(403);
+      console.log(err);
+      return;
+    } else {
+      return authData.id;
+    }
+  });
+  const queryString = `SELECT favorite_id,recipe_id from Favorites WHERE user_id=$1`;
+  const value = [id];
+
+  try {
+    const table = await client.query(queryString, value);
+    res
+      .status(200)
+      .send({ success: true, count: table.rows.length, data: table.rows });
+  } catch (error) {
+    res.status(400).send({ success: false, message: error.message });
+  }
+});
+
 // function to update recipe
 exports.updateRecipe = asyncHandler(async (req, res, next) => {
   const { title, cook_time, description, directions, ingredient } = req.body;
@@ -145,10 +196,10 @@ exports.updateRecipe = asyncHandler(async (req, res, next) => {
   directions ? (data.directions = directions) : false;
   ingredient ? (ingr.ingredient = ingredient) : false;
 
-  const colValues = Object.keys(data).map(function(key) {
+  const colValues = Object.keys(data).map(function (key) {
     return req.body[key];
   });
-  const ingValues = Object.keys(ingr).map(function(key) {
+  const ingValues = Object.keys(ingr).map(function (key) {
     return req.body[key];
   });
   const query = createUpdateQuery('Recipe', id, data);
@@ -163,13 +214,13 @@ exports.updateRecipe = asyncHandler(async (req, res, next) => {
         res.status(200).send({
           success: true,
           message: 'Recipe Updates',
-          data: showUpdate.rows
+          data: showUpdate.rows,
         });
       } catch (error) {}
     } catch (error) {}
   } catch (error) {}
 });
-// TODO add function to DELETE recipe
+// function to DELETE recipe
 exports.deleteRecipe = asyncHandler(async (req, res, next) => {
   const recipeId = req.params.id;
   deleteRec(recipeId, res);
@@ -206,7 +257,7 @@ function uploadPicture(id, picture, res) {
     }`;
     console.log(pictureName);
 
-    picture.mv(`${filePath}/${pictureName}`, async err => {
+    picture.mv(`${filePath}/${pictureName}`, async (err) => {
       if (err) {
         console.error(err);
         res.status(500).send('Problem with uploaded file');
@@ -227,7 +278,7 @@ function deleteRec(id, res) {
     .then(() => {
       res.status(200).send({ success: true, message: 'Recipe Deleted' });
     })
-    .catch(e => console.log(e));
+    .catch((e) => console.log(e));
 }
 
 function createUpdateQuery(tblName, id, cols) {
@@ -237,7 +288,7 @@ function createUpdateQuery(tblName, id, cols) {
   // Create another array storing each set command
   // and assigning a number value for parameterized query
   var set = [];
-  Object.keys(cols).forEach(function(key, i) {
+  Object.keys(cols).forEach(function (key, i) {
     set.push(key + ' = ($' + (i + 1) + ')');
   });
   query.push(set.join(', '));

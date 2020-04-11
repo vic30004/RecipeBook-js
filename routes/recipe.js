@@ -5,7 +5,9 @@ const {
   getUsersRecipe,
   deleteRecipe,
   updateRecipe,
-  findIngredients
+  findIngredients,
+  saveRecipe,
+  showSaved
 } = require('../controller/recipe');
 const { protect } = require('../middleware/auth');
 const router = express.Router();
@@ -16,5 +18,7 @@ router.get('/my-recipes', protect, getUsersRecipe);
 router.get('/ingredients', findIngredients);
 router.delete('/:id', protect, deleteRecipe);
 router.put('/:id', protect, updateRecipe);
+router.post('/save', protect, saveRecipe);
+router.get('/save',protect,showSaved)
 
 module.exports = router;
