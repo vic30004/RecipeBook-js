@@ -156,21 +156,24 @@ exports.saveRecipe = asyncHandler(async (req, res, next) => {
       try {
         const table = await client.query(queryString, values);
         if (table.rows.length > 0) {
-          res
-            .status(200)
-            .send({
-              success: true,
-              count: table.rows.length,
-              data: table.rows,
-            });
+          res.status(200).send({
+            success: true,
+            count: table.rows.length,
+            data: table.rows,
+          });
         }
       } catch (error) {
-        res.status(400).send({ success: false, message: error});
+        res.status(400).send({ success: false, message: error });
       }
     } else {
-      client.query(removeQuery,values).then(()=>{
-        res.status(200).send({ success: true, message: 'Recipe Deleted',data:{} });
-      }).catch((e)=>console.log(e))
+      client
+        .query(removeQuery, values)
+        .then(() => {
+          res
+            .status(200)
+            .send({ success: true, message: 'Recipe Deleted', data: {} });
+        })
+        .catch((e) => console.log(e));
     }
   } catch (error) {
     res.status(400).send({ sucess: false, message: error });
@@ -188,14 +191,37 @@ exports.showSaved = asyncHandler(async (req, res, next) => {
       return authData.id;
     }
   });
+
   const queryString = `SELECT favorite_id,recipe_id from Favorites WHERE user_id=$1`;
+  const joinQuery = `SELECT Favorites.favorite_id, Favorites.user_id, Favorites.recipe_id,
+  Recipe.title,Recipe.cook_time,Recipe.description,
+  Recipe.picture_name FROM Favorites INNER JOIN Recipe 
+  ON Recipe.recipe_id=Favorites.recipe_id`;
+
   const value = [id];
 
   try {
-    const table = await client.query(queryString, value);
-    res
-      .status(200)
-      .send({ success: true, count: table.rows.length, data: table.rows });
+    const table = await client.query(queryString,value);
+
+    if (table.rows.length > 0) {
+      try {
+        const finalTable = await client.query(joinQuery)
+        res
+          .status(200)
+          .send({
+            success: true,
+            count: finalTable.rows.length,
+            data: finalTable.rows,
+          });
+         
+       
+        
+        
+        
+      } catch (error) {
+        res.status(400).send({ success: false, message: error.message });
+      }
+    }
   } catch (error) {
     res.status(400).send({ success: false, message: error.message });
   }
