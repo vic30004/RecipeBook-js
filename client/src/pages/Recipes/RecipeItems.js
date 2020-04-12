@@ -1,8 +1,8 @@
-import React, { Fragment,useState } from 'react';
+import React, { Fragment,useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const RecipeItems = ({ recipe, saveRecipe, isAuthenticated,removeSavedRecipe }) => {
+const RecipeItems = ({showRecipes, recipe, saveRecipe,saved, isAuthenticated,removeSavedRecipe ,showSaved}) => {
   const {
     title,
     cook_time,
@@ -14,19 +14,44 @@ const RecipeItems = ({ recipe, saveRecipe, isAuthenticated,removeSavedRecipe }) 
   } = recipe;
 
 const [save,setSave] = useState(false)
+const [temp,setTemp] = useState([])
 
+useEffect(() => {
+  if(saved.length>0){
+      saved.map(save=>{
+      setTemp(temp=>[...temp,save.recipe_id])  
+})
+  }
+  return;
+
+},[])
   const getKey = (e) => {
+    window.location.reload(false);
     let val = e.target;
-    setSave(true);
-    removeSavedRecipe(val.getAttribute('data-key'))
+    saved.forEach(save=>{
+        if(save.recipe_id === val.getAttribute('data-key')){
+            setSave(true)
+        }
+    })
+
     if(save){
-        
+        setSave(false)
+    removeSavedRecipe(val.getAttribute('data-key'))
+    showSaved() 
+    showRecipes()
+    
     }else{
+      setSave(true);  
       saveRecipe(val.getAttribute('data-key'));  
+      showSaved()
+      showRecipes()
+      
     }
 
     
   };
+
+
   return (
     <Fragment>
       {recipe ? (
@@ -53,6 +78,7 @@ const [save,setSave] = useState(false)
               {isAuthenticated ? (
                 <i
                   data-key={recipe_id}
+                  style={temp.includes(recipe_id)?{color:'red'}:{color:'white'}}
                   onClick={(e) => getKey(e)}
                   class='fas fa-heart'
                 ></i>

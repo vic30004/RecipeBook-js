@@ -167,7 +167,6 @@ const RecipeState = (props) => {
         }
       }
       const res = await axios.get('/api/recipes/save',config);
-      console.log(res)
       dispatch({
         type: SHOW_SAVED,
         payload: res.data.data,
@@ -199,6 +198,7 @@ const RecipeState = (props) => {
         loading: state.loading,
         error: state.error,
         errorState: state.errorState,
+        saved: state.saved,
         showRecipes,
         addRecipe,
         saveRecipe,

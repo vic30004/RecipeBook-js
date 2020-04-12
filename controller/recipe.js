@@ -169,7 +169,7 @@ exports.saveRecipe = asyncHandler(async (req, res, next) => {
       }
     } else {
       client.query(removeQuery,values).then(()=>{
-        res.status(200).send({ success: true, message: 'Recipe Deleted',data:'' });
+        res.status(200).send({ success: true, message: 'Recipe Deleted',data:{} });
       }).catch((e)=>console.log(e))
     }
   } catch (error) {
