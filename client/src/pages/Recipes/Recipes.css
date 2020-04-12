@@ -101,12 +101,11 @@ i{
     padding: 2rem 3rem;
     margin:3rem;
     max-width: 100%;
-    width: 1100px;
+    width: 90%;
     min-width: 300px;
-    margin:0 auto;
     height: 100%;
-    display: flex;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
     flex-flow: row wrap;
     margin: 0 auto;
 }

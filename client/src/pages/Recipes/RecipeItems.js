@@ -17,7 +17,7 @@ const [save,setSave] = useState(false)
 const [temp,setTemp] = useState([])
 
 useEffect(() => {
-  if(saved.length>0){
+  if(saved!==null && saved.length>0){
       saved.map(save=>{
       setTemp(temp=>[...temp,save.recipe_id])  
 })
@@ -26,25 +26,24 @@ useEffect(() => {
 
 },[])
   const getKey = (e) => {
-    window.location.reload(false);
+    window. location. reload(false)
     let val = e.target;
+    let check= val.getAttribute('data-saved')
     saved.forEach(save=>{
         if(save.recipe_id === val.getAttribute('data-key')){
-            setSave(true)
+            val.setAttribute('data-saved',true)
         }
     })
 
-    if(save){
-        setSave(false)
+    if(check){
+      val.setAttribute('saved',false)
     removeSavedRecipe(val.getAttribute('data-key'))
     showSaved() 
-    showRecipes()
     
     }else{
-      setSave(true);  
+      val.setAttribute('saved',true);  
       saveRecipe(val.getAttribute('data-key'));  
       showSaved()
-      showRecipes()
       
     }
 
@@ -78,6 +77,7 @@ useEffect(() => {
               {isAuthenticated ? (
                 <i
                   data-key={recipe_id}
+                  data-saved ={false}
                   style={temp.includes(recipe_id)?{color:'red'}:{color:'white'}}
                   onClick={(e) => getKey(e)}
                   class='fas fa-heart'
