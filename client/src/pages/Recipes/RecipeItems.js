@@ -13,7 +13,6 @@ const RecipeItems = ({showRecipes, recipe, saveRecipe,saved, isAuthenticated,rem
     recipe_id,
   } = recipe;
 
-const [save,setSave] = useState(false)
 const [temp,setTemp] = useState([])
 
 useEffect(() => {

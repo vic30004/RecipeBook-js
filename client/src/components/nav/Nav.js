@@ -19,6 +19,9 @@ const Nav = () => {
 
   const authLink = (
     <Fragment>
+    <li>
+    <Link to="/favorite">Favorite</Link>
+    </li>
       <li>
         <Link onClick={onLogout}>Logout</Link>
       </li>

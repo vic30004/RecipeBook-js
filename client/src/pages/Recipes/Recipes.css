@@ -298,8 +298,9 @@ and (max-device-width : 667px) {
         justify-content: flex-start;
     }
     #results .contaienr{
-        justify-content: center;
+        justify-items: center;
         padding: 1rem 0;
+        grid-template-columns: 1fr;
     }
     #results .contaienr .recipe-card{
         flex-flow: column nowrap;
@@ -349,8 +350,10 @@ and (max-device-width : 568px) {
         justify-content: flex-start;
     }
     #results .contaienr{
-        justify-content: center;
+        justify-items: center;
         padding: 1rem 0;
+        grid-template-columns: 1fr;
+
     }
     #results .contaienr .recipe-card{
         flex-flow: column nowrap;
