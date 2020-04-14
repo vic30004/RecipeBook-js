@@ -3,6 +3,9 @@ import AuthContext from '../../components/context/auth/AuthContext';
 import RecipeContext from '../../components/context/recipes/RecipeContext';
 import { Link } from 'react-router-dom';
 import FavoriteItems from './FavoriteItems';
+import Nav from '../../components/nav/Nav';
+import styled from 'styled-components';
+
 
 const Favorite = () => {
   const authContext = useContext(AuthContext);
@@ -17,18 +20,30 @@ const Favorite = () => {
     }
     showSaved();
   }, []);
-  console.log(saved)
+  console.log(saved);
 
   return savedLoaded ? (
     ''
   ) : (
-    <div>
+      <Wrapper>
+        <Nav/>
       <h1>Favorite Recipes</h1>
       <div className='save-container'>
-          {saved.length > 0 ? <FavoriteItems saved={saved}/>: <Link to="/recipe">Find a Recipe</Link>}
+        {saved.length > 0? (
+          saved.map((save) => (
+            <FavoriteItems saved={save} key={save.favorite_id} />
+          ))
+        ) : (
+          <Link to='/recipe'>Find a Recipe</Link>
+        )}
       </div>
-    </div>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+background:blue;
+padding:1rem;
+`
 
 export default Favorite;
