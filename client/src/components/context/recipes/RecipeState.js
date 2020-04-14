@@ -12,7 +12,8 @@ import {
   SHOW_SAVED,
   SAVED_ERROR,
   SAVE_RECIPE,
-  REMOVE_SAVED_RECIPE
+  REMOVE_SAVED_RECIPE,
+  GET_SINGLE_RECIPE,
 } from '../types';
 import setAuthToken from '../../../utils/SetAuthToken';
 
@@ -124,9 +125,15 @@ const RecipeState = (props) => {
   const getSingleRecipe = async (recipeId) => {
     try {
       const res = await axios.get(`/api/recipes/${recipeId}`);
-      console.log(res.data)
+            dispatch({
+              type: GET_SINGLE_RECIPE,
+              payload: res.data.data,
+            });
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: RECIPE_ERROR,
+        payload: error.name
+      })
     }
   }
 

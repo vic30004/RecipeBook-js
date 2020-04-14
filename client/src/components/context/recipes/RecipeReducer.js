@@ -7,7 +7,8 @@ import {
   SHOW_SAVED,
   SAVED_ERROR,
   SAVE_RECIPE,
-  REMOVE_SAVED_RECIPE
+  REMOVE_SAVED_RECIPE,
+  GET_SINGLE_RECIPE,
 } from '../types';
 
 export default (state, action) => {
@@ -19,7 +20,12 @@ export default (state, action) => {
         recipes: payload,
         loading: false,
       };
-
+    case GET_SINGLE_RECIPE:
+      return {
+        ...state,
+        recipe: payload,
+        loading: false,
+      };
     case RECIPE_ERROR:
     case SAVED_ERROR:
       return {
@@ -27,12 +33,12 @@ export default (state, action) => {
         errorState: payload,
         savedLoaded: false,
       };
-      case REMOVE_SAVED_RECIPE:
-        return{
-          ...state,
-          saved:state.saved.filter(save=>save.favorite_id !== payload),
-          savedLoaded:false
-        }
+    case REMOVE_SAVED_RECIPE:
+      return {
+        ...state,
+        saved: state.saved.filter((save) => save.favorite_id !== payload),
+        savedLoaded: false,
+      };
 
     case ADD_RECIPE:
       return {
