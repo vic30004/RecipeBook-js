@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import FavoriteItems from './FavoriteItems';
 import Nav from '../../components/nav/Nav';
 import styled from 'styled-components';
-
+import '../Recipes/Recipes.css';
 
 const Favorite = () => {
   const authContext = useContext(AuthContext);
@@ -25,25 +25,27 @@ const Favorite = () => {
   return savedLoaded ? (
     ''
   ) : (
-      <Wrapper>
-        <Nav/>
+    <Wrapper>
+      <Nav />
       <h1>Favorite Recipes</h1>
-      <div className='save-container'>
-        {saved.length > 0? (
-          saved.map((save) => (
-            <FavoriteItems saved={save} key={save.favorite_id} />
-          ))
-        ) : (
-          <Link to='/recipe'>Find a Recipe</Link>
-        )}
+      <div id='results'>
+        <div className='contaienr'>
+          {saved.length > 0 ? (
+            saved.map((save) => (
+              <FavoriteItems saved={save} key={save.favorite_id} />
+            ))
+          ) : (
+            <Link to='/recipe'>Find a Recipe</Link>
+          )}
+        </div>
       </div>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-margin:0;
-text-align:center;
-`
+  margin: 0;
+  text-align: center;
+`;
 
 export default Favorite;
