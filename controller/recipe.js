@@ -132,6 +132,20 @@ exports.getUsersRecipe = asyncHandler(async (req, res, next) => {
     res.status(400).send({ success: false, message: error.message });
   }
 });
+// function to get single recipe 
+exports.getSingleRecipe = asyncHandler(async (req, res, next) => {
+  const {id} = req.params;
+  const query = 'SELECT * FROM Recipe where recipe_id = $1'
+  const value = [id];
+
+  try {
+    const table = await client.query(query, value);
+    console.log(table.rows)
+    res.status(200).send({message:'success', data:table.rows})
+  } catch (error) {
+      res.status(400).send({success:'false',message:'Invalid ID'})
+  } 
+})
 
 // Function to save recipe to favorite
 exports.saveRecipe = asyncHandler(async (req, res, next) => {

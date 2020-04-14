@@ -120,6 +120,11 @@ const RecipeState = (props) => {
     }
   }
 
+  // Get single recipe by id
+  const getSingleRecipe = async (recipeId) => {
+    
+  }
+
   // Save Recipe
   const saveRecipe = async (recipeId) => {
     if (localStorage.token) {
