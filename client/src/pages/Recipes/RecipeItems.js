@@ -1,8 +1,15 @@
-import React, { Fragment,useState,useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import RecipeContext from '../../components/context/recipes/RecipeContext';
 
-const RecipeItems = ({showRecipes, recipe, saveRecipe,saved, isAuthenticated,removeSavedRecipe ,showSaved}) => {
+const RecipeItems = ({
+  showRecipes,
+  recipe,
+  saved,
+  isAuthenticated,
+  removeSavedRecipe,
+}) => {
   const {
     title,
     cook_time,
@@ -12,47 +19,48 @@ const RecipeItems = ({showRecipes, recipe, saveRecipe,saved, isAuthenticated,rem
     directions,
     recipe_id,
   } = recipe;
+  const recipeContext = useContext(RecipeContext);
+  const { showSaved, saveRecipe, savedLoaded } = recipeContext;
+  const [temp, setTemp] = useState([]);
+  useEffect(() => {
+    if(isAuthenticated ){
+      console.log(saved)
+      saved.map(save=> setTemp(temp=>[...temp,save.recipe_id]))
+      console.log(temp)
+      showSaved()
+    }
+    
+  }, []);
 
-const [temp,setTemp] = useState([])
-
-useEffect(() => {
-  if(saved!==null && saved.length>0){
-      saved.map(save=>{
-      setTemp(temp=>[...temp,save.recipe_id])  
-})
-  }
-  return;
-
-},[])
   const getKey = (e) => {
     window. location. reload(false)
+
     let val = e.target;
-    let check= val.getAttribute('data-saved')
-    saved.forEach(save=>{
-        if(save.recipe_id === val.getAttribute('data-key')){
-            val.setAttribute('data-saved',true)
-        }
-    })
+    let check = val.getAttribute('data-saved');
+    saved.forEach((save) => {
+      if (save.recipe_id === val.getAttribute('data-key')) {
+        val.setAttribute('data-saved', true);
+      }
+    });
 
-    if(check){
-      val.setAttribute('saved',false)
-    removeSavedRecipe(val.getAttribute('data-key'))
-    showSaved() 
-    
-    }else{
-      val.setAttribute('saved',true);  
-      saveRecipe(val.getAttribute('data-key'));  
-      showSaved()
-      
+    if (check) {
+      val.setAttribute('saved', false);
+      removeSavedRecipe(val.getAttribute('data-key'));
+      showSaved();
+    } else {
+      val.setAttribute('saved', true);
+      saveRecipe(val.getAttribute('data-key'));
+      showSaved();
     }
-
-    
   };
-
+  const checkIfTrue = (id)=>{
+    console.log(saved)
+    return temp.includes(id)
+  }
 
   return (
     <Fragment>
-      {recipe ? (
+      {recipe && !savedLoaded? (
         <div className='recipe-card'>
           <div className='picture'>
             {picture_name ? (
@@ -75,9 +83,11 @@ useEffect(() => {
             <Container>
               {isAuthenticated ? (
                 <i
+                  style={
+                    checkIfTrue(recipe_id)?{color:'red'}:{color:'white'}
+                  }
                   data-key={recipe_id}
                   data-saved ={false}
-                  style={temp.includes(recipe_id)?{color:'red'}:{color:'white'}}
                   onClick={(e) => getKey(e)}
                   class='fas fa-heart'
                 ></i>

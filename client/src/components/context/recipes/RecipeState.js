@@ -22,8 +22,9 @@ const RecipeState = (props) => {
     loading: true,
     recipe: [],
     error: {},
+    savedLoaded: true,
     errorState: [],
-    saved:null
+    saved:[]
   };
   const [state, dispatch] = useReducer(RecipeReducer, initialState);
 
@@ -94,13 +95,38 @@ const RecipeState = (props) => {
       });
     }
   };
+  // Show Saved 
+  const showSaved = async()=>{
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+    console.log('running')
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+
+        }
+      }
+      const res = await axios.get('/api/recipes/save',config);
+      console.log(res.data)
+      dispatch({
+        type: SHOW_SAVED,
+        payload: res.data.data,
+      })
+    } catch (error) {
+      dispatch({
+        type: SAVED_ERROR,
+        payload: error.message,
+      });
+    }
+  }
 
   // Save Recipe
   const saveRecipe = async (recipeId) => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
-
     try {
       const config = {
         headers: {
@@ -113,6 +139,7 @@ const RecipeState = (props) => {
       };
 
       const res = await axios.post('/api/recipes/save', body, config);
+      console.log(res.data)
       dispatch({
         type: SAVE_RECIPE,
         payload: res.data.data,
@@ -154,30 +181,7 @@ const RecipeState = (props) => {
     }
   };
 
-  // Show Saved 
-  const showSaved = async()=>{
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
-    try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.token}`,
-
-        }
-      }
-      const res = await axios.get('/api/recipes/save',config);
-      dispatch({
-        type: SHOW_SAVED,
-        payload: res.data.data,
-      })
-    } catch (error) {
-      dispatch({
-        type: SAVED_ERROR,
-        payload: error.message,
-      });
-    }
-  }
+  
 
   // Set Alert TODO add this to dom
   const setAlert = (msg, alertType) => {
@@ -199,6 +203,7 @@ const RecipeState = (props) => {
         error: state.error,
         errorState: state.errorState,
         saved: state.saved,
+        savedLoaded:state.savedLoaded,
         showRecipes,
         addRecipe,
         saveRecipe,

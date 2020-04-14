@@ -25,13 +25,13 @@ export default (state, action) => {
       return {
         ...state,
         errorState: payload,
-        loading: false,
+        savedLoaded: false,
       };
       case REMOVE_SAVED_RECIPE:
         return{
           ...state,
           saved:state.saved.filter(save=>save.favorite_id !== payload),
-          loading:false
+          savedLoaded:false
         }
 
     case ADD_RECIPE:
@@ -45,13 +45,13 @@ export default (state, action) => {
       return {
         ...state,
         saved: payload,
-        loading: false,
+        savedLoaded: false,
       };
     case SAVE_RECIPE:
       return {
         ...state,
         saved: [payload, ...state.saved],
-        loading: false,
+        savedLoaded: false,
       };
     case SET_ALERT:
       return {

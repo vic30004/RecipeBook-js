@@ -12,19 +12,17 @@ const authContext = useContext(AuthContext);
 const recipeContext = useContext(RecipeContext);
 
 const {loadUser,isAuthenticated} = authContext;
-const {recipes,loading,showRecipes,saveRecipe,showSaved,removeSavedRecipe,saved} = recipeContext
+const {recipes,loading,savedLoaded,showRecipes,saveRecipe,showSaved,removeSavedRecipe,saved} = recipeContext
 
   
 useEffect(()=>{
   if(localStorage.token){
     loadUser();
-      showSaved()
-
   }
+ showSaved()
   showRecipes()
 },[])
-
-  return (
+  return loading && savedLoaded ? '': (  
     <Fragment>
       <Nav />
       <div id='recipeSearch'>
@@ -38,12 +36,13 @@ useEffect(()=>{
 
       <div id='results'>
         <div className='contaienr'>
-        {recipes.length>0? recipes.map(data=>(
+        {recipes.length>0 && !savedLoaded? recipes.map(data=>(
             <RecipeItems key={data.recipe_id} recipe={data} showRecipes={showRecipes} saved={saved} showSaved={showSaved} removeSavedRecipe={removeSavedRecipe} showRecipes={showRecipes} isAuthenticated={isAuthenticated} saveRecipe={saveRecipe}/>
         )):''}
         </div>
       </div>
-    </Fragment>
+    </Fragment> 
+
   );
 };
 
