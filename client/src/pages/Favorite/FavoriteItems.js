@@ -2,6 +2,7 @@ import React, { Fragment, useContext, useEffect,useState } from 'react';
 import styled from 'styled-components';
 import RecipeContext from '../../components/context/recipes/RecipeContext';
 import AuthContext from '../../components/context/auth/AuthContext';
+import { Link } from 'react-router-dom';
 
 
 const FavoriteItems = (props) => {
@@ -88,6 +89,9 @@ const FavoriteItems = (props) => {
             ) : (
               false
             )}
+            <Link to={recipe_id} className='recipeBtn'>
+              View Recipe
+            </Link>
           </Container>
         </div>
       </div>

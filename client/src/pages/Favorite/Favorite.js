@@ -42,8 +42,8 @@ const Favorite = () => {
 };
 
 const Wrapper = styled.div`
-background:blue;
-padding:1rem;
+margin:0;
+text-align:center;
 `
 
 export default Favorite;
