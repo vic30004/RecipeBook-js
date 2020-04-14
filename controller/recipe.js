@@ -135,7 +135,8 @@ exports.getUsersRecipe = asyncHandler(async (req, res, next) => {
 // function to get single recipe 
 exports.getSingleRecipe = asyncHandler(async (req, res, next) => {
   const {id} = req.params;
-  const query = 'SELECT * FROM Recipe where recipe_id = $1'
+  const query =
+    'SELECT Recipe.recipe_id,title,cook_time,description,directions,picture_name,date_added,Ingredients.ingredient FROM Recipe INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id WHERE Recipe.recipe_id = $1';
   const value = [id];
 
   try {
