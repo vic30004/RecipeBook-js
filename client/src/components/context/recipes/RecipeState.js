@@ -100,7 +100,6 @@ const RecipeState = (props) => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
-    console.log('running')
     try {
       const config = {
         headers: {
@@ -109,7 +108,6 @@ const RecipeState = (props) => {
         }
       }
       const res = await axios.get('/api/recipes/save',config);
-      console.log(res.data)
       dispatch({
         type: SHOW_SAVED,
         payload: res.data.data,
@@ -139,7 +137,6 @@ const RecipeState = (props) => {
       };
 
       const res = await axios.post('/api/recipes/save', body, config);
-      console.log(res.data)
       dispatch({
         type: SAVE_RECIPE,
         payload: res.data.data,

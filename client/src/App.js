@@ -22,7 +22,7 @@ export const App = () => {
             <Route exact path='/register' component={Login} />
             <Route exact path='/recipes' component={Recipes} />
             <PrivateRoute exact path='/addRecipe' component={AddRecipeForm} />
-            <PrivateRoute exact path='/favorite' component={Favorite} />
+            <Route exact path='/favorite' component={Favorite} />
             <PrivateRoute exact path='/dashboard' component={Dashboard} />
           </Switch>
 

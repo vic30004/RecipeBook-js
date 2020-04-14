@@ -23,11 +23,10 @@ const RecipeItems = ({
   const { showSaved, saveRecipe, savedLoaded } = recipeContext;
   const [temp, setTemp] = useState([]);
   useEffect(() => {
-    if(isAuthenticated ){
-      console.log(saved)
-      saved.map(save=> setTemp(temp=>[...temp,save.recipe_id]))
-      console.log(temp)
-      showSaved()
+    if (localStorage.token) {
+      saved.map((save) => setTemp((temp) => [...temp, save.recipe_id]));
+      console.log(temp);
+      showSaved();
     }
     
   }, []);
@@ -54,7 +53,6 @@ const RecipeItems = ({
     }
   };
   const checkIfTrue = (id)=>{
-    console.log(saved)
     return temp.includes(id)
   }
 
