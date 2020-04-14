@@ -122,7 +122,12 @@ const RecipeState = (props) => {
 
   // Get single recipe by id
   const getSingleRecipe = async (recipeId) => {
-    
+    try {
+      const res = await axios.get(`/api/recipes/${recipeId}`);
+      console.log(res.data)
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   // Save Recipe
@@ -205,12 +210,13 @@ const RecipeState = (props) => {
         error: state.error,
         errorState: state.errorState,
         saved: state.saved,
-        savedLoaded:state.savedLoaded,
+        savedLoaded: state.savedLoaded,
         showRecipes,
         addRecipe,
         saveRecipe,
         showSaved,
-        removeSavedRecipe
+        removeSavedRecipe,
+        getSingleRecipe
       }}
     >
       {props.children}

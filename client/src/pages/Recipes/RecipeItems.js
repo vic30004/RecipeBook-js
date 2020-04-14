@@ -18,9 +18,10 @@ const RecipeItems = ({
     ingredients,
     directions,
     recipe_id,
+
   } = recipe;
   const recipeContext = useContext(RecipeContext);
-  const { showSaved, saveRecipe, savedLoaded } = recipeContext;
+  const { showSaved, saveRecipe, savedLoaded, getSingleRecipe } = recipeContext;
   const [temp, setTemp] = useState([]);
   useEffect(() => {
     if (localStorage.token) {
@@ -92,7 +93,7 @@ const RecipeItems = ({
               ) : (
                 false
               )}
-              <Link to={recipe_id} className='recipeBtn'>
+              <Link to={`/recipes/${recipe_id}`} className='recipeBtn'>
                 View Recipe
               </Link>
             </Container>
