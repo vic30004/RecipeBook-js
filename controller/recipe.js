@@ -141,7 +141,6 @@ exports.getSingleRecipe = asyncHandler(async (req, res, next) => {
 
   try {
     const table = await client.query(query, value);
-    console.log(table.rows)
     res.status(200).send({message:'success', data:table.rows})
   } catch (error) {
       res.status(400).send({success:'false',message:'Invalid ID'})
