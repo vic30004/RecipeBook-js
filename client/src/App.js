@@ -11,6 +11,7 @@ import PrivateRoute from './components/Routing/PrivateRoute';
 import RecipeState from './components/context/recipes/RecipeState';
 import Favorite from './pages/Favorite/Favorite';
 import SingleRecipe from './pages/SingleRecipe/SingleRecipe';
+import AddForm from './pages/AddForm/AddForm';
 
 export const App = () => {
   return (
@@ -24,6 +25,7 @@ export const App = () => {
             <Route exact path='/recipes' component={Recipes} />
             <PrivateRoute exact path='/addRecipe' component={AddRecipeForm} />
             <Route exact path='/favorite' component={Favorite} />
+            <Route exact path='/test' component={AddForm}/>
             <PrivateRoute exact path='/dashboard' component={Dashboard} />
             <Route exact path='/recipes/:id' component={SingleRecipe} />
           </Switch>
