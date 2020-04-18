@@ -1,15 +1,28 @@
 import React, { useState, Fragment } from 'react';
 
 const Ingredients = ({ Container, FieldSet, Label, Input, Row, Select }) => {
-  const [ingredient, setIngredient] = useState('');
+  const [ingredient, setIngredient] = useState({
+    ingredient1: '',
+    ingredient2: '',
+    ingredient3:''
+  });
 
-  const onChange = (e) => setIngredient(e.target.value);
+  const onChange = (e) => {
+    console.log(e.target.value)
+   setIngredient({ ...ingredient, [e.target.name]: e.target.value });
+ }
+   
 
-  const IngredientList = (
+  const IngredientList = (i) => (
     <Fragment>
       <Container>
         <Label>Quantity</Label>
-        <Input></Input>
+        <Input
+          value={ingredient[i]}
+          name={`ingredient${i + 1}`}
+          id={`ingredient${i + 1}`}
+          onChange={ onChange}
+        ></Input>
       </Container>
       <Container>
         <Label>Measurement</Label>
@@ -37,28 +50,31 @@ const Ingredients = ({ Container, FieldSet, Label, Input, Row, Select }) => {
       </Container>
     </Fragment>
   );
-  const [field, setField] = useState([IngredientList]);
+  const [field, setField] = useState([
+    IngredientList(0),
+  ]);
   const removeIngredient = (e, i) => {
     e.preventDefault();
     console.log(i);
     setField(
       field.filter((item, j) => {
         if (j !== i) {
+          console.log(item)
           return item;
         }
       })
     );
-    console.log(e.target);
   };
 
   const AddIngredientInputs = (e) => {
     e.preventDefault();
-    setField((field) => [...field, IngredientList]);
+    setField((field) => [...field, IngredientList(field.length)]);
   };
 
   return (
     <Fragment>
       <Container containerWidth={`650px`}>
+        <h4>Add your ingredients one at a time!</h4>
         {field.length > 0
           ? field.map((data, i) => (
               <FieldSet key={i} size={'100px'} paddingTop={`0`} marginBottom={`0`}>
