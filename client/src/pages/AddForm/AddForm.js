@@ -13,6 +13,7 @@ import {
   Select
 } from './FormStyle';
 import Ingredients from '../../components/FormItems/Ingredients';
+import IngredientsForm from '../../components/FormItems/IngredientsForm';
 
 const AddForm = () => {
   return (
@@ -78,8 +79,9 @@ const AddForm = () => {
             Container={Container}
             Input={Input}
             Row={Row}
-            Select = {Select}
+            Select={Select}
           />
+          <IngredientsForm />
         </FormContainer>
       </Container>
     </Wrapper>

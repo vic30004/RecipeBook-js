@@ -1,27 +1,28 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 
 const Ingredients = ({ Container, FieldSet, Label, Input, Row, Select }) => {
-  const [ingredient, setIngredient] = useState({
-    ingredient1: '',
-    ingredient2: '',
-    ingredient3:''
-  });
+  const [ingredient, setIngredient] = useState([]);
 
-  const onChange = (e) => {
-    console.log(e.target.value)
-   setIngredient({ ...ingredient, [e.target.name]: e.target.value });
- }
-   
+  const onChange = (e,i) => {
+    e.persist()
+    let text = e.target.value;
+    console.log(text)
+      setIngredient([...ingredient,text]);
+    
+  };
+
+  useEffect(() => console.log(ingredient), [ingredient]);
 
   const IngredientList = (i) => (
-    <Fragment>
+    <Fragment key={i}>
+      {console.log(i)}
       <Container>
         <Label>Quantity</Label>
         <Input
           value={ingredient[i]}
-          name={`ingredient${i + 1}`}
-          id={`ingredient${i + 1}`}
-          onChange={ onChange}
+          name={`ingredient${i}`}
+          id={`ingredient${i}`}
+          onChange={onChange}
         ></Input>
       </Container>
       <Container>
@@ -50,20 +51,16 @@ const Ingredients = ({ Container, FieldSet, Label, Input, Row, Select }) => {
       </Container>
     </Fragment>
   );
-  const [field, setField] = useState([
-    IngredientList(0),
-  ]);
-  const removeIngredient = (e, i) => {
-    e.preventDefault();
-    console.log(i);
-    setField(
-      field.filter((item, j) => {
-        if (j !== i) {
-          console.log(item)
-          return item;
-        }
-      })
-    );
+  const [field, setField] = useState([IngredientList(0)]);
+  const removeIngredient = (e, index) => {
+    e.preventDefault()
+    const list = [...field];
+    const testList = [...ingredient]
+    list.splice(index, 1);
+    testList.splice(index, 1)
+    console.log(testList)
+    setField(list);
+    setIngredient(testList)
   };
 
   const AddIngredientInputs = (e) => {
@@ -77,7 +74,13 @@ const Ingredients = ({ Container, FieldSet, Label, Input, Row, Select }) => {
         <h4>Add your ingredients one at a time!</h4>
         {field.length > 0
           ? field.map((data, i) => (
-              <FieldSet key={i} size={'100px'} paddingTop={`0`} marginBottom={`0`}>
+              <FieldSet
+                key={i * 10}
+                size={'100px'}
+                paddingTop={`0`}
+                marginBottom={`0`}
+              >
+                {console.log(i)}
                 <Row marginTop={`0`}>
                   {data}
                   {field.length > 3 ? (
