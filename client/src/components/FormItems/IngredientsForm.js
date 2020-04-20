@@ -9,6 +9,13 @@ const IngredientsForm = (props) => {
         list[index][name] = value;
         setIngredient(list);
     }
+
+    const handleRemoveClick = index => {
+        const list = [...ingredient];
+        list.splice(index, 1);
+        setIngredient(list)
+
+    }
     
         return (
             ingredient.map((x, i) => {
@@ -58,7 +65,9 @@ const IngredientsForm = (props) => {
                           onChange={(e) => handleInputChange(e, i)}
                         ></input>
                       </div>
-                      {ingredient.length !== 1 && <button>x</button>}
+                      {ingredient.length !== 1 && (
+                        <button onClick={() => handleRemoveClick(i)}>x</button>
+                      )}
                     </div>
                     <button>Add</button>
                   </div>
