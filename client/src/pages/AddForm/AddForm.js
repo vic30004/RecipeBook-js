@@ -15,6 +15,7 @@ import {
   AddButton,
 } from './FormStyle';
 import IngredientsForm from '../../components/FormItems/IngredientsForm';
+import DirectionsItems from '../../components/DirectionsItems/DirectionsItems';
 
 const AddForm = () => {
   return (
@@ -83,6 +84,13 @@ const AddForm = () => {
             Select={Select}
             RemoveButton={RemoveButton}
             AddButton={AddButton}
+          />
+          <DirectionsItems
+            TextArea={TextArea}
+            Container={Container}
+            Row={Row}
+            RemoveButton={RemoveButton}
+            AddButton= {AddButton}
           />
         </FormContainer>
       </Container>

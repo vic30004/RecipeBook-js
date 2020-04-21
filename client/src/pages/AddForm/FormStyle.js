@@ -27,6 +27,7 @@ export const Row = styled.div`
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  padding: ${props=>props.padding? props.padding:''};
 
   label {
     width: ${(props) => (props.width ? props.width : '90px')};
@@ -78,21 +79,23 @@ export const Select = styled.select`
 
 export const TextArea = styled.textarea`
   ${inputTextAreaColors}
+  width:${(props) => (props.width ? props.width : '')};
 `;
 
 export const Container = styled.div`
-  display: flex;
-  flex-flow: column;
-  max-width: 800px;
-  padding: 1rem 0;
-  margin: 0;
-  width: ${(props) => (props.containerWidth ? props.containerWidth : `100%`)};
+         display: flex;
+         flex-flow: column;
+         max-width: 800px;
+         padding: ${(props) => (props.padding ? props.padding : '1rem 0')};
+         margin: ${props=>props.margin? props.margin:'0'};
+         width: ${(props) =>
+           props.containerWidth ? props.containerWidth : `100%`};
 
-  input {
-    width: ${(props) => (props.width ? props.width : `100px`)};
-    font-size: 1rem;
-  }
-`
+         input {
+           width: ${(props) => (props.width ? props.width : `100px`)};
+           font-size: 1rem;
+         }
+       `;
 export const RemoveButton = styled.button`
          border: none;
          background: transparent;
