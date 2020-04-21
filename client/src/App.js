@@ -24,7 +24,7 @@ export const App = () => {
             <Route exact path='/register' component={Login} />
             <Route exact path='/recipes' component={Recipes} />
             <Route exact path='/favorite' component={Favorite} />
-            <PrivateRoute exact path='/addRecipe' component={AddForm} />
+            <Route exact path='/addRecipe' component={AddForm} />
             <PrivateRoute exact path='/dashboard' component={Dashboard} />
             <Route exact path='/recipes/:id' component={SingleRecipe} />
           </Switch>

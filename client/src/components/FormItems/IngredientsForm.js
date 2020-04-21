@@ -9,12 +9,10 @@ const IngredientsForm = ({
   Select,
   RemoveButton,
   AddButton,
+  ingredient,
+  setIngredient,
 }) => {
-  const [ingredient, setIngredient] = useState([
-    { qt: '', measure: 'none', item: '' },
-    { qt: '', measure: 'none', item: '' },
-    { qt: '', measure: 'none', item: '' },
-  ]);
+
 
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
