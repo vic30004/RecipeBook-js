@@ -7,8 +7,12 @@ const IngredientsForm = ({
   Input,
   Row,
   Select,
+  RemoveButton,
+  AddButton,
 }) => {
   const [ingredient, setIngredient] = useState([
+    { qt: '', measure: 'none', item: '' },
+    { qt: '', measure: 'none', item: '' },
     { qt: '', measure: 'none', item: '' },
   ]);
 
@@ -19,8 +23,8 @@ const IngredientsForm = ({
     setIngredient(list);
   };
 
-    const handleRemoveClick = (e,index) => {
-      e.preventDefault()
+  const handleRemoveClick = (e, index) => {
+    e.preventDefault();
     const list = [...ingredient];
     list.splice(index, 1);
     setIngredient(list);
@@ -37,7 +41,7 @@ const IngredientsForm = ({
           <Container marginTop={`0`}>
             {ingredient.map((x, i) => {
               return (
-                <Row>
+                <Row key={i}>
                   <Container>
                     <Label htmlFor=''>Quantity</Label>
                     <Input
@@ -79,15 +83,23 @@ const IngredientsForm = ({
                       onChange={(e) => handleInputChange(e, i)}
                     ></Input>
                   </Container>
-                  {ingredient.length !== 1 && (
-                    <button onClick={(e) => handleRemoveClick(e,i)}>x</button>
+                  {ingredient.length > 3 && (
+                    <RemoveButton onClick={(e) => handleRemoveClick(e, i)}>
+                      <i class='far fa-window-close'></i>
+                    </RemoveButton>
                   )}
                 </Row>
               );
             })}{' '}
           </Container>
         </FieldSet>
-        <button onClick={handleAddClick}>Add</button>
+        <AddButton onClick={handleAddClick}>
+          {' '}
+          <span>
+            <i class='fas fa-plus'></i>
+          </span>{' '}
+          Add Another Ingredient
+        </AddButton>
       </Container>
     </Fragment>
   );

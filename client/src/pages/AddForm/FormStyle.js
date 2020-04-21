@@ -69,7 +69,7 @@ export const Input = styled.input`
 `;
 
 export const Select = styled.select`
-  height: 36px;
+  height: 50px;
   border: solid 1px #d5d8da;
   border-radius: 2px;
   font-size: 16px;
@@ -92,4 +92,29 @@ export const Container = styled.div`
     width: ${(props) => (props.width ? props.width : `100px`)};
     font-size: 1rem;
   }
-`;
+`
+export const RemoveButton = styled.button`
+         border: none;
+         background: transparent;
+         font-size: 1.5rem;
+         margin: 0 0 0 1rem;
+         cursor: pointer;
+         color: #c4c4c4;
+       `; 
+
+export const AddButton = styled.button`
+         width: 40%;
+         border: none;
+         background: transparent;
+         cursor: pointer;
+         font-size: 1.3rem;
+
+         span {
+           margin-right: 0.3rem;
+         }
+
+         &:hover {
+           color: #c4c4c4;
+         }
+       `;
+  ;

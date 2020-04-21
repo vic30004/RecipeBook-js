@@ -10,9 +10,10 @@ import {
   Container,
   Label,
   Input,
-  Select
+  Select,
+  RemoveButton,
+  AddButton,
 } from './FormStyle';
-import Ingredients from '../../components/FormItems/Ingredients';
 import IngredientsForm from '../../components/FormItems/IngredientsForm';
 
 const AddForm = () => {
@@ -80,6 +81,8 @@ const AddForm = () => {
             Input={Input}
             Row={Row}
             Select={Select}
+            RemoveButton={RemoveButton}
+            AddButton={AddButton}
           />
         </FormContainer>
       </Container>
