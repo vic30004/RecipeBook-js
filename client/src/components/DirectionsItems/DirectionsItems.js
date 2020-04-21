@@ -26,10 +26,15 @@ const DirectionsItems = ({
     const list = [...directions];
     list.splice(index, 1);
     setDirections(list);
-  };
+    };
+    
+      const handleAddClick = (e) => {
+        e.preventDefault();
+        setDirections([...directions, { direction: '' }]);
+      };
     
   return (
-    <Container className='container'>
+    <Container containerWidth={`650px`}>
       <h4>Add your directions one at a time!</h4>
       {directions.map((x, i) => {
         return (
@@ -59,7 +64,7 @@ const DirectionsItems = ({
           </Container>
         );
       })}
-      <AddButton>
+      <AddButton onClick={handleAddClick} marginTop='1rem'>
         {' '}
         <span>
           <i class='fas fa-plus'></i>

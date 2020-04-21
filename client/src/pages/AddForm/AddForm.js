@@ -13,6 +13,8 @@ import {
   Select,
   RemoveButton,
   AddButton,
+  SubmitBtn,
+  CheckBox,
 } from './FormStyle';
 import IngredientsForm from '../../components/FormItems/IngredientsForm';
 import DirectionsItems from '../../components/DirectionsItems/DirectionsItems';
@@ -24,7 +26,7 @@ const AddForm = () => {
         <Title>Add A New Recipe</Title>
 
         <FormContainer>
-          <Container>
+          <Container width='766.042px'>
             <Label>Recipe Title:*</Label>
 
             <Input placeholder="What's the title of your recipe?"></Input>
@@ -39,7 +41,7 @@ const AddForm = () => {
             ></TextArea>
           </Container>
           <Container>
-            <FieldSet size={'120px'} borderTop={'1px solid #333'}>
+            <FieldSet size={'120px'} borderTop={'1px solid #eaeaea'}>
               <Row width={'140px'}>
                 <Label>This recipe Serves:*</Label>
                 <Input></Input>
@@ -75,23 +77,39 @@ const AddForm = () => {
               </FieldSet>
             </div>
           </Container>
-          <IngredientsForm
-            FieldSet={FieldSet}
-            Label={Label}
-            Container={Container}
-            Input={Input}
-            Row={Row}
-            Select={Select}
-            RemoveButton={RemoveButton}
-            AddButton={AddButton}
-          />
-          <DirectionsItems
-            TextArea={TextArea}
-            Container={Container}
-            Row={Row}
-            RemoveButton={RemoveButton}
-            AddButton= {AddButton}
-          />
+          <FieldSet
+            borderTop='1px solid #eaeaea'
+            borderBottom='1px solid #eaeaea'
+          >
+            <IngredientsForm
+              FieldSet={FieldSet}
+              Label={Label}
+              Container={Container}
+              Input={Input}
+              Row={Row}
+              Select={Select}
+              RemoveButton={RemoveButton}
+              AddButton={AddButton}
+            />
+          </FieldSet>
+          <FieldSet borderBottom='1px solid #eaeaea'>
+            <DirectionsItems
+              TextArea={TextArea}
+              Container={Container}
+              Row={Row}
+              RemoveButton={RemoveButton}
+              AddButton={AddButton}
+            />
+          </FieldSet>
+          <FieldSet borderBottom='1px solid #eaeaea'>
+            <Container containerWidth={`650px`} width='10px'>
+              <Row width='140px'>
+                <Label>Make this private?</Label>
+                <CheckBox type='checkbox' name='' id='' />
+              </Row>
+            </Container>
+          </FieldSet>
+          <SubmitBtn>Add Recipe</SubmitBtn>
         </FormContainer>
       </Container>
     </Wrapper>

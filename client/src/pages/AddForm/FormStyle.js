@@ -27,7 +27,7 @@ export const Row = styled.div`
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding: ${props=>props.padding? props.padding:''};
+  padding: ${(props) => (props.padding ? props.padding : '')};
 
   label {
     width: ${(props) => (props.width ? props.width : '90px')};
@@ -52,6 +52,7 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   border: 1px solid #c4c4c4;
+  max-width: 100%;
   width: 900px;
   height: 100%;
   margin: 2rem auto;
@@ -64,7 +65,8 @@ export const Title = styled.h2`
   width: 100%;
 `;
 export const FormContainer = styled.form``;
-export const Label = styled.label``;
+export const Label = styled.label`
+`;
 export const Input = styled.input`
   ${inputTextAreaColors}
 `;
@@ -83,27 +85,30 @@ export const TextArea = styled.textarea`
 `;
 
 export const Container = styled.div`
-         display: flex;
-         flex-flow: column;
-         max-width: 800px;
-         padding: ${(props) => (props.padding ? props.padding : '1rem 0')};
-         margin: ${props=>props.margin? props.margin:'0'};
-         width: ${(props) =>
-           props.containerWidth ? props.containerWidth : `100%`};
+  display: flex;
+  flex-flow: column;
+  max-width: 800px;
+  padding: ${(props) => (props.padding ? props.padding : '1rem 0')};
+  margin: ${(props) => (props.margin ? props.margin : '0')};
+  border-bottom: ${(props) => (props.bordBottom ? props.bordBottom : '')};
+  border-top: ${(props) => (props.bordTop ? props.bordTop : '')};
+  width: ${(props) => (props.containerWidth ? props.containerWidth : `100%`)};
 
-         input {
-           width: ${(props) => (props.width ? props.width : `100px`)};
-           font-size: 1rem;
-         }
-       `;
+  input {
+    width: ${(props) => (props.width ? props.width : `100px`)};
+    font-size: 1rem;
+  }
+`;
 export const RemoveButton = styled.button`
-         border: none;
-         background: transparent;
-         font-size: 1.5rem;
-         margin: 0 0 0 1rem;
-         cursor: pointer;
-         color: #c4c4c4;
-       `; 
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  margin: 0 0 0 1rem;
+  cursor: pointer;
+  outline: none;
+
+  color: #c4c4c4;
+`;
 
 export const AddButton = styled.button`
          width: 40%;
@@ -111,8 +116,11 @@ export const AddButton = styled.button`
          background: transparent;
          cursor: pointer;
          font-size: 1.3rem;
-
-         span {
+         outline: none;
+         margin-top: ${(props) =>
+  props.marginTop ? props.marginTop : ''};
+             
+           span {
            margin-right: 0.3rem;
          }
 
@@ -120,4 +128,18 @@ export const AddButton = styled.button`
            color: #c4c4c4;
          }
        `;
+export const SubmitBtn = styled.button`
+  width: 130px;
+  height: 60px;
+  background: ${(props) => (props.background ? props.background : '#2d4558 ')};
+  color: ivory;
+  margin: ${(props) => (props.margin ? props.margin : '0')};
+  cursor: pointer;
+  outline: none;
+  border: none;
+`
+export const CheckBox = styled.input`
+transform:scale(2);
+`  
+  
   ;
