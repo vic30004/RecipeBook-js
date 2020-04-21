@@ -73,7 +73,7 @@ const AddForm = () => {
               </FieldSet>
             </div>
           </Container>
-          <Ingredients
+          <IngredientsForm
             FieldSet={FieldSet}
             Label={Label}
             Container={Container}
@@ -81,7 +81,6 @@ const AddForm = () => {
             Row={Row}
             Select={Select}
           />
-          <IngredientsForm />
         </FormContainer>
       </Container>
     </Wrapper>
