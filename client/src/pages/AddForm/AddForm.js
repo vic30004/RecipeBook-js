@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {
   FieldSet,
   Row,
@@ -20,6 +20,15 @@ import IngredientsForm from '../../components/FormItems/IngredientsForm';
 import DirectionsItems from '../../components/DirectionsItems/DirectionsItems';
 
 const AddForm = () => {
+
+
+
+const [directions, setDirections] = useState([
+  { direction: '' },
+  { direction: '' },
+]);
+
+
   return (
     <Wrapper>
       <Container>
@@ -99,6 +108,8 @@ const AddForm = () => {
               Row={Row}
               RemoveButton={RemoveButton}
               AddButton={AddButton}
+              directions={directions}
+              setDirections={setDirections}
             />
           </FieldSet>
           <FieldSet borderBottom='1px solid #eaeaea'>

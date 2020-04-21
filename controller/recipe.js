@@ -7,8 +7,21 @@ const fileSize = config.get('MaxFileSize');
 const filePath = config.get('filePath');
 
 exports.addRecipe = asyncHandler(async (req, res, next) => {
-  const { title, cookTime, description, ingredients, directions } = req.body;
+  const {
+    title,
+    cookTime,
+    description,
+    ingredients,
+    directions,
+    cusisine,
+    prepTime,
+    serving,
+    totalTime,
+    private,
+  } = req.body;
   const file = req.files;
+  console.log(ingredients);
+  console.log(typeof ingredients);
 
   let pictureName = file.pictureId;
   if (
@@ -31,13 +44,18 @@ exports.addRecipe = asyncHandler(async (req, res, next) => {
       }
     });
     console.log(id);
-    const queryString = `INSERT INTO Recipe(user_id,title,cook_time,description,directions,picture_name) VALUES($1,$2,$3,$4,$5,$6) RETURNING *`;
+    const queryString = `INSERT INTO Recipe(user_id,title,cook_time,description,directions,prep_time,serving,total_time,private,picture_name) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *`;
     const values = [
       id,
       title,
       cookTime,
       description,
       directions,
+      cusisine,
+      prepTime,
+      serving,
+      totalTime,
+      private,
       req.files.pictureId.name,
     ];
     client
@@ -45,7 +63,7 @@ exports.addRecipe = asyncHandler(async (req, res, next) => {
       .then((data) => {
         addIngredients(data.rows[0].recipe_id, ingredients);
         client.query(
-          'SELECT user_id,Recipe.recipe_id,title,cook_time,description,directions,picture_name,date_added,Ingredients.ingredient FROM Recipe INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id WHERE Recipe.recipe_id = $1',
+          'SELECT user_id,Recipe.recipe_id,title,cook_time,description,directions,prep_time,serving,total_time,private,picture_name,date_added,Ingredients.ingredient FROM Recipe INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id WHERE Recipe.recipe_id = $1',
           [data.rows[0].recipe_id],
           (err, table) => {
             if (err) {
@@ -132,20 +150,20 @@ exports.getUsersRecipe = asyncHandler(async (req, res, next) => {
     res.status(400).send({ success: false, message: error.message });
   }
 });
-// function to get single recipe 
+// function to get single recipe
 exports.getSingleRecipe = asyncHandler(async (req, res, next) => {
-  const {id} = req.params;
+  const { id } = req.params;
   const query =
     'SELECT Recipe.recipe_id,title,cook_time,description,directions,picture_name,date_added,Ingredients.ingredient FROM Recipe INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id WHERE Recipe.recipe_id = $1';
   const value = [id];
 
   try {
     const table = await client.query(query, value);
-    res.status(200).send({message:'success', data:table.rows})
+    res.status(200).send({ message: 'success', data: table.rows });
   } catch (error) {
-      res.status(400).send({success:'false',message:'Invalid ID'})
-  } 
-})
+    res.status(400).send({ success: 'false', message: 'Invalid ID' });
+  }
+});
 
 // Function to save recipe to favorite
 exports.saveRecipe = asyncHandler(async (req, res, next) => {
@@ -215,23 +233,16 @@ exports.showSaved = asyncHandler(async (req, res, next) => {
   const value = [id];
 
   try {
-    const table = await client.query(queryString,value);
+    const table = await client.query(queryString, value);
 
     if (table.rows.length > 0) {
       try {
-        const finalTable = await client.query(joinQuery)
-        res
-          .status(200)
-          .send({
-            success: true,
-            count: finalTable.rows.length,
-            data: finalTable.rows,
-          });
-         
-       
-        
-        
-        
+        const finalTable = await client.query(joinQuery);
+        res.status(200).send({
+          success: true,
+          count: finalTable.rows.length,
+          data: finalTable.rows,
+        });
       } catch (error) {
         res.status(400).send({ success: false, message: error.message });
       }

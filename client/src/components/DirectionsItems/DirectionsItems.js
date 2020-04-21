@@ -6,33 +6,30 @@ const DirectionsItems = ({
   Row,
   RemoveButton,
   AddButton,
+  directions,
+  setDirections,
 }) => {
-  const [directions, setDirections] = useState([
-    { direction: '' },
-    { direction: '' },
-  ]);
-    
-     const handleInputChange = (e, index) => {
-       const { name, value } = e.target;
-       const list = [...directions];
-       list[index][name] = value;
-       setDirections(list);
-    };
-    
 
-    
+
+  const handleInputChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...directions];
+    list[index][name] = value;
+    setDirections(list);
+  };
+
   const handleRemoveClick = (e, index) => {
     e.preventDefault();
     const list = [...directions];
     list.splice(index, 1);
     setDirections(list);
-    };
-    
-      const handleAddClick = (e) => {
-        e.preventDefault();
-        setDirections([...directions, { direction: '' }]);
-      };
-    
+  };
+
+  const handleAddClick = (e) => {
+    e.preventDefault();
+    setDirections([...directions, { direction: '' }]);
+  };
+
   return (
     <Container containerWidth={`650px`}>
       <h4>Add your directions one at a time!</h4>
