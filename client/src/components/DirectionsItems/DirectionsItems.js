@@ -8,9 +8,26 @@ const DirectionsItems = ({
   AddButton,
 }) => {
   const [directions, setDirections] = useState([
-    { directon: '' },
-    { directon: '' },
+    { direction: '' },
+    { direction: '' },
   ]);
+    
+     const handleInputChange = (e, index) => {
+       const { name, value } = e.target;
+       const list = [...directions];
+       list[index][name] = value;
+       setDirections(list);
+    };
+    
+
+    
+  const handleRemoveClick = (e, index) => {
+    e.preventDefault();
+    const list = [...directions];
+    list.splice(index, 1);
+    setDirections(list);
+  };
+    
   return (
     <Container className='container'>
       <h4>Add your directions one at a time!</h4>
@@ -23,17 +40,18 @@ const DirectionsItems = ({
             containerWidth='700px'
             margin='0.2rem 0'
           >
-            <Row padding='0 1rem'>
+            <Row padding='0'>
               <TextArea
-                name=''
+                name='direction'
                 id=''
                 cols='40'
                 rows='5'
                 width='100%'
-                value={x.directon}
+                value={x.direction}
+                onChange={(e) => handleInputChange(e, i)}
               ></TextArea>
               {directions.length > 2 && (
-                <RemoveButton>
+                <RemoveButton onClick={(e) => handleRemoveClick(e, i)}>
                   <i class='far fa-window-close'></i>
                 </RemoveButton>
               )}
