@@ -11,15 +11,17 @@ const RecipeItems = ({
   removeSavedRecipe,
 }) => {
   const {
-    title,
-    cook_time,
     picture_name,
-    description,
+    data,
     ingredients,
     directions,
+    user_name,
+    date_added,
     recipe_id,
 
   } = recipe;
+  console.log(data)
+  const { title, cookTime, description } = data;
   const recipeContext = useContext(RecipeContext);
   const { showSaved, saveRecipe, savedLoaded, getSingleRecipe } = recipeContext;
   const [temp, setTemp] = useState([]);
@@ -59,7 +61,7 @@ const RecipeItems = ({
 
   return (
     <Fragment>
-      {recipe && !savedLoaded? (
+      {recipe && !savedLoaded ? (
         <div className='recipe-card'>
           <div className='picture'>
             {picture_name ? (
@@ -77,16 +79,18 @@ const RecipeItems = ({
           </div>
           <div className='recipe-content'>
             <h3 className='title'>{title}</h3>
-            <h4 id='cookTime'>Cook Time: {cook_time}</h4>
+            <h4 id='cookTime'>Cook Time: {cookTime}</h4>
             {description && <p className='description'>{description}</p>}
             <Container>
               {isAuthenticated ? (
                 <i
                   style={
-                    checkIfTrue(recipe_id)?{color:'red'}:{color:'white'}
+                    checkIfTrue(recipe_id)
+                      ? { color: 'red' }
+                      : { color: 'white' }
                   }
                   data-key={recipe_id}
-                  data-saved ={false}
+                  data-saved={false}
                   onClick={(e) => getKey(e)}
                   class='fas fa-heart'
                 ></i>

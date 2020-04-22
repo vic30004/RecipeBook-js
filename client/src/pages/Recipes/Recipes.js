@@ -15,18 +15,17 @@ const {loadUser,isAuthenticated} = authContext;
 const {recipes,loading,savedLoaded,showRecipes,saveRecipe,showSaved,removeSavedRecipe,saved} = recipeContext
 
   
-useEffect(()=>{
-  if(localStorage.token){
+useEffect(() => {
+  if (localStorage.token) {
     loadUser();
   }
- showSaved()
-  showRecipes()
-},[])
+  showSaved();
+  showRecipes();
+}, []);
   return loading && savedLoaded ? '': (  
     <Fragment>
       <Nav />
       <div id='recipeSearch'>
-   
         <header className='search-container'>
         <h1 className="title">Recipe Book</h1>
           <SearchBar />

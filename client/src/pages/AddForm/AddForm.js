@@ -24,7 +24,6 @@ const AddForm = () => {
     title: '',
     description: '',
     serving: '',
-    cookTime: { hours: '00', minutes: '00' },
     pri: false,
   });
 
@@ -32,8 +31,21 @@ const AddForm = () => {
     hours: 0,
     minutes:0, 
   })
+  const [cookTime, setcookTime] = useState({
+    hours: 0,
+    minutes: 0,
+  });
+  const [pri, setPri] = useState(false);
 
-  const { title, description, serving, cookTime, pri } = formData;
+  const handlePrivate = () => {
+    if (pri) {
+      setPri(false)
+    } else {
+      setPri(true)
+    }
+  }
+
+  const { title, description, serving } = formData;
   const { hours, minutes } = prepTime;
 
   const handleChange = (e) => {
@@ -43,13 +55,10 @@ const AddForm = () => {
   const handlePrepTime = (e) => {
    setPrepTime({ ...prepTime, [e.target.name]: e.target.value });
   }
+  const handleCookTime = (e) => {
+   setcookTime({ ...cookTime, [e.target.name]: e.target.value });
+  }
 
-  const handleInputChange = (e, index) => {
-    const { name, value } = e.target;
-    const list = [...ingredient];
-    list[index][name] = value;
-    setIngredient(list);
-  };
 
 
 
@@ -135,11 +144,21 @@ const AddForm = () => {
                 <Row>
                   <Label>Cook Time: *</Label>
                   <InputContainer>
-                    <Input type='number'></Input>
+                    <Input
+                      type='number'
+                      name={'hours'}
+                      value={cookTime.hours}
+                      onChange={(e) => handleCookTime(e)}
+                    ></Input>
                     <span>hrs</span>
                   </InputContainer>
                   <InputContainer>
-                    <Input type='number'></Input>
+                    <Input
+                      type='number'
+                      name={'minutes'}
+                      value={cookTime.minutes}
+                      onChange={(e) => handleCookTime(e)}
+                    ></Input>
                     <span>min</span>
                   </InputContainer>
                 </Row>
@@ -178,7 +197,7 @@ const AddForm = () => {
             <Container containerWidth={`650px`} width='10px'>
               <Row width='140px'>
                 <Label>Make this private?</Label>
-                <CheckBox type='checkbox' name='' id='' />
+                <CheckBox type='checkbox' name='pri' value={pri} onChange={handlePrivate} id='' />
               </Row>
             </Container>
           </FieldSet>
