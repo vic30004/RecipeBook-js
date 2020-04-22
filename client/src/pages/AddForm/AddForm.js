@@ -45,6 +45,23 @@ const AddForm = () => {
     }
   }
 
+    // const onSubmit = (e) => {
+    //   e.preventDefault();
+    //   try {
+    //     addRecipe({
+    //       title,
+    //       cookTime,
+    //       directions,
+    //       ingredients,
+    //       description,
+    //       picture,
+    //     });
+    //     props.history.push('/recipes');
+    //   } catch (error) {
+    //     console.log(error.message);
+    //   }
+    // };
+
   const { title, description, serving, picture } = formData;
   const { hours, minutes } = prepTime;
 
@@ -222,21 +239,18 @@ const AddForm = () => {
                   onChange={handlePrivate}
                   id=''
                 />
+                <Container width='100px'>
+                <Label htmlFor=''>Picture</Label>
+                <Input
+                  type='file'
+                  name='picture'
+                  value={picture}
+                  id='pic'
+                  style={{width:'300px'}}
+                  onChange={(e) => handleChange(e)}
+                />
+                </Container>
               </Row>
-              <label htmlFor=''>Picture</label>
-              <input
-                type='file'
-                name='picture'
-                value={picture}
-                id='pic'
-                onChange={(e) => handleChange(e)}
-              />
-              <input
-                type='file'
-                name='picture'
-                id='pic'
-                onChange={(e) => handleImage(e)}
-              />
             </Container>
           </FieldSet>
           <SubmitBtn>Add Recipe</SubmitBtn>
