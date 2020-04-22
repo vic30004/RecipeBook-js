@@ -8,7 +8,8 @@ const {
   findIngredients,
   saveRecipe,
   showSaved,
-  getSingleRecipe
+  getSingleRecipe,
+  testFunction
 } = require('../controller/recipe');
 const { protect } = require('../middleware/auth');
 const router = express.Router();
@@ -22,5 +23,4 @@ router.put('/:id', protect, updateRecipe);
 router.post('/save', protect, saveRecipe);
 router.get('/save', protect, showSaved)
 router.get('/:id',getSingleRecipe)
-
 module.exports = router;

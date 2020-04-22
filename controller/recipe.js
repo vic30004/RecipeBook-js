@@ -6,90 +6,86 @@ const config = require('config');
 const fileSize = config.get('MaxFileSize');
 const filePath = config.get('filePath');
 
-exports.addRecipe = asyncHandler(async (req, res, next) => {
-  const {
-    title,
-    cookTime,
-    description,
-    ingredients,
-    directions,
-    cusisine,
-    prepTime,
-    serving,
-    totalTime,
-    private,
-  } = req.body;
-  const file = req.files;
-  console.log(ingredients);
-  console.log(typeof ingredients);
+// exports.addRecipe = asyncHandler(async (req, res, next) => {
+//   const {
+//     title,
+//     cookTime,
+//     description,
+//     ingredients,
+//     directions,
+//     cusisine,
+//     prepTime,
+//     serving,
+//     totalTime,
+//     private,
+//   } = req.body;
+//   const file = req.files;
 
-  let pictureName = file.pictureId;
-  if (
-    !file.pictureId.mimetype.startsWith('image') ||
-    file.pictureId.size > fileSize
-  ) {
-    res
-      .status(400)
-      .send(
-        `Please upload an image file, and make sure the picture is less than ${filesize}MB!`
-      );
-    return;
-  } else {
-    const id = jwt.verify(req.token, 'dasdfc', (err, authData) => {
-      if (err) {
-        res.sendStatus(403);
-      } else {
-        console.log(authData);
-        return authData.id;
-      }
-    });
-    console.log(id);
-    const queryString = `INSERT INTO Recipe(user_id,title,cook_time,description,directions,prep_time,serving,total_time,private,picture_name) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *`;
-    const values = [
-      id,
-      title,
-      cookTime,
-      description,
-      directions,
-      cusisine,
-      prepTime,
-      serving,
-      totalTime,
-      private,
-      req.files.pictureId.name,
-    ];
-    client
-      .query(queryString, values)
-      .then((data) => {
-        addIngredients(data.rows[0].recipe_id, ingredients);
-        client.query(
-          'SELECT user_id,Recipe.recipe_id,title,cook_time,description,directions,prep_time,serving,total_time,private,picture_name,date_added,Ingredients.ingredient FROM Recipe INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id WHERE Recipe.recipe_id = $1',
-          [data.rows[0].recipe_id],
-          (err, table) => {
-            if (err) {
-              throw err;
-            } else {
-              table.rows[0].pictur_name = uploadPicture(
-                data.rows[0].recipe_id,
-                pictureName,
-                res
-              );
-              res.status(200).send({
-                message: 'sucess',
-                data: table.rows[0],
-              });
-            }
-          }
-        );
-      })
-      .catch((err) => console.log(err.stack));
-  }
-});
+//   let pictureName = file.pictureId;
+//   if (
+//     !file.pictureId.mimetype.startsWith('image') ||
+//     file.pictureId.size > fileSize
+//   ) {
+//     res
+//       .status(400)
+//       .send(
+//         `Please upload an image file, and make sure the picture is less than ${filesize}MB!`
+//       );
+//     return;
+//   } else {
+//     const id = jwt.verify(req.token, 'dasdfc', (err, authData) => {
+//       if (err) {
+//         res.sendStatus(403);
+//       } else {
+//         console.log(authData);
+//         return authData.id;
+//       }
+//     });
+//     const queryString = `INSERT INTO Recipe(user_id,title,cook_time,description,directions,prep_time,serving,total_time,private,picture_name) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *`;
+//     const values = [
+//       id,
+//       title,
+//       cookTime,
+//       description,
+//       directions,
+//       cusisine,
+//       prepTime,
+//       serving,
+//       totalTime,
+//       private,
+//       req.files.pictureId.name,
+//     ];
+//     client
+//       .query(queryString, values)
+//       .then((data) => {
+//         addIngredients(data.rows[0].recipe_id, ingredients);
+//         client.query(
+//           'SELECT user_id,Recipe.recipe_id,title,cook_time,description,directions,prep_time,serving,total_time,private,picture_name,date_added,Ingredients.ingredient FROM Recipe INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id WHERE Recipe.recipe_id = $1',
+//           [data.rows[0].recipe_id],
+//           (err, table) => {
+//             if (err) {
+//               throw err;
+//             } else {
+//               table.rows[0].pictur_name = uploadPicture(
+//                 data.rows[0].recipe_id,
+//                 pictureName,
+//                 res
+//               );
+//               res.status(200).send({
+//                 message: 'sucess',
+//                 data: table.rows[0],
+//               });
+//             }
+//           }
+//         );
+//       })
+//       .catch((err) => console.log(err.stack));
+//   }
+// });
 
 //Function to get all recipies
 exports.getAllRecipes = asyncHandler(async (req, res, next) => {
-  const query =
-    'SELECT user_id,Recipe.recipe_id,title,cook_time,description,directions,picture_name,date_added,Ingredients.ingredient FROM Recipe INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id';
+  const query =`SELECT * FROM Recipe`
   try {
     const table = await client.query(query);
     res
@@ -134,7 +130,7 @@ exports.getUsersRecipe = asyncHandler(async (req, res, next) => {
       return authData.id;
     }
   });
-  const joinQuery = `SELECT Recipe.recipe_id,title,cook_time,description,directions,picture_name,date_added,Ingredients.ingredient FROM Recipe INNER JOIN Ingredients ON Ingredients.recipe_id = Recipe.recipe_id WHERE Recipe.user_id = $1`;
+  const joinQuery = `SELECT * FROM Recipe WHERE Recipe.user_id = $1`;
   const value = [id];
 
   try {
@@ -323,7 +319,6 @@ function uploadPicture(id, picture, res) {
     pictureName = `photo_${table.rows[0].recipe_id}${
       path.parse(picture.name).ext
     }`;
-    console.log(pictureName);
 
     picture.mv(`${filePath}/${pictureName}`, async (err) => {
       if (err) {
@@ -405,3 +400,55 @@ function createIlikeQuery(str) {
     return `${finalStr}`;
   }
 }
+
+
+
+exports.addRecipe = asyncHandler(async (req, res, next) => {
+  const file = req.files;
+  let pictureName = file.pictureId;
+  if (
+    !file.pictureId.mimetype.startsWith('image') ||
+    file.pictureId.size > fileSize
+  ) {
+    res
+      .status(400)
+      .send(
+        `Please upload an image file, and make sure the picture is less than ${filesize}MB!`
+      );
+    return;
+  } else {
+    const id = jwt.verify(req.token, 'dasdfc', (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        return authData.id;
+      }
+    });
+    if (id) {
+      const query1 = `SELECT user_name from Users where user_id =$1`;
+      const value1 = [id];
+      try {
+        const userName = await client.query(query1, value1);
+        const user = userName.rows[0].user_name;
+        const query2 = `INSERT INTO Recipe (user_id,user_name,picture_name,data)VALUES($1,$2,$3,$4) RETURNING * `;
+        const value2 = [id, user, req.files.pictureId.name, req.body];
+        try {
+          const table = await client.query(query2, value2);
+          console.log(table.rows[0].recipe_id);
+          console.log(table.rows[0].pictur_name);
+
+          table.rows[0].pictur_name = uploadPicture(
+            table.rows[0].recipe_id,
+            pictureName,
+            res
+          );
+          res.status(200).send({ data: table.rows });
+        } catch (error) {
+          res.status(400).send({ error: error });
+        }
+      } catch (error) {
+        res.status(400).send({ error: error });
+      }
+    }
+  }
+});
