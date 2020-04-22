@@ -57,11 +57,14 @@ const RecipeState = (props) => {
   // Add new recipe
   const addRecipe = async ({
     title,
-    cookTime,
+    cookT,
     directions,
-    ingredients,
     description,
     picture,
+    finalIngredient,
+    prep,
+    pri,
+    serving,
   }) => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
@@ -78,11 +81,19 @@ const RecipeState = (props) => {
       let formdata = new FormData();
 
       formdata.append('title', title);
-      formdata.append('cookTime', cookTime);
-      formdata.append('directions', directions);
-      formdata.append('ingredients', ingredients);
+      formdata.append('cookTime', cookT);
+      finalIngredient.map((data) => {
+        formdata.append('ingredients', data);
+      });
+      directions.map((data) => {
+        formdata.append('directions', data.direction);
+      });
+      formdata.append('private', pri);
+      formdata.append('prepTime', prep);
+      formdata.append('serving', serving);
       formdata.append('description', description);
       formdata.append('pictureId', file[0]);
+      console.log(formdata);
 
       const res = await axios.post('/api/recipes', formdata, config);
       dispatch({

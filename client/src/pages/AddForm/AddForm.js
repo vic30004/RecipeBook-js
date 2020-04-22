@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import {
   FieldSet,
   Row,
@@ -18,19 +18,26 @@ import {
 } from './FormStyle';
 import IngredientsForm from '../../components/FormItems/IngredientsForm';
 import DirectionsItems from '../../components/DirectionsItems/DirectionsItems';
-
+import RecipeContext from '../../components/context/recipes/RecipeContext';
+import AuthContext from '../../components/context/auth/AuthContext';
+import Nav from '../../components/nav/Nav'
 const AddForm = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     serving: '',
-    picture:[]
+    picture: [],
   });
+
+  const recipeContext = useContext(RecipeContext);
+  const authContext = useContext(AuthContext);
+
+  const {addRecipe} = recipeContext
 
   const [prepTime, setPrepTime] = useState({
     hours: 0,
-    minutes:0, 
-  })
+    minutes: 0,
+  });
   const [cookTime, setcookTime] = useState({
     hours: 0,
     minutes: 0,
@@ -39,28 +46,28 @@ const AddForm = () => {
 
   const handlePrivate = () => {
     if (pri) {
-      setPri(false)
+      setPri(false);
     } else {
-      setPri(true)
+      setPri(true);
     }
-  }
+  };
 
-    // const onSubmit = (e) => {
-    //   e.preventDefault();
-    //   try {
-    //     addRecipe({
-    //       title,
-    //       cookTime,
-    //       directions,
-    //       ingredients,
-    //       description,
-    //       picture,
-    //     });
-    //     props.history.push('/recipes');
-    //   } catch (error) {
-    //     console.log(error.message);
-    //   }
-    // };
+  // const onSubmit = (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     addRecipe({
+  //       title,
+  //       cookTime,
+  //       directions,
+  //       ingredients,
+  //       description,
+  //       picture,
+  //     });
+  //     props.history.push('/recipes');
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
 
   const { title, description, serving, picture } = formData;
   const { hours, minutes } = prepTime;
@@ -70,12 +77,11 @@ const AddForm = () => {
   };
 
   const handlePrepTime = (e) => {
-   setPrepTime({ ...prepTime, [e.target.name]: e.target.value });
-  }
+    setPrepTime({ ...prepTime, [e.target.name]: e.target.value });
+  };
   const handleCookTime = (e) => {
-   setcookTime({ ...cookTime, [e.target.name]: e.target.value });
-  }
-
+    setcookTime({ ...cookTime, [e.target.name]: e.target.value });
+  };
 
   const [directions, setDirections] = useState([
     { direction: '' },
@@ -83,34 +89,71 @@ const AddForm = () => {
   ]);
 
   const [ingredient, setIngredient] = useState([
-    { qt: '', measure: 'none', item: '' },
-    { qt: '', measure: 'none', item: '' },
-    { qt: '', measure: 'none', item: '' },
+    { qt: '', measure: '', item: '' },
+    { qt: '', measure: '', item: '' },
+    { qt: '', measure: '', item: '' },
   ]);
 
-  const turnIngredientsToArray = (obj) => {
-    const res = [];
-    obj.map(data => {
-      const {qt,measure,item}= data
-      res.push(`${qt} ${measure} ${item}`)
-    })
-    return
-  }
   const handleImage = (e) => {
     e.preventDefault();
-    console.log(e.target.files[0]);
     setFormData({ ...formData, picture: [e.target.files[0]] });
   };
-
+  const turnIngredientsToArray = (arr) => {
+    const res = [];
+    arr.map((data) => {
+      const { qt, measure, item } = data;
+      res.push(`${qt} ${measure} ${item}`);
+    });
+    console.log(res)
+    return res;
+  };
+  
+  const turnTimeToString = (obj) => {
+    let res = ''
+    
+    if (typeof obj.hours !== "string" && typeof obj.minutes !== "string") {
+      if (obj.hours === 0) {
+        res = `${obj.minutes.toString()} minutes`
+      } else {
+        res = `${obj.hours.toString()}hours ${obj.minutes.toString()}minutes`
+      }
+        
+    } else {
+            if (obj.hours === 0) {
+              res = `${obj.minutes} minutes`;
+            } else {
+              res = `${obj.hours}hours ${obj.minutes}minutes`;
+            }
+    }
+    return res
+  }
+turnTimeToString(prepTime)
   const submitForm = (e) => {
     e.preventDefault();
     const finalIngredient = turnIngredientsToArray(ingredient);
     console.log(finalIngredient);
+    const prep = turnTimeToString(prepTime)
+    const cookT = turnTimeToString(cookTime)
+   try {
+     addRecipe({
+       finalIngredient,
+       directions,
+       prep,
+       cookT,
+       pri,
+       picture,
+       serving,
+       description,
+       title,
+     });
+   } catch (error) {
+     console.log(error)
+   }
   };
-
 
   return (
     <Wrapper>
+      <Nav/>
       <Container>
         <Title>Add A New Recipe</Title>
 
@@ -240,15 +283,14 @@ const AddForm = () => {
                   id=''
                 />
                 <Container width='100px'>
-                <Label htmlFor=''>Picture</Label>
-                <Input
-                  type='file'
-                  name='picture'
-                  value={picture}
-                  id='pic'
-                  style={{width:'300px'}}
-                  onChange={(e) => handleChange(e)}
-                />
+                  <Label htmlFor=''>Picture</Label>
+                  <Input
+                    type='file'
+                    name='picture'
+                    id='pic'
+                    style={{ width: '300px' }}
+                    onChange={(e) => handleImage(e)}
+                  />
                 </Container>
               </Row>
             </Container>

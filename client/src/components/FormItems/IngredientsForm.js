@@ -1,4 +1,4 @@
-import React,{Fragment, useState} from 'react'
+import React, { Fragment, useState } from 'react';
 
 const IngredientsForm = ({
   Container,
@@ -12,8 +12,6 @@ const IngredientsForm = ({
   ingredient,
   setIngredient,
 }) => {
-
-
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
     const list = [...ingredient];
@@ -29,7 +27,7 @@ const IngredientsForm = ({
   };
   const handleAddClick = (e) => {
     e.preventDefault();
-    setIngredient([...ingredient, { qt: '', measure: 'none', item: '' }]);
+    setIngredient([...ingredient, { qt: '', measure: '', item: '' }]);
   };
   return (
     <Fragment>
@@ -56,7 +54,7 @@ const IngredientsForm = ({
                       value={x.measure}
                       onChange={(e) => handleInputChange(e, i)}
                     >
-                      <option value='none'>(none)</option>
+                      <option value=''>(none)</option>
                       <option value='tsp'>tsp</option>
                       <option value='tbsp'>tbsp</option>
                       <option value='tbsp'>fl oz</option>
@@ -103,4 +101,4 @@ const IngredientsForm = ({
   );
 };
 
-export default IngredientsForm
+export default IngredientsForm;
