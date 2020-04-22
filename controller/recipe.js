@@ -389,3 +389,20 @@ exports.addRecipe = asyncHandler(async (req, res, next) => {
            }
          }
 });
+
+exports.searchIngredient = asyncHandler(async (req, res, next) => {
+  const { ingredients } = req.body;
+  const stringIngredients = `{"ingredients":${ JSON.stringify(ingredients)}}` 
+
+  console.log(stringIngredients)
+  const queryString = `SELECT * FROM Recipe WHERE data @> $1`;
+  const value = [stringIngredients];
+
+  try {
+    const table = await client.query(queryString,value);
+    console.log(table)
+    res.status(200).send({ data: table.rows })
+  } catch (error) {
+    res.status(400).send({message:error})
+  }
+})
