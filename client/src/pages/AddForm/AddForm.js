@@ -24,7 +24,7 @@ const AddForm = () => {
     title: '',
     description: '',
     serving: '',
-    pri: false,
+    picture:[]
   });
 
   const [prepTime, setPrepTime] = useState({
@@ -45,7 +45,7 @@ const AddForm = () => {
     }
   }
 
-  const { title, description, serving } = formData;
+  const { title, description, serving, picture } = formData;
   const { hours, minutes } = prepTime;
 
   const handleChange = (e) => {
@@ -60,9 +60,6 @@ const AddForm = () => {
   }
 
 
-
-
-
   const [directions, setDirections] = useState([
     { direction: '' },
     { direction: '' },
@@ -74,12 +71,33 @@ const AddForm = () => {
     { qt: '', measure: 'none', item: '' },
   ]);
 
+  const turnIngredientsToArray = (obj) => {
+    const res = [];
+    obj.map(data => {
+      const {qt,measure,item}= data
+      res.push(`${qt} ${measure} ${item}`)
+    })
+    return
+  }
+  const handleImage = (e) => {
+    e.preventDefault();
+    console.log(e.target.files[0]);
+    setFormData({ ...formData, picture: [e.target.files[0]] });
+  };
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    const finalIngredient = turnIngredientsToArray(ingredient);
+    console.log(finalIngredient);
+  };
+
+
   return (
     <Wrapper>
       <Container>
         <Title>Add A New Recipe</Title>
 
-        <FormContainer>
+        <FormContainer onSubmit={submitForm}>
           <Container width='766.042px'>
             <Label>Recipe Title:*</Label>
 
@@ -197,8 +215,28 @@ const AddForm = () => {
             <Container containerWidth={`650px`} width='10px'>
               <Row width='140px'>
                 <Label>Make this private?</Label>
-                <CheckBox type='checkbox' name='pri' value={pri} onChange={handlePrivate} id='' />
+                <CheckBox
+                  type='checkbox'
+                  name='pri'
+                  value={pri}
+                  onChange={handlePrivate}
+                  id=''
+                />
               </Row>
+              <label htmlFor=''>Picture</label>
+              <input
+                type='file'
+                name='picture'
+                value={picture}
+                id='pic'
+                onChange={(e) => handleChange(e)}
+              />
+              <input
+                type='file'
+                name='picture'
+                id='pic'
+                onChange={(e) => handleImage(e)}
+              />
             </Container>
           </FieldSet>
           <SubmitBtn>Add Recipe</SubmitBtn>
