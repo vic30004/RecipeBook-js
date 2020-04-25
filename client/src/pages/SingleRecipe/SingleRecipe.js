@@ -15,18 +15,20 @@ const SingleRecipe = ({ match }) => {
     }
     getSingleRecipe(match.params.id);
   }, []);
-  const test = (ingredients, char) => {
-    let split = ingredients.split(`${char}`);
-    console.log(split);
-    return split;
-  };
+
+
+  // const test = (ingredients, char) => {
+  //   let split = ingredients.split(`${char}`);
+  //   console.log(split);
+  //   return split;
+  // };
   return loading ? (
     ''
   ) : (
     <MainWrapper>
       <Nav />
-
-      <RecipeTitle>{recipe[0].title}</RecipeTitle>
+      {console.log(recipe[0].data.title)}
+      <RecipeTitle>{recipe[0].data.title}</RecipeTitle>
       <Wrapper>
         <Aside>
           <div className='food-pic'>
@@ -38,29 +40,30 @@ const SingleRecipe = ({ match }) => {
           <div id='ingredients' className='ingredients'>
             <h2>Ingredients</h2>
             <ul>
-              {test(recipe[0].ingredient, ',').map((data) => (
+              {recipe[0].data.ingredients.map((data) => (
                 <li key={data}>{data}</li>
               ))}
             </ul>
             <Description>
               <h2>Description</h2>
-              <p>{recipe[0].description}</p>
+              <p>{recipe[0].data.description}</p>
             </Description>
           </div>
         </Aside>
-        <Right>
+          <Right>
+            
           <TextContainer>
             <Title>
-              Cuisin: <span>American</span>
+              Cuisin: <span>{recipe[0].data.cuisin}</span>
             </Title>
             <Title>
-              Serving: <span>3</span>
+              Serving: <span>{recipe[0].data.serving}</span>
             </Title>
             <Title>
-              Prep Time: <span>10 minutes</span>
+              Prep Time: <span>{recipe[0].data.prepTime}</span>
             </Title>
             <Title>
-              Cook Time: <span>{recipe[0].cook_time}</span>
+              Cook Time: <span>{recipe[0].data.cookTime}</span>
             </Title>
             <Title>
               Total Time: <span>30 minutes</span>
@@ -69,7 +72,7 @@ const SingleRecipe = ({ match }) => {
           <Directions>
             <h2>Directions</h2>
             <ul>
-              {test(recipe[0].directions, '.').map((data) => (
+              {recipe[0].data.directions.map((data) => (
                 <li>{data}</li>
               ))}
             </ul>
@@ -119,12 +122,12 @@ ${TitleFont};
 const Wrapper = styled.div`
   background: #ffffff;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   border-top: solid 2px #333;
   max-width: 100%;
   ${MaxWidth};
   margin: 0 auto;
-  height: 100%;
+  /* height: 100%; */
   padding: 0 1rem;
   box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.6);
 `;
@@ -132,7 +135,7 @@ const Aside = styled.aside`
   margin-right: 20px;
   border-right: solid 2px #333;
   padding: 2rem 1rem;
-  height: 90%;
+  height: 100%;
   text-align: right;
 
   img {
@@ -165,6 +168,11 @@ const Right = styled.section`
   padding: 1rem 7rem 1rem 0;
   height: 90%;
 `;
+const Flex = styled.div`
+display:flex;
+flex-flow:column nowrap;
+justify-content:flex-start;
+`
 const TextContainer = styled.div``;
 const Directions = styled.div`
   ul li {

@@ -7,7 +7,7 @@ const fileSize = config.get('MaxFileSize');
 const filePath = config.get('filePath');
 
 exports.getAllRecipes = asyncHandler(async (req, res, next) => {
-  const query = `SELECT * FROM Recipe`;
+  const query = `SELECT * FROM recipe`;
   try {
     const table = await client.query(query);
     res
@@ -147,7 +147,7 @@ exports.showSaved = asyncHandler(async (req, res, next) => {
   const joinQuery = `SELECT Favorites.favorite_id, Favorites.user_id, Favorites.recipe_id,
  Recipe.data,
   Recipe.picture_name FROM Favorites INNER JOIN Recipe 
-  ON Recipe.recipe_id=Favorites.recipe_id`;
+  ON Recipe.recipe_id=Favorites.recipe_id WHERE Favorites.user_id =$1`;
 
   const value = [id];
 
@@ -156,7 +156,7 @@ exports.showSaved = asyncHandler(async (req, res, next) => {
 
     if (table.rows.length > 0) {
       try {
-        const finalTable = await client.query(joinQuery);
+        const finalTable = await client.query(joinQuery,value);
         res.status(200).send({
           success: true,
           count: finalTable.rows.length,

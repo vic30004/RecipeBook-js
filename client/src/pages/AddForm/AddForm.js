@@ -192,6 +192,15 @@ turnTimeToString(prepTime)
                   onChange={(e) => handleChange(e)}
                 ></Input>
               </Row>
+              <Row width={'90px'}>
+                <Label>Cusisine:*</Label>
+                <Input
+                  required
+                  name='serving'
+                  value={serving}
+                  onChange={(e) => handleChange(e)}
+                ></Input>
+              </Row>
             </FieldSet>
             <FieldSet>
               <Row>

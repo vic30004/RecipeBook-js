@@ -23,7 +23,7 @@ useEffect(() => {
   showRecipes();
 }, []);
   return loading && savedLoaded ? '': (  
-    <Fragment>
+    <div id="container">
       <Nav />
       <div id='recipeSearch'>
         <header className='search-container'>
@@ -40,7 +40,7 @@ useEffect(() => {
         )):''}
         </div>
       </div>
-    </Fragment> 
+    </div> 
 
   );
 };
