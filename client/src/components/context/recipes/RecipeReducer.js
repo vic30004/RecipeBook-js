@@ -9,12 +9,14 @@ import {
   SAVE_RECIPE,
   REMOVE_SAVED_RECIPE,
   GET_SINGLE_RECIPE,
+  GET_MYRECIPES
 } from '../types';
 
 export default (state, action) => {
   const { type, payload } = action;
   switch (type) {
     case SHOW_RECIPES:
+    case GET_MYRECIPES:
       return {
         ...state,
         recipes: payload,

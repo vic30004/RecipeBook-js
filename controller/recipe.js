@@ -165,6 +165,8 @@ exports.showSaved = asyncHandler(async (req, res, next) => {
       } catch (error) {
         res.status(400).send({ success: false, message: error.message });
       }
+    } else {
+      res.status(400).send({message:'Nothing Saved'})
     }
   } catch (error) {
     res.status(400).send({ success: false, message: error.message });

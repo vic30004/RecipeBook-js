@@ -14,6 +14,7 @@ import {
   SAVE_RECIPE,
   REMOVE_SAVED_RECIPE,
   GET_SINGLE_RECIPE,
+  GET_MYRECIPES,
 } from '../types';
 import setAuthToken from '../../../utils/SetAuthToken';
 
@@ -25,7 +26,7 @@ const RecipeState = (props) => {
     error: {},
     savedLoaded: true,
     errorState: [],
-    saved:[]
+    saved: [],
   };
   const [state, dispatch] = useReducer(RecipeReducer, initialState);
 
@@ -107,8 +108,8 @@ const RecipeState = (props) => {
       });
     }
   };
-  // Show Saved 
-  const showSaved = async()=>{
+  // Show Saved
+  const showSaved = async () => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
@@ -116,37 +117,60 @@ const RecipeState = (props) => {
       const config = {
         headers: {
           Authorization: `Bearer ${localStorage.token}`,
-
-        }
-      }
-      const res = await axios.get('/api/recipes/save',config);
+        },
+      };
+      const res = await axios.get('/api/recipes/save', config);
       dispatch({
         type: SHOW_SAVED,
         payload: res.data.data,
-      })
+      });
     } catch (error) {
       dispatch({
         type: SAVED_ERROR,
         payload: error.message,
       });
     }
-  }
+  };
+
+  // Get logged in users recipes 
+  const getMyRecipes = async() => {
+      if (localStorage.token) {
+        setAuthToken(localStorage.token);
+    } try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+        }
+      }
+      const res = await axios.get('/api/recipes/my-recipes',config)
+      dispatch({
+        type: GET_MYRECIPES,
+        payload:res.data
+      })
+    }catch (error) {
+              dispatch({
+                type: RECIPE_ERROR,
+                payload: error.response,
+              });
+      }
+}
+
 
   // Get single recipe by id
   const getSingleRecipe = async (recipeId) => {
     try {
       const res = await axios.get(`/api/recipes/${recipeId}`);
-            dispatch({
-              type: GET_SINGLE_RECIPE,
-              payload: res.data.data,
-            });
+      dispatch({
+        type: GET_SINGLE_RECIPE,
+        payload: res.data.data,
+      });
     } catch (error) {
       dispatch({
         type: RECIPE_ERROR,
-        payload: error.name
-      })
+        payload: error.name,
+      });
     }
-  }
+  };
 
   // Save Recipe
   const saveRecipe = async (recipeId) => {
@@ -206,8 +230,6 @@ const RecipeState = (props) => {
     }
   };
 
-  
-
   // Set Alert TODO add this to dom
   const setAlert = (msg, alertType) => {
     const id = uuid.v4();
@@ -234,7 +256,8 @@ const RecipeState = (props) => {
         saveRecipe,
         showSaved,
         removeSavedRecipe,
-        getSingleRecipe
+        getSingleRecipe,
+        getMyRecipes,
       }}
     >
       {props.children}
