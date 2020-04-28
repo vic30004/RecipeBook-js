@@ -7,7 +7,7 @@ import Nav from '../../components/nav/Nav';
 import styled from 'styled-components';
 import '../Recipes/Recipes.css';
 
-const Favorite = () => {
+const Favorite = (props) => {
   const authContext = useContext(AuthContext);
   const recipeContext = useContext(RecipeContext);
 
@@ -17,6 +17,8 @@ const Favorite = () => {
   useEffect(() => {
     if (localStorage.token && isAuthenticated) {
       loadUser();
+    }   else {
+      props.history.push('/login')
     }
     showSaved();
   }, []);

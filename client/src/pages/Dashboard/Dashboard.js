@@ -9,6 +9,8 @@ const Dashboard = (props) => {
   useEffect(()=>{
     if(localStorage.token){
       loadUser();
+    } else {
+      props.history.push('/login')
     }
   },[])
   return (
