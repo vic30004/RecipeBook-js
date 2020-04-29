@@ -15,6 +15,7 @@ import {
   REMOVE_SAVED_RECIPE,
   GET_SINGLE_RECIPE,
   GET_MYRECIPES,
+  MYRECIPES_ERROR,
 } from '../types';
 import setAuthToken from '../../../utils/SetAuthToken';
 
@@ -108,6 +109,7 @@ const RecipeState = (props) => {
       });
     }
   };
+  
   // Show Saved
   const showSaved = async () => {
     if (localStorage.token) {

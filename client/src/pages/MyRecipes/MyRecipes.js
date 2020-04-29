@@ -34,7 +34,7 @@ const MyRecipes = (prop) => {
         </h1>
       </TitleContainer>
 
-      {recipes.count === 0 ? (
+      {recipes!==null && recipes.length===0? (
         <TextContainer>
           <h2>It Doesn't seem like you have any recipes yet.</h2>
           <ButtonContainer>

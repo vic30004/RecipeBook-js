@@ -29,6 +29,12 @@ export default (state, action) => {
         loading: false,
       };
     case RECIPE_ERROR:
+      return {
+        ...state,
+        errorState: payload,
+        loading:false,
+      }
+        
     case SAVED_ERROR:
       return {
         ...state,

@@ -136,7 +136,7 @@ const Card = (props) => {
                 />
                 <button>Register</button>;
                 <h5 className='reg'>
-                  Not a member? <a onClick={setTrue}>Register!</a>{' '}
+                  Already a member?<a onClick={setTrue}>Login!</a>{' '}
                 </h5>
               </form>
             </Fragment>
@@ -170,7 +170,7 @@ const Card = (props) => {
                 />
                 <button>Login</button>
                 <h5 className='reg'>
-                  Already a member? <a onClick={setTrue}>Login!</a>{' '}
+                  Not a member? <a onClick={setTrue}>Register!</a>{' '}
                 </h5>
               </form>
             </Fragment>
@@ -193,7 +193,6 @@ const Card = (props) => {
                   placeholder='Username'
                   id='username'
                   value={loginForm.username}
-                  value={username}
                   onChange={(e) => onLog(e)}
                   required
                 />
@@ -209,13 +208,13 @@ const Card = (props) => {
                 />
                 <button>Login</button>
                 <h5 className='reg'>
-                  Already a member? <a onClick={setFalse}>Login!</a>{' '}
+                  Not a member? <a onClick={setFalse}>Register!</a>{' '}
                 </h5>
               </form>
             </Fragment>
           ) : (
             <Fragment>
-              <form className='form-container'>
+              <form className='form-container' onSubmit={(e) => onSubmit(e)}>
                 <h1>{props.title}</h1>
                 <input
                   type='text'
@@ -265,7 +264,7 @@ const Card = (props) => {
                 />
                 <button>Register</button>;
                 <h5 className='reg'>
-                  Not a member? <a onClick={setFalse}>Register!</a>{' '}
+                  Already a member? <a onClick={setFalse}>Login!</a>{' '}
                 </h5>
               </form>
             </Fragment>
