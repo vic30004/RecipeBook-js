@@ -11,7 +11,7 @@ const MyRecipes = (prop) => {
   const recipeContext = useContext(RecipeContext);
 
   const { getMyRecipes, loading, recipes } = recipeContext;
-  const { loadUser } = authContext;
+  const { loadUser,isAuthenticated } = authContext;
 
   const { data } = recipes;
 
@@ -44,7 +44,7 @@ const MyRecipes = (prop) => {
       ) : (
         <RecipeContainer>
           {data.map((recipe) => (
-            <MyRecipesItems recipe={recipe} recipe_id={recipes.recipe_id} />
+            <MyRecipesItems recipe={recipe} recipe_id={recipes.recipe_id} greenColor={greenColor}/>
           ))}
         </RecipeContainer>
       )}
