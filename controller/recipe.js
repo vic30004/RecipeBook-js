@@ -1,4 +1,4 @@
-const client = require('../config/db');
+const pool = require('../config/db');
 const asyncHandler = require('../middleware/async');
 const jwt = require('jsonwebtoken');
 const path = require('path');
@@ -8,6 +8,8 @@ const filePath = config.get('filePath');
 
 exports.getAllRecipes = asyncHandler(async (req, res, next) => {
   const query = `SELECT * FROM recipe`;
+  const client = await pool.connect();
+
   try {
     const table = await client.query(query);
     res
@@ -20,6 +22,8 @@ exports.getAllRecipes = asyncHandler(async (req, res, next) => {
 
 // Function to find recipes with specific ingredients
 exports.findIngredients = asyncHandler(async (req, res, next) => {
+  const client = await pool.connect();
+
   const { ingredients } = req.body;
   const query = createParam(ingredients);
   const values = createIlikeQuery(ingredients);
@@ -54,6 +58,7 @@ exports.getUsersRecipe = asyncHandler(async (req, res, next) => {
   });
   const joinQuery = `SELECT * FROM Recipe WHERE Recipe.user_id = $1`;
   const value = [id];
+  const client = await pool.connect();
 
   try {
     const table = await client.query(joinQuery, value);
@@ -68,11 +73,13 @@ exports.getUsersRecipe = asyncHandler(async (req, res, next) => {
     res.status(400).send({ success: false, message: error.message });
   }
 });
+
 // function to get single recipe
 exports.getSingleRecipe = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const query = 'SELECT * FROM Recipe WHERE Recipe.recipe_id = $1';
   const value = [id];
+  const client = await pool.connect();
 
   try {
     const table = await client.query(query, value);
@@ -85,6 +92,8 @@ exports.getSingleRecipe = asyncHandler(async (req, res, next) => {
 // Function to save recipe to favorite
 exports.saveRecipe = asyncHandler(async (req, res, next) => {
   const { recipeId } = req.body;
+  const client = await pool.connect();
+
   const id = jwt.verify(req.token, 'dasdfc', (err, authData) => {
     if (err) {
       res.sendStatus(403);
@@ -102,12 +111,12 @@ exports.saveRecipe = asyncHandler(async (req, res, next) => {
 
   try {
     const check = await client.query(firstQuery, values);
-    console.log(check.rows)
+    console.log(check.rows);
     if (check.rows.length === 0) {
       try {
         const table = await client.query(queryString, values);
         if (table.rows.length > 0) {
-          res.status(200).send({
+          res.status(201).send({
             success: true,
             count: table.rows.length,
             data: table.rows,
@@ -117,7 +126,7 @@ exports.saveRecipe = asyncHandler(async (req, res, next) => {
         res.status(400).send({ success: false, message: error });
       }
     } else {
-      client
+      await client
         .query(removeQuery, values)
         .then(() => {
           res
@@ -142,6 +151,7 @@ exports.showSaved = asyncHandler(async (req, res, next) => {
       return authData.id;
     }
   });
+  const client = await pool.connect();
 
   const queryString = `SELECT favorite_id,recipe_id from Favorites WHERE user_id=$1`;
   const joinQuery = `SELECT Favorites.favorite_id, Favorites.user_id, Favorites.recipe_id,
@@ -156,7 +166,7 @@ exports.showSaved = asyncHandler(async (req, res, next) => {
 
     if (table.rows.length > 0) {
       try {
-        const finalTable = await client.query(joinQuery,value);
+        const finalTable = await client.query(joinQuery, value);
         res.status(200).send({
           success: true,
           count: finalTable.rows.length,
@@ -166,7 +176,7 @@ exports.showSaved = asyncHandler(async (req, res, next) => {
         res.status(400).send({ success: false, message: error.message });
       }
     } else {
-      res.status(400).send({message:'Nothing Saved'})
+      res.status(400).send({ message: 'Nothing Saved' });
     }
   } catch (error) {
     res.status(400).send({ success: false, message: error.message });
@@ -184,6 +194,7 @@ exports.updateRecipe = asyncHandler(async (req, res, next) => {
   description ? (data.description = description) : false;
   directions ? (data.directions = directions) : false;
   ingredient ? (ingr.ingredient = ingredient) : false;
+  const client = await pool.connect();
 
   const colValues = Object.keys(data).map(function (key) {
     return req.body[key];
@@ -215,15 +226,14 @@ exports.deleteRecipe = asyncHandler(async (req, res, next) => {
   deleteRec(recipeId, res);
 });
 
-
-
 // Function to change the name of the photo, update the name in the db, and save it to the public folder.
-function uploadPicture(id, picture, res) {
+async function uploadPicture(id, picture, res) {
   const queryString = 'SELECT recipe_id FROM Recipe WHERE recipe_id= $1';
   const value = [id];
   let pictureName = picture.name;
+  const client = await pool.connect();
 
-  client.query(queryString, value, (err, table) => {
+  await client.query(queryString, value, (err, table) => {
     if (err) {
       throw err;
     }
@@ -244,10 +254,12 @@ function uploadPicture(id, picture, res) {
   });
 }
 
-function deleteRec(id, res) {
+async function deleteRec(id, res) {
+  const client = await pool.connect();
+
   const query = `DELETE FROM Recipe WHERE recipe_id=$1`;
   value = [id];
-  client
+  await client
     .query(query, value)
     .then(() => {
       res.status(200).send({ success: true, message: 'Recipe Deleted' });
@@ -278,9 +290,9 @@ function createUpdateQuery(tblName, id, cols) {
   return query.join(' ');
 }
 
-
 exports.addRecipe = asyncHandler(async (req, res, next) => {
   const file = req.files;
+    const client = await pool.connect();
 
   let pictureName = file.pictureId;
   if (
@@ -344,6 +356,7 @@ exports.addRecipe = asyncHandler(async (req, res, next) => {
 exports.searchIngredient = asyncHandler(async (req, res, next) => {
   const { ingredients } = req.body;
   const stringIngredients = `{"ingredients":${JSON.stringify(ingredients)}}`;
+    const client = await pool.connect();
 
   console.log(stringIngredients);
   const queryString = `SELECT * FROM Recipe WHERE data @> $1`;

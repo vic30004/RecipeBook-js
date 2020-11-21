@@ -8,15 +8,15 @@ const dotenv = require('dotenv');
 const client = require('./config/db');
 dotenv.config({ path: './config/config.env' });
 
-const startServer = async () => {
-  try {
-    await client.connect();
-    console.log('Connected to Database'.blue.bold);
-  } catch (err) {
-    console.log(err);
-  }
-};
-startServer();
+// const startServer = async () => {
+//   try {
+//     await client.connect();
+//     console.log('Connected to Database'.blue.bold);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+// startServer();
 const PORT = 5000;
 
 // File upload

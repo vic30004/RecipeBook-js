@@ -1,6 +1,6 @@
-const client = require('../config/db');
+const pool = require('../config/db');
 const bcrypt = require('bcrypt');
-const asyncHandler = require('../middleware/async')
+const asyncHandler = require('../middleware/async');
 const jwt = require('jsonwebtoken');
 
 // check entered password vs hashed password
@@ -9,9 +9,9 @@ const checkPass = async (pass1, pass2) => {
 };
 
 // Create JWT
-const getSignedJwtToken = id => {
+const getSignedJwtToken = (id) => {
   return jwt.sign({ id: id }, 'dasdfc', {
-    expiresIn: '1h'
+    expiresIn: '1h',
   });
 };
 
@@ -20,17 +20,14 @@ const sendTokenResponse = (statusCode, id, res) => {
   const token = getSignedJwtToken(id);
   const options = {
     expires: new Date(Date.now() + 3110400000),
-    httpOnly: true
+    httpOnly: true,
   };
 
   options.secure = true;
-  res
-    .status(statusCode)
-    .cookie('token', token, options)
-    .json({
-      success: true,
-      token
-    });
+  res.status(statusCode).cookie('token', token, options).json({
+    success: true,
+    token,
+  });
 };
 
 // @route POST api/register
@@ -38,18 +35,19 @@ const sendTokenResponse = (statusCode, id, res) => {
 // @acess Public
 
 exports.register = async (req, res) => {
-  const {firstName,lastName,email}=req.body
+  const { firstName, lastName, email } = req.body;
   const salt = 10;
-  console.log(req.body)
-  let first= upperFirstChar(firstName);
+  console.log(req.body);
+  let first = upperFirstChar(firstName);
   let username = req.body.username.toLowerCase();
   let password = req.body.password;
 
   let hashed = await bcrypt.hash(password, salt);
 
   // TODO HASH PASSWORD
+  const client = await pool.connect();
 
-  client.query(
+  await client.query(
     'SELECT user_name FROM users WHERE user_name=$1',
     [username],
     (err, user) => {
@@ -63,18 +61,14 @@ exports.register = async (req, res) => {
           .status(400)
           .send({ message: 'Password must contain more than 6 characters.' });
       } else {
-   
-
-        client.query(
-          'INSERT into users(user_name,first_name,last_name,email,password) VALUES($1,$2,$3,$4,$5) RETURNING *' ,
-          [username,first,lastName,email, hashed],
+        pool.query(
+          'INSERT into users(user_name,first_name,last_name,email,password) VALUES($1,$2,$3,$4,$5) RETURNING *',
+          [username, first, lastName, email, hashed],
           (err, user) => {
-           
             if (err) {
               throw err;
             } else {
-                sendTokenResponse(200, user.rows[0].user_id, res);
-              
+              sendTokenResponse(200, user.rows[0].user_id, res);
             }
           }
         );
@@ -87,9 +81,11 @@ exports.register = async (req, res) => {
 // @Des     Get all users
 // @acess   public
 
-exports.getUsers = (req, res) => {
+exports.getUsers = async (req, res) => {
   try {
-    client.query('SELECT * FROM users').then(users => {
+    const client = await pool.connect();
+
+    await client.query('SELECT * FROM users').then((users) => {
       if (users.rows.length > 0) {
         res.send({ users: users.rows });
       } else {
@@ -105,18 +101,20 @@ exports.getUsers = (req, res) => {
 // @Des     This will log in a user
 // @acess   Private
 
-exports.getSingleUser = (req, res) => {
+exports.getSingleUser = async (req, res) => {
   let username = req.body.username.toLowerCase();
   let password = req.body.password;
   let queryStrin = 'SELECT * FROM Users WHERE user_name=$1 ';
   let values = [username];
+  const client = await pool.connect();
+
   try {
-    client.query(queryStrin, values, async (err, user) => {
+    await client.query(queryStrin, values, async (err, user) => {
       if (err) {
         throw err;
       } else {
         let data = user.rows;
-        data.forEach(async data => {
+        data.forEach(async (data) => {
           let pass = await checkPass(password, data.password);
           if (pass) {
             sendTokenResponse(200, data.user_id, res);
@@ -131,8 +129,7 @@ exports.getSingleUser = (req, res) => {
   }
 };
 
-exports.getUser = asyncHandler(async(req,res,next)=>{
-  console.log(req.body)
+exports.getUser = asyncHandler(async (req, res, next) => {
   const id = jwt.verify(req.token, 'dasdfc', (err, authData) => {
     if (err) {
       res.sendStatus(403);
@@ -143,26 +140,27 @@ exports.getUser = asyncHandler(async(req,res,next)=>{
     }
   });
 
-  const query = 'SELECT user_id,user_name,first_name,last_name,email FROM Users where user_id =$1'
-  const value = [id]
+  const query =
+    'SELECT user_id,user_name,first_name,last_name,email FROM Users where user_id =$1';
+  const value = [id];
+  const client = await pool.connect();
+
   try {
-    client.query(query,value,async(err,user)=>{
-      if(err){
-       console.log(err.message)
-      }else{
-      
-        res.status(200).json({sucess:true,data:user.rows})
+    await client.query(query, value, async (err, user) => {
+      if (err) {
+        console.log(err.message);
+      } else {
+        res.status(200).json({ sucess: true, data: user.rows });
       }
-    })
+    });
   } catch (error) {
-    console.log(err.message)
+    console.log(err.message);
 
-    res.status(403).send({message:error.message})
+    res.status(403).send({ message: error.message });
   }
-})
+});
 
-
-function upperFirstChar(str){
+function upperFirstChar(str) {
   const upper = str.charAt(0).toUpperCase() + str.substring(1);
-  return upper
-  }
+  return upper;
+}
